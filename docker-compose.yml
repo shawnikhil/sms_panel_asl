@@ -1,0 +1,72 @@
+name: laravel_new_project
+
+services:
+  app:
+    container_name: laravel_new_app
+    build: .
+    volumes:
+      - ./:/var/www
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  nginx:
+    container_name: laravel_new_nginx
+    image: nginx:1.25-alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  mysql:
+    container_name: laravel_new_mysql
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user123
+    ports:
+      - "3307:3306"
+    volumes:
+      - laravel_new_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    container_name: laravel_new_redis
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    restart: unless-stopped
+
+  mailhog:
+    container_name: laravel_new_mailhog
+    image: mailhog/mailhog
+    ports:
+      - "8026:8025"
+    restart: unless-stopped
+
+  phpmyadmin:
+    container_name: laravel_new_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "8082:80"
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+volumes:
+  laravel_new_mysql_data:
