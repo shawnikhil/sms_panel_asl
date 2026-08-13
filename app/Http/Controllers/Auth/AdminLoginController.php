@@ -25,7 +25,7 @@ class AdminLoginController extends Controller
     {
 
         
-      dd($request->all());
+      //dd($request->all());
         $request->validate([
             'admin_username' => ['required', 'string'],
             'password' => ['required', 'string'],
