@@ -1,13 +1,16 @@
 <!-- Menu -->
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   <div class="app-brand demo">
-    <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
+    <a href="{{ route('admin.dashboard') }}" class="app-brand-link gap-2">
       <span class="app-brand-logo demo">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="25" height="auto" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12.0003 2C6.48395 2 2 6.48395 2 12.0003C2 17.5166 6.48395 22 12.0003 22C17.5166 22 22 17.5166 22 12.0003C22 6.48395 17.5166 2 12.0003 2ZM12.0003 20C7.58794 20 4 16.412 4 12.0003C4 7.58794 7.58794 4 12.0003 4C16.412 4 20 7.58794 20 12.0003C20 16.412 16.412 20 12.0003 20Z" />
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#696cff" />
+          <circle cx="7" cy="10" r="1.5" fill="#ffffff" />
+          <circle cx="12" cy="10" r="1.5" fill="#ffffff" />
+          <circle cx="17" cy="10" r="1.5" fill="#ffffff" />
         </svg>
       </span>
-      <span class="app-brand-text demo menu-text fw-bolder">SMS Panel</span>
+      <span class="app-brand-text demo menu-text fw-bold ms-1" style="font-size: 1.15rem; letter-spacing: -0.5px;">ASL SMS <span class="text-primary">HUB</span></span>
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

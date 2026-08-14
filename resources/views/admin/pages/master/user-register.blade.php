@@ -198,9 +198,6 @@
             </div>
         </div>
 
-        <div class="text-center mt-3 mb-2 text-muted small" style="font-size: 12px; color: #666;">
-            © 2026 - Powered By Payzone
-        </div>
     </div>
 </div>
 

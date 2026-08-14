@@ -69,10 +69,6 @@
                     </button>
                 </div>
             </div>
-
-            <div class="package-page-footer">
-                2026 © Payzone. Powered By Payzone
-            </div>
         </div>
     </div>
 </div>

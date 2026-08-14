@@ -80,10 +80,6 @@
                     </button>
                 </div>
             </div>
-
-            <div class="bank-page-footer">
-                2026 © Payzone. Powered By Payzone
-            </div>
         </div>
     </div>
 </div>

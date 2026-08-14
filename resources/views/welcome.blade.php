@@ -1,223 +1,1581 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>ASL SMS HUB - Enterprise Bulk SMS & Global OTP Gateway Platform</title>
+    <meta name="description" content="ASL SMS HUB - Carrier-grade Enterprise Bulk SMS Platform. Send high-priority OTPs, transactional alerts, and promotional campaigns worldwide with 99.99% uptime and sub-second delivery.">
+    <meta name="keywords" content="asl sms hub, bulk sms, sms gateway, otp gateway, transactional sms, promotional sms, dlt registration, sms portal, two way sms">
 
-        @fonts
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}">
 
-        <!-- Styles / Scripts -->
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @else
-            <style>
-                /*! tailwindcss v4.0.7 | MIT License | https://tailwindcss.com */ @layer properties{@supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))){*,:before,:after,::backdrop{--tw-translate-x:0;--tw-translate-y:0;--tw-translate-z:0;--tw-rotate-x:initial;--tw-rotate-y:initial;--tw-rotate-z:initial;--tw-skew-x:initial;--tw-skew-y:initial;--tw-space-x-reverse:0;--tw-border-style:solid;--tw-leading:initial;--tw-font-weight:initial;--tw-tracking:initial;--tw-shadow:0 0 #0000;--tw-shadow-color:initial;--tw-shadow-alpha:100%;--tw-inset-shadow:0 0 #0000;--tw-inset-shadow-color:initial;--tw-inset-shadow-alpha:100%;--tw-ring-color:initial;--tw-ring-shadow:0 0 #0000;--tw-inset-ring-color:initial;--tw-inset-ring-shadow:0 0 #0000;--tw-ring-inset:initial;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-offset-shadow:0 0 #0000;--tw-blur:initial;--tw-brightness:initial;--tw-contrast:initial;--tw-grayscale:initial;--tw-hue-rotate:initial;--tw-invert:initial;--tw-opacity:initial;--tw-saturate:initial;--tw-sepia:initial;--tw-drop-shadow:initial;--tw-drop-shadow-color:initial;--tw-drop-shadow-alpha:100%;--tw-drop-shadow-size:initial;--tw-duration:initial;--tw-ease:initial;--tw-content:""}}}@layer theme{:root,:host{--font-sans:"Instrument Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--font-serif:ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;--font-mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;--color-red-50:oklch(97.1% .013 17.38);--color-red-100:oklch(93.6% .032 17.717);--color-red-200:oklch(88.5% .062 18.334);--color-red-300:oklch(80.8% .114 19.571);--color-red-400:oklch(70.4% .191 22.216);--color-red-500:oklch(63.7% .237 25.331);--color-red-600:oklch(57.7% .245 27.325);--color-red-700:oklch(50.5% .213 27.518);--color-red-800:oklch(44.4% .177 26.899);--color-red-900:oklch(39.6% .141 25.723);--color-red-950:oklch(25.8% .092 26.042);--color-orange-50:oklch(98% .016 73.684);--color-orange-100:oklch(95.4% .038 75.164);--color-orange-200:oklch(90.1% .076 70.697);--color-orange-300:oklch(83.7% .128 66.29);--color-orange-400:oklch(75% .183 55.934);--color-orange-500:oklch(70.5% .213 47.604);--color-orange-600:oklch(64.6% .222 41.116);--color-orange-700:oklch(55.3% .195 38.402);--color-orange-800:oklch(47% .157 37.304);--color-orange-900:oklch(40.8% .123 38.172);--color-orange-950:oklch(26.6% .079 36.259);--color-amber-50:oklch(98.7% .022 95.277);--color-amber-100:oklch(96.2% .059 95.617);--color-amber-200:oklch(92.4% .12 95.746);--color-amber-300:oklch(87.9% .169 91.605);--color-amber-400:oklch(82.8% .189 84.429);--color-amber-500:oklch(76.9% .188 70.08);--color-amber-600:oklch(66.6% .179 58.318);--color-amber-700:oklch(55.5% .163 48.998);--color-amber-800:oklch(47.3% .137 46.201);--color-amber-900:oklch(41.4% .112 45.904);--color-amber-950:oklch(27.9% .077 45.635);--color-yellow-50:oklch(98.7% .026 102.212);--color-yellow-100:oklch(97.3% .071 103.193);--color-yellow-200:oklch(94.5% .129 101.54);--color-yellow-300:oklch(90.5% .182 98.111);--color-yellow-400:oklch(85.2% .199 91.936);--color-yellow-500:oklch(79.5% .184 86.047);--color-yellow-600:oklch(68.1% .162 75.834);--color-yellow-700:oklch(55.4% .135 66.442);--color-yellow-800:oklch(47.6% .114 61.907);--color-yellow-900:oklch(42.1% .095 57.708);--color-yellow-950:oklch(28.6% .066 53.813);--color-lime-50:oklch(98.6% .031 120.757);--color-lime-100:oklch(96.7% .067 122.328);--color-lime-200:oklch(93.8% .127 124.321);--color-lime-300:oklch(89.7% .196 126.665);--color-lime-400:oklch(84.1% .238 128.85);--color-lime-500:oklch(76.8% .233 130.85);--color-lime-600:oklch(64.8% .2 131.684);--color-lime-700:oklch(53.2% .157 131.589);--color-lime-800:oklch(45.3% .124 130.933);--color-lime-900:oklch(40.5% .101 131.063);--color-lime-950:oklch(27.4% .072 132.109);--color-green-50:oklch(98.2% .018 155.826);--color-green-100:oklch(96.2% .044 156.743);--color-green-200:oklch(92.5% .084 155.995);--color-green-300:oklch(87.1% .15 154.449);--color-green-400:oklch(79.2% .209 151.711);--color-green-500:oklch(72.3% .219 149.579);--color-green-600:oklch(62.7% .194 149.214);--color-green-700:oklch(52.7% .154 150.069);--color-green-800:oklch(44.8% .119 151.328);--color-green-900:oklch(39.3% .095 152.535);--color-green-950:oklch(26.6% .065 152.934);--color-emerald-50:oklch(97.9% .021 166.113);--color-emerald-100:oklch(95% .052 163.051);--color-emerald-200:oklch(90.5% .093 164.15);--color-emerald-300:oklch(84.5% .143 164.978);--color-emerald-400:oklch(76.5% .177 163.223);--color-emerald-500:oklch(69.6% .17 162.48);--color-emerald-600:oklch(59.6% .145 163.225);--color-emerald-700:oklch(50.8% .118 165.612);--color-emerald-800:oklch(43.2% .095 166.913);--color-emerald-900:oklch(37.8% .077 168.94);--color-emerald-950:oklch(26.2% .051 172.552);--color-teal-50:oklch(98.4% .014 180.72);--color-teal-100:oklch(95.3% .051 180.801);--color-teal-200:oklch(91% .096 180.426);--color-teal-300:oklch(85.5% .138 181.071);--color-teal-400:oklch(77.7% .152 181.912);--color-teal-500:oklch(70.4% .14 182.503);--color-teal-600:oklch(60% .118 184.704);--color-teal-700:oklch(51.1% .096 186.391);--color-teal-800:oklch(43.7% .078 188.216);--color-teal-900:oklch(38.6% .063 188.416);--color-teal-950:oklch(27.7% .046 192.524);--color-cyan-50:oklch(98.4% .019 200.873);--color-cyan-100:oklch(95.6% .045 203.388);--color-cyan-200:oklch(91.7% .08 205.041);--color-cyan-300:oklch(86.5% .127 207.078);--color-cyan-400:oklch(78.9% .154 211.53);--color-cyan-500:oklch(71.5% .143 215.221);--color-cyan-600:oklch(60.9% .126 221.723);--color-cyan-700:oklch(52% .105 223.128);--color-cyan-800:oklch(45% .085 224.283);--color-cyan-900:oklch(39.8% .07 227.392);--color-cyan-950:oklch(30.2% .056 229.695);--color-sky-50:oklch(97.7% .013 236.62);--color-sky-100:oklch(95.1% .026 236.824);--color-sky-200:oklch(90.1% .058 230.902);--color-sky-300:oklch(82.8% .111 230.318);--color-sky-400:oklch(74.6% .16 232.661);--color-sky-500:oklch(68.5% .169 237.323);--color-sky-600:oklch(58.8% .158 241.966);--color-sky-700:oklch(50% .134 242.749);--color-sky-800:oklch(44.3% .11 240.79);--color-sky-900:oklch(39.1% .09 240.876);--color-sky-950:oklch(29.3% .066 243.157);--color-blue-50:oklch(97% .014 254.604);--color-blue-100:oklch(93.2% .032 255.585);--color-blue-200:oklch(88.2% .059 254.128);--color-blue-300:oklch(80.9% .105 251.813);--color-blue-400:oklch(70.7% .165 254.624);--color-blue-500:oklch(62.3% .214 259.815);--color-blue-600:oklch(54.6% .245 262.881);--color-blue-700:oklch(48.8% .243 264.376);--color-blue-800:oklch(42.4% .199 265.638);--color-blue-900:oklch(37.9% .146 265.522);--color-blue-950:oklch(28.2% .091 267.935);--color-indigo-50:oklch(96.2% .018 272.314);--color-indigo-100:oklch(93% .034 272.788);--color-indigo-200:oklch(87% .065 274.039);--color-indigo-300:oklch(78.5% .115 274.713);--color-indigo-400:oklch(67.3% .182 276.935);--color-indigo-500:oklch(58.5% .233 277.117);--color-indigo-600:oklch(51.1% .262 276.966);--color-indigo-700:oklch(45.7% .24 277.023);--color-indigo-800:oklch(39.8% .195 277.366);--color-indigo-900:oklch(35.9% .144 278.697);--color-indigo-950:oklch(25.7% .09 281.288);--color-violet-50:oklch(96.9% .016 293.756);--color-violet-100:oklch(94.3% .029 294.588);--color-violet-200:oklch(89.4% .057 293.283);--color-violet-300:oklch(81.1% .111 293.571);--color-violet-400:oklch(70.2% .183 293.541);--color-violet-500:oklch(60.6% .25 292.717);--color-violet-600:oklch(54.1% .281 293.009);--color-violet-700:oklch(49.1% .27 292.581);--color-violet-800:oklch(43.2% .232 292.759);--color-violet-900:oklch(38% .189 293.745);--color-violet-950:oklch(28.3% .141 291.089);--color-purple-50:oklch(97.7% .014 308.299);--color-purple-100:oklch(94.6% .033 307.174);--color-purple-200:oklch(90.2% .063 306.703);--color-purple-300:oklch(82.7% .119 306.383);--color-purple-400:oklch(71.4% .203 305.504);--color-purple-500:oklch(62.7% .265 303.9);--color-purple-600:oklch(55.8% .288 302.321);--color-purple-700:oklch(49.6% .265 301.924);--color-purple-800:oklch(43.8% .218 303.724);--color-purple-900:oklch(38.1% .176 304.987);--color-purple-950:oklch(29.1% .149 302.717);--color-fuchsia-50:oklch(97.7% .017 320.058);--color-fuchsia-100:oklch(95.2% .037 318.852);--color-fuchsia-200:oklch(90.3% .076 319.62);--color-fuchsia-300:oklch(83.3% .145 321.434);--color-fuchsia-400:oklch(74% .238 322.16);--color-fuchsia-500:oklch(66.7% .295 322.15);--color-fuchsia-600:oklch(59.1% .293 322.896);--color-fuchsia-700:oklch(51.8% .253 323.949);--color-fuchsia-800:oklch(45.2% .211 324.591);--color-fuchsia-900:oklch(40.1% .17 325.612);--color-fuchsia-950:oklch(29.3% .136 325.661);--color-pink-50:oklch(97.1% .014 343.198);--color-pink-100:oklch(94.8% .028 342.258);--color-pink-200:oklch(89.9% .061 343.231);--color-pink-300:oklch(82.3% .12 346.018);--color-pink-400:oklch(71.8% .202 349.761);--color-pink-500:oklch(65.6% .241 354.308);--color-pink-600:oklch(59.2% .249 .584);--color-pink-700:oklch(52.5% .223 3.958);--color-pink-800:oklch(45.9% .187 3.815);--color-pink-900:oklch(40.8% .153 2.432);--color-pink-950:oklch(28.4% .109 3.907);--color-rose-50:oklch(96.9% .015 12.422);--color-rose-100:oklch(94.1% .03 12.58);--color-rose-200:oklch(89.2% .058 10.001);--color-rose-300:oklch(81% .117 11.638);--color-rose-400:oklch(71.2% .194 13.428);--color-rose-500:oklch(64.5% .246 16.439);--color-rose-600:oklch(58.6% .253 17.585);--color-rose-700:oklch(51.4% .222 16.935);--color-rose-800:oklch(45.5% .188 13.697);--color-rose-900:oklch(41% .159 10.272);--color-rose-950:oklch(27.1% .105 12.094);--color-slate-50:oklch(98.4% .003 247.858);--color-slate-100:oklch(96.8% .007 247.896);--color-slate-200:oklch(92.9% .013 255.508);--color-slate-300:oklch(86.9% .022 252.894);--color-slate-400:oklch(70.4% .04 256.788);--color-slate-500:oklch(55.4% .046 257.417);--color-slate-600:oklch(44.6% .043 257.281);--color-slate-700:oklch(37.2% .044 257.287);--color-slate-800:oklch(27.9% .041 260.031);--color-slate-900:oklch(20.8% .042 265.755);--color-slate-950:oklch(12.9% .042 264.695);--color-gray-50:oklch(98.5% .002 247.839);--color-gray-100:oklch(96.7% .003 264.542);--color-gray-200:oklch(92.8% .006 264.531);--color-gray-300:oklch(87.2% .01 258.338);--color-gray-400:oklch(70.7% .022 261.325);--color-gray-500:oklch(55.1% .027 264.364);--color-gray-600:oklch(44.6% .03 256.802);--color-gray-700:oklch(37.3% .034 259.733);--color-gray-800:oklch(27.8% .033 256.848);--color-gray-900:oklch(21% .034 264.665);--color-gray-950:oklch(13% .028 261.692);--color-zinc-50:oklch(98.5% 0 0);--color-zinc-100:oklch(96.7% .001 286.375);--color-zinc-200:oklch(92% .004 286.32);--color-zinc-300:oklch(87.1% .006 286.286);--color-zinc-400:oklch(70.5% .015 286.067);--color-zinc-500:oklch(55.2% .016 285.938);--color-zinc-600:oklch(44.2% .017 285.786);--color-zinc-700:oklch(37% .013 285.805);--color-zinc-800:oklch(27.4% .006 286.033);--color-zinc-900:oklch(21% .006 285.885);--color-zinc-950:oklch(14.1% .005 285.823);--color-neutral-50:oklch(98.5% 0 0);--color-neutral-100:oklch(97% 0 0);--color-neutral-200:oklch(92.2% 0 0);--color-neutral-300:oklch(87% 0 0);--color-neutral-400:oklch(70.8% 0 0);--color-neutral-500:oklch(55.6% 0 0);--color-neutral-600:oklch(43.9% 0 0);--color-neutral-700:oklch(37.1% 0 0);--color-neutral-800:oklch(26.9% 0 0);--color-neutral-900:oklch(20.5% 0 0);--color-neutral-950:oklch(14.5% 0 0);--color-stone-50:oklch(98.5% .001 106.423);--color-stone-100:oklch(97% .001 106.424);--color-stone-200:oklch(92.3% .003 48.717);--color-stone-300:oklch(86.9% .005 56.366);--color-stone-400:oklch(70.9% .01 56.259);--color-stone-500:oklch(55.3% .013 58.071);--color-stone-600:oklch(44.4% .011 73.639);--color-stone-700:oklch(37.4% .01 67.558);--color-stone-800:oklch(26.8% .007 34.298);--color-stone-900:oklch(21.6% .006 56.043);--color-stone-950:oklch(14.7% .004 49.25);--color-black:#000;--color-white:#fff;--spacing:.25rem;--breakpoint-sm:40rem;--breakpoint-md:48rem;--breakpoint-lg:64rem;--breakpoint-xl:80rem;--breakpoint-2xl:96rem;--container-3xs:16rem;--container-2xs:18rem;--container-xs:20rem;--container-sm:24rem;--container-md:28rem;--container-lg:32rem;--container-xl:36rem;--container-2xl:42rem;--container-3xl:48rem;--container-4xl:56rem;--container-5xl:64rem;--container-6xl:72rem;--container-7xl:80rem;--text-xs:.75rem;--text-xs--line-height:calc(1 / .75);--text-sm:.875rem;--text-sm--line-height:calc(1.25 / .875);--text-base:1rem;--text-base--line-height: 1.5 ;--text-lg:1.125rem;--text-lg--line-height:calc(1.75 / 1.125);--text-xl:1.25rem;--text-xl--line-height:calc(1.75 / 1.25);--text-2xl:1.5rem;--text-2xl--line-height:calc(2 / 1.5);--text-3xl:1.875rem;--text-3xl--line-height: 1.2 ;--text-4xl:2.25rem;--text-4xl--line-height:calc(2.5 / 2.25);--text-5xl:3rem;--text-5xl--line-height:1;--text-6xl:3.75rem;--text-6xl--line-height:1;--text-7xl:4.5rem;--text-7xl--line-height:1;--text-8xl:6rem;--text-8xl--line-height:1;--text-9xl:8rem;--text-9xl--line-height:1;--font-weight-thin:100;--font-weight-extralight:200;--font-weight-light:300;--font-weight-normal:400;--font-weight-medium:500;--font-weight-semibold:600;--font-weight-bold:700;--font-weight-extrabold:800;--font-weight-black:900;--tracking-tighter:-.05em;--tracking-tight:-.025em;--tracking-normal:0em;--tracking-wide:.025em;--tracking-wider:.05em;--tracking-widest:.1em;--leading-tight:1.25;--leading-snug:1.375;--leading-normal:1.5;--leading-relaxed:1.625;--leading-loose:2;--radius-xs:.125rem;--radius-sm:.25rem;--radius-md:.375rem;--radius-lg:.5rem;--radius-xl:.75rem;--radius-2xl:1rem;--radius-3xl:1.5rem;--radius-4xl:2rem;--shadow-2xs:0 1px #0000000d;--shadow-xs:0 1px 2px 0 #0000000d;--shadow-sm:0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;--shadow-md:0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;--shadow-lg:0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;--shadow-xl:0 20px 25px -5px #0000001a, 0 8px 10px -6px #0000001a;--shadow-2xl:0 25px 50px -12px #00000040;--inset-shadow-2xs:inset 0 1px #0000000d;--inset-shadow-xs:inset 0 1px 1px #0000000d;--inset-shadow-sm:inset 0 2px 4px #0000000d;--drop-shadow-xs:0 1px 1px #0000000d;--drop-shadow-sm:0 1px 2px #00000026;--drop-shadow-md:0 3px 3px #0000001f;--drop-shadow-lg:0 4px 4px #00000026;--drop-shadow-xl:0 9px 7px #0000001a;--drop-shadow-2xl:0 25px 25px #00000026;--ease-in:cubic-bezier(.4, 0, 1, 1);--ease-out:cubic-bezier(0, 0, .2, 1);--ease-in-out:cubic-bezier(.4, 0, .2, 1);--animate-spin:spin 1s linear infinite;--animate-ping:ping 1s cubic-bezier(0, 0, .2, 1) infinite;--animate-pulse:pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;--animate-bounce:bounce 1s infinite;--blur-xs:4px;--blur-sm:8px;--blur-md:12px;--blur-lg:16px;--blur-xl:24px;--blur-2xl:40px;--blur-3xl:64px;--perspective-dramatic:100px;--perspective-near:300px;--perspective-normal:500px;--perspective-midrange:800px;--perspective-distant:1200px;--aspect-video:16 / 9;--default-transition-duration:.15s;--default-transition-timing-function:cubic-bezier(.4, 0, .2, 1);--default-font-family:var(--font-sans);--default-mono-font-family:var(--font-mono)}}@layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}::file-selector-button{box-sizing:border-box;border:0 solid;margin:0;padding:0}html,:host{-webkit-text-size-adjust:100%;tab-size:4;line-height:1.5;font-family:var(--default-font-family,ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");font-feature-settings:var(--default-font-feature-settings,normal);font-variation-settings:var(--default-font-variation-settings,normal);-webkit-tap-highlight-color:transparent}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;-webkit-text-decoration:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:var(--default-mono-font-family,ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);font-feature-settings:var(--default-mono-font-feature-settings,normal);font-variation-settings:var(--default-mono-font-variation-settings,normal);font-size:1em}small{font-size:80%}sub,sup{vertical-align:baseline;font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}:-moz-focusring{outline:auto}progress{vertical-align:baseline}summary{display:list-item}ol,ul,menu{list-style:none}img,svg,video,canvas,audio,iframe,embed,object{vertical-align:middle;display:block}img,video{max-width:100%;height:auto}button,input,select,optgroup,textarea{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}::file-selector-button{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}:where(select:is([multiple],[size])) optgroup{font-weight:bolder}:where(select:is([multiple],[size])) optgroup option{padding-inline-start:20px}::file-selector-button{margin-inline-end:4px}::placeholder{opacity:1}@supports (not ((-webkit-appearance:-apple-pay-button))) or (contain-intrinsic-size:1px){::placeholder{color:currentColor}@supports (color:color-mix(in lab,red,red)){::placeholder{color:color-mix(in oklab,currentcolor 50%,transparent)}}}textarea{resize:vertical}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-date-and-time-value{min-height:1lh;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-datetime-edit{padding-block:0}::-webkit-datetime-edit-year-field{padding-block:0}::-webkit-datetime-edit-month-field{padding-block:0}::-webkit-datetime-edit-day-field{padding-block:0}::-webkit-datetime-edit-hour-field{padding-block:0}::-webkit-datetime-edit-minute-field{padding-block:0}::-webkit-datetime-edit-second-field{padding-block:0}::-webkit-datetime-edit-millisecond-field{padding-block:0}::-webkit-datetime-edit-meridiem-field{padding-block:0}::-webkit-calendar-picker-indicator{line-height:1}:-moz-ui-invalid{box-shadow:none}button,input:where([type=button],[type=reset],[type=submit]){appearance:button}::file-selector-button{appearance:button}::-webkit-inner-spin-button{height:auto}::-webkit-outer-spin-button{height:auto}[hidden]:where(:not([hidden=until-found])){display:none!important}}@layer components;@layer utilities{.absolute{position:absolute}.fixed{position:fixed}.relative{position:relative}.static{position:static}.inset-0{inset:calc(var(--spacing) * 0)}.start{inset-inline-start:var(--spacing)}.top-0{top:calc(var(--spacing) * 0)}.right-0{right:calc(var(--spacing) * 0)}.container{width:100%}@media(min-width:40rem){.container{max-width:40rem}}@media(min-width:48rem){.container{max-width:48rem}}@media(min-width:64rem){.container{max-width:64rem}}@media(min-width:80rem){.container{max-width:80rem}}@media(min-width:96rem){.container{max-width:96rem}}.mx-auto{margin-inline:auto}.-mt-\[6\.6rem\]{margin-top:-6.6rem}.-mt-px{margin-top:-1px}.mt-2{margin-top:calc(var(--spacing) * 2)}.mt-4{margin-top:calc(var(--spacing) * 4)}.mt-6{margin-top:calc(var(--spacing) * 6)}.mt-8{margin-top:calc(var(--spacing) * 8)}.mr-2{margin-right:calc(var(--spacing) * 2)}.-mb-px{margin-bottom:-1px}.mb-1{margin-bottom:calc(var(--spacing) * 1)}.mb-2{margin-bottom:calc(var(--spacing) * 2)}.mb-4{margin-bottom:calc(var(--spacing) * 4)}.mb-6{margin-bottom:calc(var(--spacing) * 6)}.-ml-8{margin-left:calc(var(--spacing) * -8)}.-ml-px{margin-left:-1px}.ml-1{margin-left:calc(var(--spacing) * 1)}.ml-2{margin-left:calc(var(--spacing) * 2)}.ml-4{margin-left:calc(var(--spacing) * 4)}.ml-12{margin-left:calc(var(--spacing) * 12)}.contents{display:contents}.flex{display:flex}.grid{display:grid}.hidden{display:none}.inline-block{display:inline-block}.inline-flex{display:inline-flex}.table{display:table}.aspect-\[335\/364\]{aspect-ratio:335/364}.h-1{height:calc(var(--spacing) * 1)}.h-1\.5{height:calc(var(--spacing) * 1.5)}.h-2{height:calc(var(--spacing) * 2)}.h-2\.5{height:calc(var(--spacing) * 2.5)}.h-3{height:calc(var(--spacing) * 3)}.h-3\.5{height:calc(var(--spacing) * 3.5)}.h-5{height:calc(var(--spacing) * 5)}.h-8{height:calc(var(--spacing) * 8)}.h-14{height:calc(var(--spacing) * 14)}.h-14\.5{height:calc(var(--spacing) * 14.5)}.h-16{height:calc(var(--spacing) * 16)}.min-h-screen{min-height:100vh}.w-1{width:calc(var(--spacing) * 1)}.w-1\.5{width:calc(var(--spacing) * 1.5)}.w-2{width:calc(var(--spacing) * 2)}.w-2\.5{width:calc(var(--spacing) * 2.5)}.w-3{width:calc(var(--spacing) * 3)}.w-3\.5{width:calc(var(--spacing) * 3.5)}.w-5{width:calc(var(--spacing) * 5)}.w-8{width:calc(var(--spacing) * 8)}.w-\[438px\]{width:438px}.w-auto{width:auto}.w-full{width:100%}.max-w-6xl{max-width:var(--container-6xl)}.max-w-\[335px\]{max-width:335px}.max-w-none{max-width:none}.max-w-xl{max-width:var(--container-xl)}.flex-1{flex:1}.shrink-0{flex-shrink:0}.translate-y-0{--tw-translate-y:calc(var(--spacing) * 0);translate:var(--tw-translate-x) var(--tw-translate-y)}.transform{transform:var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,)}.cursor-default{cursor:default}.cursor-not-allowed{cursor:not-allowed}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.flex-col{flex-direction:column}.flex-col-reverse{flex-direction:column-reverse}.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.justify-end{justify-content:flex-end}.justify-items-center{justify-items:center}.gap-2{gap:calc(var(--spacing) * 2)}.gap-3{gap:calc(var(--spacing) * 3)}.gap-4{gap:calc(var(--spacing) * 4)}:where(.space-x-1>:not(:last-child)){--tw-space-x-reverse:0;margin-inline-start:calc(calc(var(--spacing) * 1) * var(--tw-space-x-reverse));margin-inline-end:calc(calc(var(--spacing) * 1) * calc(1 - var(--tw-space-x-reverse)))}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:3.40282e38px}.rounded-md{border-radius:var(--radius-md)}.rounded-sm{border-radius:var(--radius-sm)}.rounded-t-lg{border-top-left-radius:var(--radius-lg);border-top-right-radius:var(--radius-lg)}.rounded-l-md{border-top-left-radius:var(--radius-md);border-bottom-left-radius:var(--radius-md)}.rounded-r-md{border-top-right-radius:var(--radius-md);border-bottom-right-radius:var(--radius-md)}.rounded-br-lg{border-bottom-right-radius:var(--radius-lg)}.rounded-bl-lg{border-bottom-left-radius:var(--radius-lg)}.border{border-style:var(--tw-border-style);border-width:1px}.border-t{border-top-style:var(--tw-border-style);border-top-width:1px}.border-r{border-right-style:var(--tw-border-style);border-right-width:1px}.border-\[\#19140035\]{border-color:#19140035}.border-\[\#e3e3e0\]{border-color:#e3e3e0}.border-black{border-color:var(--color-black)}.border-gray-200{border-color:var(--color-gray-200)}.border-gray-300{border-color:var(--color-gray-300)}.border-gray-400{border-color:var(--color-gray-400)}.border-transparent{border-color:#0000}.bg-\[\#1b1b18\]{background-color:#1b1b18}.bg-\[\#FDFDFC\]{background-color:#fdfdfc}.bg-\[\#dbdbd7\]{background-color:#dbdbd7}.bg-\[\#fff2f2\]{background-color:#fff2f2}.bg-gray-100{background-color:var(--color-gray-100)}.bg-gray-200{background-color:var(--color-gray-200)}.bg-white{background-color:var(--color-white)}.p-6{padding:calc(var(--spacing) * 6)}.px-2{padding-inline:calc(var(--spacing) * 2)}.px-4{padding-inline:calc(var(--spacing) * 4)}.px-5{padding-inline:calc(var(--spacing) * 5)}.px-6{padding-inline:calc(var(--spacing) * 6)}.py-1{padding-block:calc(var(--spacing) * 1)}.py-1\.5{padding-block:calc(var(--spacing) * 1.5)}.py-2{padding-block:calc(var(--spacing) * 2)}.py-4{padding-block:calc(var(--spacing) * 4)}.pt-8{padding-top:calc(var(--spacing) * 8)}.pb-6{padding-bottom:calc(var(--spacing) * 6)}.pb-12{padding-bottom:calc(var(--spacing) * 12)}.text-center{text-align:center}.text-lg{font-size:var(--text-lg);line-height:var(--tw-leading,var(--text-lg--line-height))}.text-sm{font-size:var(--text-sm);line-height:var(--tw-leading,var(--text-sm--line-height))}.text-\[13px\]{font-size:13px}.leading-5{--tw-leading:calc(var(--spacing) * 5);line-height:calc(var(--spacing) * 5)}.leading-7{--tw-leading:calc(var(--spacing) * 7);line-height:calc(var(--spacing) * 7)}.leading-\[20px\]{--tw-leading:20px;line-height:20px}.leading-normal{--tw-leading:var(--leading-normal);line-height:var(--leading-normal)}.font-medium{--tw-font-weight:var(--font-weight-medium);font-weight:var(--font-weight-medium)}.font-semibold{--tw-font-weight:var(--font-weight-semibold);font-weight:var(--font-weight-semibold)}.tracking-wider{--tw-tracking:var(--tracking-wider);letter-spacing:var(--tracking-wider)}.text-\[\#1B1B18\],.text-\[\#1b1b18\]{color:#1b1b18}.text-\[\#706f6c\]{color:#706f6c}.text-\[\#F3BEC7\]{color:#f3bec7}.text-\[\#F8B803\]{color:#f8b803}.text-\[\#F53003\],.text-\[\#f53003\]{color:#f53003}.text-gray-200{color:var(--color-gray-200)}.text-gray-300{color:var(--color-gray-300)}.text-gray-400{color:var(--color-gray-400)}.text-gray-500{color:var(--color-gray-500)}.text-gray-600{color:var(--color-gray-600)}.text-gray-700{color:var(--color-gray-700)}.text-gray-800{color:var(--color-gray-800)}.text-gray-900{color:var(--color-gray-900)}.text-white{color:var(--color-white)}.uppercase{text-transform:uppercase}.underline{text-decoration-line:underline}.underline-offset-4{text-underline-offset:4px}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-100{opacity:1}.mix-blend-color{mix-blend-mode:color}.mix-blend-darken{mix-blend-mode:darken}.mix-blend-hard-light{mix-blend-mode:hard-light}.mix-blend-multiply{mix-blend-mode:multiply}.shadow{--tw-shadow:0 1px 3px 0 var(--tw-shadow-color,#0000001a), 0 1px 2px -1px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-\[0px_0px_1px_0px_rgba\(0\,0\,0\,0\.03\)\,0px_1px_2px_0px_rgba\(0\,0\,0\,0\.06\)\]{--tw-shadow:0px 0px 1px 0px var(--tw-shadow-color,#00000008), 0px 1px 2px 0px var(--tw-shadow-color,#0000000f);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-\[inset_0px_0px_0px_1px_rgba\(26\,26\,0\,0\.16\)\]{--tw-shadow:inset 0px 0px 0px 1px var(--tw-shadow-color,#1a1a0029);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 3px 0 var(--tw-shadow-color,#0000001a), 0 1px 2px -1px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.ring-gray-300{--tw-ring-color:var(--color-gray-300)}.filter{filter:var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,)}.transition{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,opacity,box-shadow,transform,translate,scale,rotate,filter,-webkit-backdrop-filter,backdrop-filter,display,content-visibility,overlay,pointer-events;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-all{transition-property:all;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-opacity{transition-property:opacity;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.delay-200{transition-delay:.2s}.delay-300{transition-delay:.3s}.delay-400{transition-delay:.4s}.duration-150{--tw-duration:.15s;transition-duration:.15s}.duration-750{--tw-duration:.75s;transition-duration:.75s}.ease-in-out{--tw-ease:var(--ease-in-out);transition-timing-function:var(--ease-in-out)}.\[--stroke-color\:\#1B1B18\]{--stroke-color:#1b1b18}.not-has-\[nav\]\:hidden:not(:has(:is(nav))){display:none}.before\:absolute:before{content:var(--tw-content);position:absolute}.before\:top-0:before{content:var(--tw-content);top:calc(var(--spacing) * 0)}.before\:top-1\/2:before{content:var(--tw-content);top:50%}.before\:bottom-0:before{content:var(--tw-content);bottom:calc(var(--spacing) * 0)}.before\:bottom-1\/2:before{content:var(--tw-content);bottom:50%}.before\:left-\[0\.4rem\]:before{content:var(--tw-content);left:.4rem}.before\:border-l:before{content:var(--tw-content);border-left-style:var(--tw-border-style);border-left-width:1px}.before\:border-\[\#e3e3e0\]:before{content:var(--tw-content);border-color:#e3e3e0}@media(hover:hover){.hover\:border-\[\#1915014a\]:hover{border-color:#1915014a}.hover\:border-\[\#19140035\]:hover{border-color:#19140035}.hover\:border-black:hover{border-color:var(--color-black)}.hover\:bg-black:hover{background-color:var(--color-black)}.hover\:bg-gray-100:hover{background-color:var(--color-gray-100)}.hover\:text-gray-400:hover{color:var(--color-gray-400)}.hover\:text-gray-700:hover{color:var(--color-gray-700)}}.focus\:border-blue-300:focus{border-color:var(--color-blue-300)}.focus\:ring:focus{--tw-ring-shadow:var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color,currentcolor);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.focus\:outline-none:focus{--tw-outline-style:none;outline-style:none}.active\:bg-gray-100:active{background-color:var(--color-gray-100)}.active\:text-gray-500:active{color:var(--color-gray-500)}.active\:text-gray-700:active{color:var(--color-gray-700)}.active\:text-gray-800:active{color:var(--color-gray-800)}@media(min-width:40rem){.sm\:flex{display:flex}.sm\:hidden{display:none}.sm\:flex-1{flex:1}.sm\:items-center{align-items:center}.sm\:justify-between{justify-content:space-between}.sm\:justify-start{justify-content:flex-start}.sm\:gap-2{gap:calc(var(--spacing) * 2)}.sm\:px-6{padding-inline:calc(var(--spacing) * 6)}.sm\:pt-0{padding-top:calc(var(--spacing) * 0)}}@media(min-width:64rem){.lg\:mt-10{margin-top:calc(var(--spacing) * 10)}.lg\:mb-0{margin-bottom:calc(var(--spacing) * 0)}.lg\:mb-6{margin-bottom:calc(var(--spacing) * 6)}.lg\:-ml-px{margin-left:-1px}.lg\:ml-0{margin-left:calc(var(--spacing) * 0)}.lg\:block{display:block}.lg\:aspect-auto{aspect-ratio:auto}.lg\:w-\[438px\]{width:438px}.lg\:max-w-4xl{max-width:var(--container-4xl)}.lg\:grow{flex-grow:1}.lg\:flex-row{flex-direction:row}.lg\:justify-center{justify-content:center}.lg\:rounded-t-none{border-top-left-radius:0;border-top-right-radius:0}.lg\:rounded-tl-lg{border-top-left-radius:var(--radius-lg)}.lg\:rounded-r-lg{border-top-right-radius:var(--radius-lg);border-bottom-right-radius:var(--radius-lg)}.lg\:rounded-br-none{border-bottom-right-radius:0}.lg\:p-8{padding:calc(var(--spacing) * 8)}.lg\:p-20{padding:calc(var(--spacing) * 20)}.lg\:px-8{padding-inline:calc(var(--spacing) * 8)}.lg\:pb-10{padding-bottom:calc(var(--spacing) * 10)}}.rtl\:flex-row-reverse:where(:dir(rtl),[dir=rtl],[dir=rtl] *){flex-direction:row-reverse}@media(prefers-color-scheme:dark){.dark\:border-\[\#3E3E3A\]{border-color:#3e3e3a}.dark\:border-\[\#eeeeec\]{border-color:#eeeeec}.dark\:border-gray-600{border-color:var(--color-gray-600)}.dark\:bg-\[\#0a0a0a\]{background-color:#0a0a0a}.dark\:bg-\[\#1D0002\]{background-color:#1d0002}.dark\:bg-\[\#3E3E3A\]{background-color:#3e3e3a}.dark\:bg-\[\#161615\]{background-color:#161615}.dark\:bg-\[\#eeeeec\]{background-color:#eeeeec}.dark\:bg-gray-700{background-color:var(--color-gray-700)}.dark\:bg-gray-800{background-color:var(--color-gray-800)}.dark\:bg-gray-900{background-color:var(--color-gray-900)}.dark\:text-\[\#1C1C1A\]{color:#1c1c1a}.dark\:text-\[\#4B0600\]{color:#4b0600}.dark\:text-\[\#391800\]{color:#391800}.dark\:text-\[\#733000\]{color:#733000}.dark\:text-\[\#A1A09A\]{color:#a1a09a}.dark\:text-\[\#EDEDEC\]{color:#ededec}.dark\:text-\[\#F61500\]{color:#f61500}.dark\:text-\[\#FF4433\]{color:#f43}.dark\:text-black{color:var(--color-black)}.dark\:text-gray-200{color:var(--color-gray-200)}.dark\:text-gray-300{color:var(--color-gray-300)}.dark\:text-gray-400{color:var(--color-gray-400)}.dark\:text-gray-600{color:var(--color-gray-600)}.dark\:mix-blend-hard-light{mix-blend-mode:hard-light}.dark\:mix-blend-normal{mix-blend-mode:normal}.dark\:shadow-\[inset_0px_0px_0px_1px_\#fffaed2d\]{--tw-shadow:inset 0px 0px 0px 1px var(--tw-shadow-color,#fffaed2d);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.dark\:\[--stroke-color\:\#FF750F\]{--stroke-color:#ff750f}.dark\:before\:border-\[\#3E3E3A\]:before{content:var(--tw-content);border-color:#3e3e3a}@media(hover:hover){.dark\:hover\:border-\[\#3E3E3A\]:hover{border-color:#3e3e3a}.dark\:hover\:border-\[\#62605b\]:hover{border-color:#62605b}.dark\:hover\:border-white:hover{border-color:var(--color-white)}.dark\:hover\:bg-gray-900:hover{background-color:var(--color-gray-900)}.dark\:hover\:bg-white:hover{background-color:var(--color-white)}.dark\:hover\:text-gray-200:hover{color:var(--color-gray-200)}.dark\:hover\:text-gray-300:hover{color:var(--color-gray-300)}}.dark\:focus\:border-blue-700:focus{border-color:var(--color-blue-700)}.dark\:focus\:border-blue-800:focus{border-color:var(--color-blue-800)}.dark\:active\:bg-gray-700:active{background-color:var(--color-gray-700)}.dark\:active\:text-gray-300:active{color:var(--color-gray-300)}}@starting-style{.starting\:opacity-0{opacity:0}}@media(prefers-reduced-motion:no-preference){@starting-style{.motion-safe\:starting\:-translate-x-\[26px\]{--tw-translate-x: -26px ;translate:var(--tw-translate-x) var(--tw-translate-y)}}@starting-style{.motion-safe\:starting\:-translate-x-\[51px\]{--tw-translate-x: -51px ;translate:var(--tw-translate-x) var(--tw-translate-y)}}@starting-style{.motion-safe\:starting\:-translate-x-\[78px\]{--tw-translate-x: -78px ;translate:var(--tw-translate-x) var(--tw-translate-y)}}@starting-style{.motion-safe\:starting\:-translate-x-\[102px\]{--tw-translate-x: -102px ;translate:var(--tw-translate-x) var(--tw-translate-y)}}@starting-style{.motion-safe\:starting\:translate-y-6{--tw-translate-y:calc(var(--spacing) * 6);translate:var(--tw-translate-x) var(--tw-translate-y)}}}}@property --tw-translate-x{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-y{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-z{syntax:"*";inherits:false;initial-value:0}@property --tw-rotate-x{syntax:"*";inherits:false}@property --tw-rotate-y{syntax:"*";inherits:false}@property --tw-rotate-z{syntax:"*";inherits:false}@property --tw-skew-x{syntax:"*";inherits:false}@property --tw-skew-y{syntax:"*";inherits:false}@property --tw-space-x-reverse{syntax:"*";inherits:false;initial-value:0}@property --tw-border-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-leading{syntax:"*";inherits:false}@property --tw-font-weight{syntax:"*";inherits:false}@property --tw-tracking{syntax:"*";inherits:false}@property --tw-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-shadow-color{syntax:"*";inherits:false}@property --tw-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-inset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-shadow-color{syntax:"*";inherits:false}@property --tw-inset-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-ring-color{syntax:"*";inherits:false}@property --tw-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-ring-color{syntax:"*";inherits:false}@property --tw-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-ring-inset{syntax:"*";inherits:false}@property --tw-ring-offset-width{syntax:"<length>";inherits:false;initial-value:0}@property --tw-ring-offset-color{syntax:"*";inherits:false;initial-value:#fff}@property --tw-ring-offset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-blur{syntax:"*";inherits:false}@property --tw-brightness{syntax:"*";inherits:false}@property --tw-contrast{syntax:"*";inherits:false}@property --tw-grayscale{syntax:"*";inherits:false}@property --tw-hue-rotate{syntax:"*";inherits:false}@property --tw-invert{syntax:"*";inherits:false}@property --tw-opacity{syntax:"*";inherits:false}@property --tw-saturate{syntax:"*";inherits:false}@property --tw-sepia{syntax:"*";inherits:false}@property --tw-drop-shadow{syntax:"*";inherits:false}@property --tw-drop-shadow-color{syntax:"*";inherits:false}@property --tw-drop-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-drop-shadow-size{syntax:"*";inherits:false}@property --tw-duration{syntax:"*";inherits:false}@property --tw-ease{syntax:"*";inherits:false}@property --tw-content{syntax:"*";inherits:false;initial-value:""}@keyframes spin{to{transform:rotate(360deg)}}@keyframes ping{75%,to{opacity:0;transform:scale(2)}}@keyframes pulse{50%{opacity:.5}}@keyframes bounce{0%,to{animation-timing-function:cubic-bezier(.8,0,1,1);transform:translateY(-25%)}50%{animation-timing-function:cubic-bezier(0,0,.2,1);transform:none}}
-            </style>
-        @endif
-    </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
-            @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Anti-flicker Theme Initialization -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#0f172a',
+                        },
+                        dark: {
+                            900: '#070a12',
+                            800: '#0c1222',
+                            700: '#11192e',
+                            600: '#182442',
+                            500: '#24335c',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'blob': 'blob 10s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -40px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+        }
+        .dark .glass-card {
+            background: rgba(17, 25, 46, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: none;
+        }
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.2);
+        }
+        .dark .glass-card-hover:hover {
+            background: rgba(24, 36, 66, 0.8);
+            border-color: rgba(96, 165, 250, 0.35);
+            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.25);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .gradient-text {
+            background: linear-gradient(135deg, #ffffff 20%, #93c5fd 60%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0c1222;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #24335c;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+        }
+        .dark .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+        .glow-effect {
+            position: absolute;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+        .dark .glow-effect {
+            opacity: 0.45;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-[#070a12] dark:text-slate-100 antialiased selection:bg-brand-500 selection:text-white transition-colors duration-300">
+
+    <!-- Ambient Background Glows -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-blue-500/15 dark:bg-blue-600/20 rounded-full glow-effect animate-blob"></div>
+    <div class="fixed top-1/3 right-10 w-96 h-96 bg-indigo-500/15 dark:bg-indigo-600/15 rounded-full glow-effect animate-blob" style="animation-delay: 3s;"></div>
+    <div class="fixed bottom-10 left-1/3 w-[500px] h-[500px] bg-cyan-500/15 dark:bg-cyan-600/15 rounded-full glow-effect animate-blob" style="animation-delay: 6s;"></div>
+
+    <!-- ========================================================================= -->
+    <!-- NAVIGATION BAR -->
+    <!-- ========================================================================= -->
+    <header class="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/80 dark:bg-[#070a12]/85 border-b border-slate-200 dark:border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand SMS Logo (ASL SMS HUB) -->
+                <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-cyan-400 p-[2px] shadow-lg shadow-brand-500/25 group-hover:shadow-brand-500/50 transition-all duration-300">
+                        <div class="w-full h-full bg-white dark:bg-dark-900 rounded-[14px] flex items-center justify-center relative overflow-hidden">
+                            <!-- Custom SMS Chat Bubble SVG Logo -->
+                            <svg class="w-6 h-6 text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="url(#sms-nav-grad)" />
+                                <circle cx="7" cy="10" r="1.5" fill="#ffffff" />
+                                <circle cx="12" cy="10" r="1.5" fill="#ffffff" />
+                                <circle cx="17" cy="10" r="1.5" fill="#ffffff" />
+                                <defs>
+                                    <linearGradient id="sms-nav-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#3B82F6"/>
+                                        <stop offset="1" stop-color="#06B6D4"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+                            ASL SMS <span class="text-brand-600 dark:text-brand-400">HUB</span>
+                        </span>
+                        <span class="text-[10px] block font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 -mt-0.5">Carrier Gateway</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+                    <a href="#features" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Features</a>
+                    <a href="#simulator" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors flex items-center gap-1.5">
+                        <span>Live Sandbox</span>
+                        <span class="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-brand-500/15 text-brand-600 dark:text-brand-300 border border-brand-500/30">Interactive</span>
+                    </a>
+                    <a href="#solutions" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Solutions</a>
+                    <a href="#routes" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Carrier Routes</a>
+                    <a href="#pricing" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Pricing</a>
+                    <a href="#faq" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">FAQ</a>
+                </nav>
+
+                <!-- Actions: Theme Switcher & Login -->
+                <div class="hidden sm:flex items-center gap-3">
+                    
+                    <!-- Dark / Light Mode Toggle Button -->
+                    <button id="theme-toggle" type="button" aria-label="Toggle Light / Dark Mode" class="p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-100 hover:bg-slate-200 dark:bg-dark-800 dark:hover:bg-dark-700 text-slate-700 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-all flex items-center justify-center gap-2 group shadow-sm">
+                        <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-indigo-400 text-sm hidden"></i>
+                        <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-amber-500 text-sm hidden"></i>
+                        <span class="text-xs font-semibold hidden xl:inline" id="theme-label">Mode</span>
+                    </button>
+
                     @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                        >
-                            Dashboard
+                        <a href="{{ route('user.dashboard') }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 text-white text-sm font-semibold hover:from-brand-500 hover:to-indigo-500 shadow-lg shadow-brand-600/30 hover:shadow-brand-600/50 hover:scale-[1.02] transition-all">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span>Dashboard</span>
                         </a>
                     @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            Log in
+                        <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyan-500 text-white text-sm font-semibold hover:opacity-95 shadow-lg shadow-brand-600/30 hover:shadow-brand-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                            <i class="fa-solid fa-right-to-bracket text-xs"></i>
+                            <span>Sign In</span>
                         </a>
-
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
                     @endauth
-                </nav>
-            @endif
-        </header>
-        <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-            <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
-                <div class="text-[13px] leading-[20px] flex-1 p-6 pb-6 lg:p-20 lg:pb-10 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
-                    <h1 class="mb-1 font-medium">Let's get started</h1>
-                    <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">With so many options available to you,<br /> we suggest you start with the following:</p>
-                    <ul class="flex flex-col mb-4 lg:mb-6">
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:top-1/2 before:bottom-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Read the
-                                <a href="https://laravel.com/docs" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                                    <span>Documentation</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:bottom-1/2 before:top-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Watch video tutorials at
-                                <a href="https://laracasts.com" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                                    <span>Laracasts</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
-                    </ul>
-                    <ul class="flex gap-3 text-sm leading-normal">
-                        <li>
-                            <a href="https://cloud.laravel.com" target="_blank" class="inline-block dark:bg-[#eeeeec] dark:border-[#eeeeec] dark:text-[#1C1C1A] dark:hover:bg-white dark:hover:border-white hover:bg-black hover:border-black px-5 py-1.5 bg-[#1b1b18] rounded-sm border border-black text-white text-sm leading-normal">
-                                Deploy now
-                            </a>
-                        </li>
-                    </ul>
-
-                    <p class="mt-6 lg:mt-10 text-[#706f6c] dark:text-[#A1A09A]">
-                        v{{ app()->version() }}
-                        <a href="https://github.com/laravel/framework/blob/13.x/CHANGELOG.md" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                            <span>View changelog</span>
-                            <svg
-                                width="10"
-                                height="11"
-                                viewBox="0 0 10 11"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="w-2.5 h-2.5"
-                            >
-                                <path
-                                    d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                    stroke="currentColor"
-                                    stroke-linecap="square"
-                                />
-                            </svg>
-                        </a>
-                    </p>
                 </div>
-                <div class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/364] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
-                    {{-- Laravel Logo --}}
-                    <svg class="w-full text-[#F53003] dark:text-[#F61500] transition-all translate-y-0 opacity-100 max-w-none duration-750 starting:opacity-0 motion-safe:starting:translate-y-6" viewBox="0 0 438 104" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.2036 -3H0V102.197H49.5189V86.7187H17.2036V-3Z" fill="currentColor" />
-                        <path d="M110.256 41.6337C108.061 38.1275 104.945 35.3731 100.905 33.3681C96.8667 31.3647 92.8016 30.3618 88.7131 30.3618C83.4247 30.3618 78.5885 31.3389 74.201 33.2923C69.8111 35.2456 66.0474 37.928 62.9059 41.3333C59.7643 44.7401 57.3198 48.6726 55.5754 53.1293C53.8287 57.589 52.9572 62.274 52.9572 67.1813C52.9572 72.1925 53.8287 76.8995 55.5754 81.3069C57.3191 85.7173 59.7636 89.6241 62.9059 93.0293C66.0474 96.4361 69.8119 99.1155 74.201 101.069C78.5885 103.022 83.4247 103.999 88.7131 103.999C92.8016 103.999 96.8667 102.997 100.905 100.994C104.945 98.9911 108.061 96.2359 110.256 92.7282V102.195H126.563V32.1642H110.256V41.6337ZM108.76 75.7472C107.762 78.4531 106.366 80.8078 104.572 82.8112C102.776 84.8161 100.606 86.4183 98.0637 87.6206C95.5202 88.823 92.7004 89.4238 89.6103 89.4238C86.5178 89.4238 83.7252 88.823 81.2324 87.6206C78.7388 86.4183 76.5949 84.8161 74.7998 82.8112C73.004 80.8078 71.6319 78.4531 70.6856 75.7472C69.7356 73.0421 69.2644 70.1868 69.2644 67.1821C69.2644 64.1758 69.7356 61.3205 70.6856 58.6154C71.6319 55.9102 73.004 53.5571 74.7998 51.5522C76.5949 49.5495 78.738 47.9451 81.2324 46.7427C83.7252 45.5404 86.5178 44.9396 89.6103 44.9396C92.7012 44.9396 95.5202 45.5404 98.0637 46.7427C100.606 47.9451 102.776 49.5487 104.572 51.5522C106.367 53.5571 107.762 55.9102 108.76 58.6154C109.756 61.3205 110.256 64.1758 110.256 67.1821C110.256 70.1868 109.756 73.0421 108.76 75.7472Z" fill="currentColor" />
-                        <path d="M242.805 41.6337C240.611 38.1275 237.494 35.3731 233.455 33.3681C229.416 31.3647 225.351 30.3618 221.262 30.3618C215.974 30.3618 211.138 31.3389 206.75 33.2923C202.36 35.2456 198.597 37.928 195.455 41.3333C192.314 44.7401 189.869 48.6726 188.125 53.1293C186.378 57.589 185.507 62.274 185.507 67.1813C185.507 72.1925 186.378 76.8995 188.125 81.3069C189.868 85.7173 192.313 89.6241 195.455 93.0293C198.597 96.4361 202.361 99.1155 206.75 101.069C211.138 103.022 215.974 103.999 221.262 103.999C225.351 103.999 229.416 102.997 233.455 100.994C237.494 98.9911 240.611 96.2359 242.805 92.7282V102.195H259.112V32.1642H242.805V41.6337ZM241.31 75.7472C240.312 78.4531 238.916 80.8078 237.122 82.8112C235.326 84.8161 233.156 86.4183 230.614 87.6206C228.07 88.823 225.251 89.4238 222.16 89.4238C219.068 89.4238 216.275 88.823 213.782 87.6206C211.289 86.4183 209.145 84.8161 207.35 82.8112C205.554 80.8078 204.182 78.4531 203.236 75.7472C202.286 73.0421 201.814 70.1868 201.814 67.1821C201.814 64.1758 202.286 61.3205 203.236 58.6154C204.182 55.9102 205.554 53.5571 207.35 51.5522C209.145 49.5495 211.288 47.9451 213.782 46.7427C216.275 45.5404 219.068 44.9396 222.16 44.9396C225.251 44.9396 228.07 45.5404 230.614 46.7427C233.156 47.9451 235.326 49.5487 237.122 51.5522C238.917 53.5571 240.312 55.9102 241.31 58.6154C242.306 61.3205 242.806 64.1758 242.806 67.1821C242.805 70.1868 242.305 73.0421 241.31 75.7472Z" fill="currentColor" />
-                        <path d="M438 -3H421.694V102.197H438V-3Z" fill="currentColor" />
-                        <path d="M139.43 102.197H155.735V48.2834H183.712V32.1665H139.43V102.197Z" fill="currentColor" />
-                        <path d="M324.49 32.1665L303.995 85.794L283.498 32.1665H266.983L293.748 102.197H314.242L341.006 32.1665H324.49Z" fill="currentColor" />
-                        <path d="M376.571 30.3656C356.603 30.3656 340.797 46.8497 340.797 67.1828C340.797 89.6597 356.094 104 378.661 104C391.29 104 399.354 99.1488 409.206 88.5848L398.189 80.0226C398.183 80.031 389.874 90.9895 377.468 90.9895C363.048 90.9895 356.977 79.3111 356.977 73.269H411.075C413.917 50.1328 398.775 30.3656 376.571 30.3656ZM357.02 61.0967C357.145 59.7487 359.023 43.3761 376.442 43.3761C393.861 43.3761 395.978 59.7464 396.099 61.0967H357.02Z" fill="currentColor" />
-                    </svg>
 
-                    {{-- 13 --}}
-                    <svg class="w-[438px] max-w-none relative -mt-[6.6rem] -ml-8 lg:ml-0 [--stroke-color:#1B1B18] dark:[--stroke-color:#FF750F]" viewBox="0 0 440 392" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g class="mix-blend-darken dark:mix-blend-normal transition-all delay-300 opacity-100 duration-750 starting:opacity-0 text-[#1B1B18] dark:text-black">
-                            <mask id="path-1-mask" maskUnits="userSpaceOnUse" x="-0.328613" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="-0.328613" y="103" width="338" height="299"/>
-                                <path d="M234.936 400.8C204.136 400.8 178.936 392.4 159.336 375.6C140.136 358.8 130.536 337 130.536 310.2H200.736C200.736 318.2 203.736 324.8 209.736 330C215.736 335.2 223.736 337.8 233.736 337.8C243.336 337.8 251.136 335 257.136 329.4C263.536 323.8 266.736 316.6 266.736 307.8C266.736 299.8 263.936 293.2 258.336 288C252.736 282.8 245.536 280.2 236.736 280.2H199.536V218.4H236.736C243.536 218.4 249.336 216 254.136 211.2C258.936 206.4 261.336 200.4 261.336 193.2C261.336 184.8 258.736 178.2 253.536 173.4C248.336 168.6 241.736 166.2 233.736 166.2C226.536 166.2 220.336 168.4 215.136 172.8C210.336 177.2 207.936 182.8 207.936 189.6H141.336C141.336 164.8 150.136 144.6 167.736 129C185.336 113 207.936 105 235.536 105C263.136 105 285.536 112.2 302.736 126.6C320.336 141 329.136 160 329.136 183.6C329.136 200.8 324.536 214.8 315.336 225.6C306.136 236 294.336 243.2 279.936 247.2C297.136 252 310.736 260.2 320.736 271.8C331.136 283.4 336.336 298 336.336 315.6C336.336 340.4 326.936 360.8 308.136 376.8C289.336 392.8 264.936 400.8 234.936 400.8Z"/>
-                                <path d="M26.8714 167.6H1.67139V105.2H94.6714V400.2H26.8714V167.6Z"/>
-                            </mask>
-                            <path d="M234.936 400.8C204.136 400.8 178.936 392.4 159.336 375.6C140.136 358.8 130.536 337 130.536 310.2H200.736C200.736 318.2 203.736 324.8 209.736 330C215.736 335.2 223.736 337.8 233.736 337.8C243.336 337.8 251.136 335 257.136 329.4C263.536 323.8 266.736 316.6 266.736 307.8C266.736 299.8 263.936 293.2 258.336 288C252.736 282.8 245.536 280.2 236.736 280.2H199.536V218.4H236.736C243.536 218.4 249.336 216 254.136 211.2C258.936 206.4 261.336 200.4 261.336 193.2C261.336 184.8 258.736 178.2 253.536 173.4C248.336 168.6 241.736 166.2 233.736 166.2C226.536 166.2 220.336 168.4 215.136 172.8C210.336 177.2 207.936 182.8 207.936 189.6H141.336C141.336 164.8 150.136 144.6 167.736 129C185.336 113 207.936 105 235.536 105C263.136 105 285.536 112.2 302.736 126.6C320.336 141 329.136 160 329.136 183.6C329.136 200.8 324.536 214.8 315.336 225.6C306.136 236 294.336 243.2 279.936 247.2C297.136 252 310.736 260.2 320.736 271.8C331.136 283.4 336.336 298 336.336 315.6C336.336 340.4 326.936 360.8 308.136 376.8C289.336 392.8 264.936 400.8 234.936 400.8Z" fill="currentColor"/>
-                            <path d="M26.8714 167.6H1.67139V105.2H94.6714V400.2H26.8714V167.6Z" fill="currentColor"/>
-                            <path d="M234.936 400.8C204.136 400.8 178.936 392.4 159.336 375.6C140.136 358.8 130.536 337 130.536 310.2H200.736C200.736 318.2 203.736 324.8 209.736 330C215.736 335.2 223.736 337.8 233.736 337.8C243.336 337.8 251.136 335 257.136 329.4C263.536 323.8 266.736 316.6 266.736 307.8C266.736 299.8 263.936 293.2 258.336 288C252.736 282.8 245.536 280.2 236.736 280.2H199.536V218.4H236.736C243.536 218.4 249.336 216 254.136 211.2C258.936 206.4 261.336 200.4 261.336 193.2C261.336 184.8 258.736 178.2 253.536 173.4C248.336 168.6 241.736 166.2 233.736 166.2C226.536 166.2 220.336 168.4 215.136 172.8C210.336 177.2 207.936 182.8 207.936 189.6H141.336C141.336 164.8 150.136 144.6 167.736 129C185.336 113 207.936 105 235.536 105C263.136 105 285.536 112.2 302.736 126.6C320.336 141 329.136 160 329.136 183.6C329.136 200.8 324.536 214.8 315.336 225.6C306.136 236 294.336 243.2 279.936 247.2C297.136 252 310.736 260.2 320.736 271.8C331.136 283.4 336.336 298 336.336 315.6C336.336 340.4 326.936 360.8 308.136 376.8C289.336 392.8 264.936 400.8 234.936 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-1-mask)"/>
-                            <path d="M26.8714 167.6H1.67139V105.2H94.6714V400.2H26.8714V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-1-mask)"/>
-                        </g>
-
-                        <g class="transition-all delay-400 opacity-100 duration-750 starting:opacity-0 motion-safe:starting:-translate-x-[26px] text-[#F3BEC7] dark:text-[#4B0600]">
-                            <mask id="path-2-mask" maskUnits="userSpaceOnUse" x="25.3357" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="25.3357" y="103" width="338" height="299"/>
-                                <path d="M260.6 400.8C229.8 400.8 204.6 392.4 185 375.6C165.8 358.8 156.2 337 156.2 310.2H226.4C226.4 318.2 229.4 324.8 235.4 330C241.4 335.2 249.4 337.8 259.4 337.8C269 337.8 276.8 335 282.8 329.4C289.2 323.8 292.4 316.6 292.4 307.8C292.4 299.8 289.6 293.2 284 288C278.4 282.8 271.2 280.2 262.4 280.2H225.2V218.4H262.4C269.2 218.4 275 216 279.8 211.2C284.6 206.4 287 200.4 287 193.2C287 184.8 284.4 178.2 279.2 173.4C274 168.6 267.4 166.2 259.4 166.2C252.2 166.2 246 168.4 240.8 172.8C236 177.2 233.6 182.8 233.6 189.6H167C167 164.8 175.8 144.6 193.4 129C211 113 233.6 105 261.2 105C288.8 105 311.2 112.2 328.4 126.6C346 141 354.8 160 354.8 183.6C354.8 200.8 350.2 214.8 341 225.6C331.8 236 320 243.2 305.6 247.2C322.8 252 336.4 260.2 346.4 271.8C356.8 283.4 362 298 362 315.6C362 340.4 352.6 360.8 333.8 376.8C315 392.8 290.6 400.8 260.6 400.8Z"/>
-                                <path d="M52.5357 167.6H27.3357V105.2H120.336V400.2H52.5357V167.6Z"/>
-                            </mask>
-                            <path d="M260.6 400.8C229.8 400.8 204.6 392.4 185 375.6C165.8 358.8 156.2 337 156.2 310.2H226.4C226.4 318.2 229.4 324.8 235.4 330C241.4 335.2 249.4 337.8 259.4 337.8C269 337.8 276.8 335 282.8 329.4C289.2 323.8 292.4 316.6 292.4 307.8C292.4 299.8 289.6 293.2 284 288C278.4 282.8 271.2 280.2 262.4 280.2H225.2V218.4H262.4C269.2 218.4 275 216 279.8 211.2C284.6 206.4 287 200.4 287 193.2C287 184.8 284.4 178.2 279.2 173.4C274 168.6 267.4 166.2 259.4 166.2C252.2 166.2 246 168.4 240.8 172.8C236 177.2 233.6 182.8 233.6 189.6H167C167 164.8 175.8 144.6 193.4 129C211 113 233.6 105 261.2 105C288.8 105 311.2 112.2 328.4 126.6C346 141 354.8 160 354.8 183.6C354.8 200.8 350.2 214.8 341 225.6C331.8 236 320 243.2 305.6 247.2C322.8 252 336.4 260.2 346.4 271.8C356.8 283.4 362 298 362 315.6C362 340.4 352.6 360.8 333.8 376.8C315 392.8 290.6 400.8 260.6 400.8Z" fill="currentColor"/>
-                            <path d="M52.5357 167.6H27.3357V105.2H120.336V400.2H52.5357V167.6Z" fill="currentColor"/>
-                            <path d="M260.6 400.8C229.8 400.8 204.6 392.4 185 375.6C165.8 358.8 156.2 337 156.2 310.2H226.4C226.4 318.2 229.4 324.8 235.4 330C241.4 335.2 249.4 337.8 259.4 337.8C269 337.8 276.8 335 282.8 329.4C289.2 323.8 292.4 316.6 292.4 307.8C292.4 299.8 289.6 293.2 284 288C278.4 282.8 271.2 280.2 262.4 280.2H225.2V218.4H262.4C269.2 218.4 275 216 279.8 211.2C284.6 206.4 287 200.4 287 193.2C287 184.8 284.4 178.2 279.2 173.4C274 168.6 267.4 166.2 259.4 166.2C252.2 166.2 246 168.4 240.8 172.8C236 177.2 233.6 182.8 233.6 189.6H167C167 164.8 175.8 144.6 193.4 129C211 113 233.6 105 261.2 105C288.8 105 311.2 112.2 328.4 126.6C346 141 354.8 160 354.8 183.6C354.8 200.8 350.2 214.8 341 225.6C331.8 236 320 243.2 305.6 247.2C322.8 252 336.4 260.2 346.4 271.8C356.8 283.4 362 298 362 315.6C362 340.4 352.6 360.8 333.8 376.8C315 392.8 290.6 400.8 260.6 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-2-mask)"/>
-                            <path d="M52.5357 167.6H27.3357V105.2H120.336V400.2H52.5357V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-2-mask)"/>
-                        </g>
-                        
-                        <g class="mix-blend-color dark:mix-blend-hard-light transition-all delay-400 opacity-100 duration-750 starting:opacity-0 motion-safe:starting:-translate-x-[51px] text-[#F8B803] dark:text-[#391800]">
-                            <mask id="path-3-mask" maskUnits="userSpaceOnUse" x="51" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="51" y="103" width="338" height="299"/>
-                                <path d="M286.264 400.8C255.464 400.8 230.264 392.4 210.664 375.6C191.464 358.8 181.864 337 181.864 310.2H252.064C252.064 318.2 255.064 324.8 261.064 330C267.064 335.2 275.064 337.8 285.064 337.8C294.664 337.8 302.464 335 308.464 329.4C314.864 323.8 318.064 316.6 318.064 307.8C318.064 299.8 315.264 293.2 309.664 288C304.064 282.8 296.864 280.2 288.064 280.2H250.864V218.4H288.064C294.864 218.4 300.664 216 305.464 211.2C310.264 206.4 312.664 200.4 312.664 193.2C312.664 184.8 310.064 178.2 304.864 173.4C299.664 168.6 293.064 166.2 285.064 166.2C277.864 166.2 271.664 168.4 266.464 172.8C261.664 177.2 259.264 182.8 259.264 189.6H192.664C192.664 164.8 201.464 144.6 219.064 129C236.664 113 259.264 105 286.864 105C314.464 105 336.864 112.2 354.064 126.6C371.664 141 380.464 160 380.464 183.6C380.464 200.8 375.864 214.8 366.664 225.6C357.464 236 345.664 243.2 331.264 247.2C348.464 252 362.064 260.2 372.064 271.8C382.464 283.4 387.664 298 387.664 315.6C387.664 340.4 378.264 360.8 359.464 376.8C340.664 392.8 316.264 400.8 286.264 400.8Z"/>
-                                <path d="M78.2 167.6H53V105.2H146V400.2H78.2V167.6Z"/>
-                            </mask>
-                            <path d="M286.264 400.8C255.464 400.8 230.264 392.4 210.664 375.6C191.464 358.8 181.864 337 181.864 310.2H252.064C252.064 318.2 255.064 324.8 261.064 330C267.064 335.2 275.064 337.8 285.064 337.8C294.664 337.8 302.464 335 308.464 329.4C314.864 323.8 318.064 316.6 318.064 307.8C318.064 299.8 315.264 293.2 309.664 288C304.064 282.8 296.864 280.2 288.064 280.2H250.864V218.4H288.064C294.864 218.4 300.664 216 305.464 211.2C310.264 206.4 312.664 200.4 312.664 193.2C312.664 184.8 310.064 178.2 304.864 173.4C299.664 168.6 293.064 166.2 285.064 166.2C277.864 166.2 271.664 168.4 266.464 172.8C261.664 177.2 259.264 182.8 259.264 189.6H192.664C192.664 164.8 201.464 144.6 219.064 129C236.664 113 259.264 105 286.864 105C314.464 105 336.864 112.2 354.064 126.6C371.664 141 380.464 160 380.464 183.6C380.464 200.8 375.864 214.8 366.664 225.6C357.464 236 345.664 243.2 331.264 247.2C348.464 252 362.064 260.2 372.064 271.8C382.464 283.4 387.664 298 387.664 315.6C387.664 340.4 378.264 360.8 359.464 376.8C340.664 392.8 316.264 400.8 286.264 400.8Z" fill="currentColor"/>
-                            <path d="M78.2 167.6H53V105.2H146V400.2H78.2V167.6Z" fill="currentColor"/>
-                            <path d="M286.264 400.8C255.464 400.8 230.264 392.4 210.664 375.6C191.464 358.8 181.864 337 181.864 310.2H252.064C252.064 318.2 255.064 324.8 261.064 330C267.064 335.2 275.064 337.8 285.064 337.8C294.664 337.8 302.464 335 308.464 329.4C314.864 323.8 318.064 316.6 318.064 307.8C318.064 299.8 315.264 293.2 309.664 288C304.064 282.8 296.864 280.2 288.064 280.2H250.864V218.4H288.064C294.864 218.4 300.664 216 305.464 211.2C310.264 206.4 312.664 200.4 312.664 193.2C312.664 184.8 310.064 178.2 304.864 173.4C299.664 168.6 293.064 166.2 285.064 166.2C277.864 166.2 271.664 168.4 266.464 172.8C261.664 177.2 259.264 182.8 259.264 189.6H192.664C192.664 164.8 201.464 144.6 219.064 129C236.664 113 259.264 105 286.864 105C314.464 105 336.864 112.2 354.064 126.6C371.664 141 380.464 160 380.464 183.6C380.464 200.8 375.864 214.8 366.664 225.6C357.464 236 345.664 243.2 331.264 247.2C348.464 252 362.064 260.2 372.064 271.8C382.464 283.4 387.664 298 387.664 315.6C387.664 340.4 378.264 360.8 359.464 376.8C340.664 392.8 316.264 400.8 286.264 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-3-mask)"/>
-                            <path d="M78.2 167.6H53V105.2H146V400.2H78.2V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-3-mask)"/>
-                        </g>
-                        
-                        <g class="mix-blend-multiply dark:mix-blend-normal transition-all delay-400 opacity-100 duration-750 starting:opacity-0 motion-safe:starting:-translate-x-[78px] text-[#F3BEC7] dark:text-[#733000]">
-                            <mask id="path-4-mask" maskUnits="userSpaceOnUse" x="76.6643" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="76.6643" y="103" width="338" height="299"/>
-                                <path d="M311.929 400.8C281.129 400.8 255.929 392.4 236.329 375.6C217.129 358.8 207.529 337 207.529 310.2H277.729C277.729 318.2 280.729 324.8 286.729 330C292.729 335.2 300.729 337.8 310.729 337.8C320.329 337.8 328.129 335 334.129 329.4C340.529 323.8 343.729 316.6 343.729 307.8C343.729 299.8 340.929 293.2 335.329 288C329.729 282.8 322.529 280.2 313.729 280.2H276.529V218.4H313.729C320.529 218.4 326.329 216 331.129 211.2C335.929 206.4 338.329 200.4 338.329 193.2C338.329 184.8 335.729 178.2 330.529 173.4C325.329 168.6 318.729 166.2 310.729 166.2C303.529 166.2 297.329 168.4 292.129 172.8C287.329 177.2 284.929 182.8 284.929 189.6H218.329C218.329 164.8 227.129 144.6 244.729 129C262.329 113 284.929 105 312.529 105C340.129 105 362.529 112.2 379.729 126.6C397.329 141 406.129 160 406.129 183.6C406.129 200.8 401.529 214.8 392.329 225.6C383.129 236 371.329 243.2 356.929 247.2C374.129 252 387.729 260.2 397.729 271.8C408.129 283.4 413.329 298 413.329 315.6C413.329 340.4 403.929 360.8 385.129 376.8C366.329 392.8 341.929 400.8 311.929 400.8Z"/>
-                                <path d="M103.864 167.6H78.6643V105.2H171.664V400.2H103.864V167.6Z"/>
-                            </mask>
-                            <path d="M311.929 400.8C281.129 400.8 255.929 392.4 236.329 375.6C217.129 358.8 207.529 337 207.529 310.2H277.729C277.729 318.2 280.729 324.8 286.729 330C292.729 335.2 300.729 337.8 310.729 337.8C320.329 337.8 328.129 335 334.129 329.4C340.529 323.8 343.729 316.6 343.729 307.8C343.729 299.8 340.929 293.2 335.329 288C329.729 282.8 322.529 280.2 313.729 280.2H276.529V218.4H313.729C320.529 218.4 326.329 216 331.129 211.2C335.929 206.4 338.329 200.4 338.329 193.2C338.329 184.8 335.729 178.2 330.529 173.4C325.329 168.6 318.729 166.2 310.729 166.2C303.529 166.2 297.329 168.4 292.129 172.8C287.329 177.2 284.929 182.8 284.929 189.6H218.329C218.329 164.8 227.129 144.6 244.729 129C262.329 113 284.929 105 312.529 105C340.129 105 362.529 112.2 379.729 126.6C397.329 141 406.129 160 406.129 183.6C406.129 200.8 401.529 214.8 392.329 225.6C383.129 236 371.329 243.2 356.929 247.2C374.129 252 387.729 260.2 397.729 271.8C408.129 283.4 413.329 298 413.329 315.6C413.329 340.4 403.929 360.8 385.129 376.8C366.329 392.8 341.929 400.8 311.929 400.8Z" fill="currentColor"/>
-                            <path d="M103.864 167.6H78.6643V105.2H171.664V400.2H103.864V167.6Z" fill="currentColor"/>
-                            <path d="M311.929 400.8C281.129 400.8 255.929 392.4 236.329 375.6C217.129 358.8 207.529 337 207.529 310.2H277.729C277.729 318.2 280.729 324.8 286.729 330C292.729 335.2 300.729 337.8 310.729 337.8C320.329 337.8 328.129 335 334.129 329.4C340.529 323.8 343.729 316.6 343.729 307.8C343.729 299.8 340.929 293.2 335.329 288C329.729 282.8 322.529 280.2 313.729 280.2H276.529V218.4H313.729C320.529 218.4 326.329 216 331.129 211.2C335.929 206.4 338.329 200.4 338.329 193.2C338.329 184.8 335.729 178.2 330.529 173.4C325.329 168.6 318.729 166.2 310.729 166.2C303.529 166.2 297.329 168.4 292.129 172.8C287.329 177.2 284.929 182.8 284.929 189.6H218.329C218.329 164.8 227.129 144.6 244.729 129C262.329 113 284.929 105 312.529 105C340.129 105 362.529 112.2 379.729 126.6C397.329 141 406.129 160 406.129 183.6C406.129 200.8 401.529 214.8 392.329 225.6C383.129 236 371.329 243.2 356.929 247.2C374.129 252 387.729 260.2 397.729 271.8C408.129 283.4 413.329 298 413.329 315.6C413.329 340.4 403.929 360.8 385.129 376.8C366.329 392.8 341.929 400.8 311.929 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-4-mask)"/>
-                            <path d="M103.864 167.6H78.6643V105.2H171.664V400.2H103.864V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-4-mask)"/>
-                        </g>
-                        
-                        <g class="mix-blend-hard-light transition-all delay-400 opacity-100 duration-750 starting:opacity-0 motion-safe:starting:-translate-x-[102px] text-[#F3BEC7] dark:text-[#4B0600]">
-                            <mask id="path-5-mask" maskUnits="userSpaceOnUse" x="102.329" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="102.329" y="103" width="338" height="299"/>
-                                <path d="M337.593 400.8C306.793 400.8 281.593 392.4 261.993 375.6C242.793 358.8 233.193 337 233.193 310.2H303.393C303.393 318.2 306.393 324.8 312.393 330C318.393 335.2 326.393 337.8 336.393 337.8C345.993 337.8 353.793 335 359.793 329.4C366.193 323.8 369.393 316.6 369.393 307.8C369.393 299.8 366.593 293.2 360.993 288C355.393 282.8 348.193 280.2 339.393 280.2H302.193V218.4H339.393C346.193 218.4 351.993 216 356.793 211.2C361.593 206.4 363.993 200.4 363.993 193.2C363.993 184.8 361.393 178.2 356.193 173.4C350.993 168.6 344.393 166.2 336.393 166.2C329.193 166.2 322.993 168.4 317.793 172.8C312.993 177.2 310.593 182.8 310.593 189.6H243.993C243.993 164.8 252.793 144.6 270.393 129C287.993 113 310.593 105 338.193 105C365.793 105 388.193 112.2 405.393 126.6C422.993 141 431.793 160 431.793 183.6C431.793 200.8 427.193 214.8 417.993 225.6C408.793 236 396.993 243.2 382.593 247.2C399.793 252 413.393 260.2 423.393 271.8C433.793 283.4 438.993 298 438.993 315.6C438.993 340.4 429.593 360.8 410.793 376.8C391.993 392.8 367.593 400.8 337.593 400.8Z"/>
-                                <path d="M129.529 167.6H104.329V105.2H197.329V400.2H129.529V167.6Z"/>
-                            </mask>
-                            <path d="M337.593 400.8C306.793 400.8 281.593 392.4 261.993 375.6C242.793 358.8 233.193 337 233.193 310.2H303.393C303.393 318.2 306.393 324.8 312.393 330C318.393 335.2 326.393 337.8 336.393 337.8C345.993 337.8 353.793 335 359.793 329.4C366.193 323.8 369.393 316.6 369.393 307.8C369.393 299.8 366.593 293.2 360.993 288C355.393 282.8 348.193 280.2 339.393 280.2H302.193V218.4H339.393C346.193 218.4 351.993 216 356.793 211.2C361.593 206.4 363.993 200.4 363.993 193.2C363.993 184.8 361.393 178.2 356.193 173.4C350.993 168.6 344.393 166.2 336.393 166.2C329.193 166.2 322.993 168.4 317.793 172.8C312.993 177.2 310.593 182.8 310.593 189.6H243.993C243.993 164.8 252.793 144.6 270.393 129C287.993 113 310.593 105 338.193 105C365.793 105 388.193 112.2 405.393 126.6C422.993 141 431.793 160 431.793 183.6C431.793 200.8 427.193 214.8 417.993 225.6C408.793 236 396.993 243.2 382.593 247.2C399.793 252 413.393 260.2 423.393 271.8C433.793 283.4 438.993 298 438.993 315.6C438.993 340.4 429.593 360.8 410.793 376.8C391.993 392.8 367.593 400.8 337.593 400.8Z" fill="currentColor"/>
-                            <path d="M129.529 167.6H104.329V105.2H197.329V400.2H129.529V167.6Z" fill="currentColor"/>
-                            <path d="M337.593 400.8C306.793 400.8 281.593 392.4 261.993 375.6C242.793 358.8 233.193 337 233.193 310.2H303.393C303.393 318.2 306.393 324.8 312.393 330C318.393 335.2 326.393 337.8 336.393 337.8C345.993 337.8 353.793 335 359.793 329.4C366.193 323.8 369.393 316.6 369.393 307.8C369.393 299.8 366.593 293.2 360.993 288C355.393 282.8 348.193 280.2 339.393 280.2H302.193V218.4H339.393C346.193 218.4 351.993 216 356.793 211.2C361.593 206.4 363.993 200.4 363.993 193.2C363.993 184.8 361.393 178.2 356.193 173.4C350.993 168.6 344.393 166.2 336.393 166.2C329.193 166.2 322.993 168.4 317.793 172.8C312.993 177.2 310.593 182.8 310.593 189.6H243.993C243.993 164.8 252.793 144.6 270.393 129C287.993 113 310.593 105 338.193 105C365.793 105 388.193 112.2 405.393 126.6C422.993 141 431.793 160 431.793 183.6C431.793 200.8 427.193 214.8 417.993 225.6C408.793 236 396.993 243.2 382.593 247.2C399.793 252 413.393 260.2 423.393 271.8C433.793 283.4 438.993 298 438.993 315.6C438.993 340.4 429.593 360.8 410.793 376.8C391.993 392.8 367.593 400.8 337.593 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-5-mask)"/>
-                            <path d="M129.529 167.6H104.329V105.2H197.329V400.2H129.529V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-5-mask)"/>
-                        </g>
-                    </svg>
-                    <div class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"></div>
+                <!-- Mobile Menu & Theme Switcher Button -->
+                <div class="flex lg:hidden items-center gap-2">
+                    <button id="mobile-theme-btn-nav" type="button" aria-label="Toggle Theme" class="p-2.5 rounded-xl bg-slate-100 dark:bg-dark-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10">
+                        <i id="mobile-nav-theme-icon" class="fa-solid fa-sun text-amber-500 text-sm"></i>
+                    </button>
+                    <button id="mobile-menu-toggle" type="button" aria-label="Toggle Navigation Menu" class="p-2.5 rounded-xl bg-slate-100 dark:bg-dark-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 focus:outline-none">
+                        <i id="hamburger-icon" class="fa-solid fa-bars text-lg"></i>
+                    </button>
                 </div>
-            </main>
+            </div>
         </div>
 
-        @if (Route::has('login'))
-            <div class="h-14.5 hidden lg:block"></div>
-        @endif
-    </body>
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-dark-900/95 backdrop-blur-2xl px-4 pt-3 pb-6 transition-all duration-300">
+            <nav class="flex flex-col gap-3 font-medium text-slate-700 dark:text-slate-200">
+                <a href="#features" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5">Features</a>
+                <a href="#simulator" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 flex items-center justify-between">
+                    <span>Live Sandbox</span>
+                    <span class="px-2 py-0.5 text-xs rounded bg-brand-500/20 text-brand-600 dark:text-brand-300">Interactive</span>
+                </a>
+                <a href="#solutions" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5">Solutions</a>
+                <a href="#routes" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5">Carrier Routes</a>
+                <a href="#pricing" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5">Pricing</a>
+                <a href="#faq" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5">FAQ</a>
+                
+                <!-- Mobile Theme Toggle Option -->
+                <div class="flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 my-1">
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-half-stroke text-brand-500"></i> Theme Appearance
+                    </span>
+                    <button type="button" id="mobile-drawer-theme-toggle" class="px-3 py-1 rounded-lg bg-white dark:bg-dark-800 border border-slate-300 dark:border-white/15 text-xs font-bold text-slate-800 dark:text-white shadow-sm flex items-center gap-1.5">
+                        <i id="drawer-theme-icon" class="fa-solid fa-moon text-indigo-400"></i>
+                        <span id="drawer-theme-text">Dark Mode</span>
+                    </button>
+                </div>
+
+                <div class="pt-3 border-t border-slate-200 dark:border-white/10 flex flex-col gap-2.5">
+                    @auth
+                        <a href="{{ route('user.dashboard') }}" class="w-full text-center py-2.5 rounded-xl bg-brand-600 text-white font-semibold shadow-md">
+                            Go to Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-semibold shadow-md flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-right-to-bracket text-xs"></i>
+                            <span>Sign In to Portal</span>
+                        </a>
+                    @endauth
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- ========================================================================= -->
+    <!-- HERO SECTION -->
+    <!-- ========================================================================= -->
+    <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-grid-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Hero Content -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <!-- Live SLA Badge -->
+                    <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-700 dark:text-brand-300 text-xs sm:text-sm font-semibold mb-6">
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span>Tier-1 Carrier Direct Routes • 99.99% Delivery SLA</span>
+                    </div>
+
+                    <!-- Main Headline -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15] mb-6">
+                        Enterprise Bulk SMS & <br class="hidden sm:inline">
+                        <span class="gradient-text">Ultra-Fast OTP Gateway</span>
+                    </h1>
+
+                    <!-- Subtitle -->
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto lg:mx-0 mb-8 font-normal leading-relaxed">
+                        ASL SMS HUB powers high-volume promotional broadcasts, transactional alerts, and mission-critical 2FA OTPs with sub-second delivery, 100% DLT compliance, and dedicated telecommunication direct pipes.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+                        @auth
+                            <a href="{{ route('user.dashboard') }}" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyan-500 text-white font-bold text-base shadow-xl shadow-brand-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                                <i class="fa-solid fa-gauge-high"></i>
+                                <span>Go to Dashboard</span>
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-cyan-500 text-white font-bold text-base shadow-xl shadow-brand-600/30 hover:shadow-brand-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                <span>Sign In to Portal</span>
+                            </a>
+                        @endauth
+                        <a href="#simulator" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white hover:bg-slate-100 dark:bg-dark-800/90 dark:hover:bg-dark-700 text-slate-800 dark:text-slate-200 hover:text-brand-600 dark:hover:text-white font-semibold text-base border border-slate-200 dark:border-white/15 hover:border-brand-500/40 shadow-sm transition-all">
+                            <i class="fa-solid fa-play text-brand-500 dark:text-brand-400 text-sm"></i>
+                            <span>Test Live Simulator</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Metric Highlights -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200 dark:border-white/10 max-w-lg mx-auto lg:mx-0">
+                        <div class="text-center lg:text-left">
+                            <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">99.99%</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Delivery SLA</p>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <p class="text-2xl sm:text-3xl font-extrabold text-brand-600 dark:text-brand-400">&lt; 1.8s</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Avg OTP Speed</p>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <p class="text-2xl sm:text-3xl font-extrabold text-cyan-600 dark:text-cyan-400">180+</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Global Operators</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hero Visual - Live Interactive Phone & Campaign Stream -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <!-- Glow Behind Phone -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-600/20 to-cyan-500/20 blur-3xl -z-10 rounded-full"></div>
+
+                    <!-- Smartphone Mockup -->
+                    <div class="relative w-[320px] sm:w-[350px] rounded-[44px] p-3 bg-slate-900 shadow-2xl border-4 border-slate-700/80 shadow-brand-500/10 animate-float">
+                        <!-- Top Notch & Speaker -->
+                        <div class="w-full flex justify-center items-center py-2 relative">
+                            <div class="w-24 h-4 bg-slate-800 rounded-full flex items-center justify-between px-3">
+                                <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+                                <div class="w-8 h-1 rounded-full bg-slate-700"></div>
+                            </div>
+                        </div>
+
+                        <!-- Phone Screen -->
+                        <div class="w-full bg-[#0a0f1d] rounded-[36px] p-4 text-xs font-sans overflow-hidden border border-white/5 shadow-inner">
+                            <!-- Status Bar -->
+                            <div class="flex justify-between items-center text-[11px] text-slate-400 mb-4 px-1">
+                                <span class="font-bold text-white">09:41</span>
+                                <div class="flex items-center gap-1.5 text-[10px]">
+                                    <i class="fa-solid fa-signal"></i>
+                                    <span>5G</span>
+                                    <i class="fa-solid fa-battery-full text-emerald-400"></i>
+                                </div>
+                            </div>
+
+                            <!-- Messages Header -->
+                            <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-brand-600/30 text-brand-400 flex items-center justify-center font-bold text-xs border border-brand-500/30">
+                                        DLT
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white text-xs">ASL-NOTIFY</p>
+                                        <p class="text-[10px] text-emerald-400 flex items-center gap-1">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Verified Header
+                                        </p>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] text-slate-400 bg-white/5 px-2 py-0.5 rounded">Just now</span>
+                            </div>
+
+                            <!-- Live SMS Message Bubbles -->
+                            <div class="space-y-3 py-1">
+                                <!-- Bubble 1: OTP -->
+                                <div class="bg-dark-800/90 border border-brand-500/30 p-3 rounded-2xl rounded-tl-sm shadow-sm">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-[10px] font-bold text-brand-400 uppercase tracking-wider">Authentication OTP</span>
+                                        <span class="text-[9px] text-slate-400">1.2s ago</span>
+                                    </div>
+                                    <p class="text-slate-200 text-[11px] leading-relaxed">
+                                        Your ASL SMS HUB Verification Code is <strong class="text-white bg-brand-500/20 px-1.5 py-0.5 rounded text-xs font-mono font-bold text-brand-300">849201</strong>. Valid for 5 minutes. Do not share with anyone.
+                                    </p>
+                                    <div class="mt-2 flex items-center justify-end text-[9px] text-emerald-400 gap-1">
+                                        <i class="fa-solid fa-check-double"></i> Delivered in 1.1s
+                                    </div>
+                                </div>
+
+                                <!-- Bubble 2: Transaction Alert -->
+                                <div class="bg-dark-800/90 border border-white/10 p-3 rounded-2xl rounded-tl-sm shadow-sm">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">Bank Alert</span>
+                                        <span class="text-[9px] text-slate-400">2m ago</span>
+                                    </div>
+                                    <p class="text-slate-300 text-[11px] leading-relaxed">
+                                        Acct **4892 debited for <span class="text-white font-semibold">$149.00</span> at CloudServices on 14-Aug. Bal: $4,892.50.
+                                    </p>
+                                    <div class="mt-2 flex items-center justify-end text-[9px] text-emerald-400 gap-1">
+                                        <i class="fa-solid fa-check-double"></i> Delivered
+                                    </div>
+                                </div>
+
+                                <!-- Bubble 3: Promotional Discount -->
+                                <div class="bg-dark-800/90 border border-purple-500/30 p-3 rounded-2xl rounded-tl-sm shadow-sm">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-[10px] font-bold text-purple-400 uppercase tracking-wider">Flash Sale</span>
+                                        <span class="text-[9px] text-slate-400">10m ago</span>
+                                    </div>
+                                    <p class="text-slate-300 text-[11px] leading-relaxed">
+                                        🎉 ASL Special! Use code <span class="text-purple-300 font-bold">SUPER50</span> to get 50% extra SMS credits on all recharge plans today!
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Delivery Telemetry pill -->
+                            <div class="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-slate-400">
+                                <span class="flex items-center gap-1 text-emerald-400">
+                                    <i class="fa-solid fa-circle-check"></i> Tier-1 Direct Pipe
+                                </span>
+                                <span>Speed: 5,000 TPS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badge Card 1 -->
+                    <div class="absolute -bottom-6 -left-4 sm:-left-8 glass-card p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl flex items-center gap-3 max-w-[210px] animate-float-delayed">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-900 dark:text-white">DLT Compliant</p>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400">100% Approved Headers</p>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badge Card 2 -->
+                    <div class="absolute -top-4 -right-2 sm:-right-6 glass-card p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl flex items-center gap-3 max-w-[200px] animate-float">
+                        <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-600 dark:text-brand-400 flex items-center justify-center text-lg shrink-0">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-slate-900 dark:text-white">Instant DLR</p>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400">Real-Time Delivery</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- TRUSTED CLIENTS / ENTERPRISES -->
+    <!-- ========================================================================= -->
+    <section class="py-10 border-y border-slate-200 dark:border-white/5 bg-slate-100/70 dark:bg-dark-900/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-xs uppercase tracking-widest font-semibold text-slate-500 dark:text-slate-400 mb-8">
+                Trusted by 10,000+ Enterprises, FinTechs, Retail Brands & Digital Leaders
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-70 hover:opacity-100 transition-opacity">
+                <div class="flex items-center gap-2 font-bold text-lg text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-building-columns text-brand-600 dark:text-brand-400"></i> ApexFinTech
+                </div>
+                <div class="flex items-center gap-2 font-bold text-lg text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-cart-shopping text-cyan-600 dark:text-cyan-400"></i> HyperShop
+                </div>
+                <div class="flex items-center gap-2 font-bold text-lg text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-hospital text-rose-500 dark:text-rose-400"></i> CareHealth
+                </div>
+                <div class="flex items-center gap-2 font-bold text-lg text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-graduation-cap text-amber-500 dark:text-amber-400"></i> EduSpark
+                </div>
+                <div class="flex items-center gap-2 font-bold text-lg text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-truck-fast text-emerald-500 dark:text-emerald-400"></i> SwiftLogistics
+                </div>
+                <div class="flex items-center gap-2 font-bold text-lg text-slate-700 dark:text-slate-300">
+                    <i class="fa-solid fa-cloud text-indigo-500 dark:text-indigo-400"></i> CloudScale
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- INTERACTIVE LIVE SMS SIMULATOR / SANDBOX -->
+    <!-- ========================================================================= -->
+    <section id="simulator" class="py-20 lg:py-28 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-microchip"></i> Live Interactive Sandbox
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Experience Lightning-Fast SMS Transmission
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mt-4 text-base sm:text-lg">
+                    Type any message below to preview character counts, credits consumed, unicode auto-detection, and simulated real-time carrier delivery latency.
+                </p>
+            </div>
+
+            <!-- Sandbox Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left Input Form -->
+                <div class="lg:col-span-7 glass-card p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl">
+                    <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-200 dark:border-white/10">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="text-sm font-bold text-slate-900 dark:text-white">Live Route Simulator</span>
+                        </div>
+                        <span class="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 px-2.5 py-1 rounded-lg">Interactive Mode</span>
+                    </div>
+
+                    <div class="space-y-5">
+                        <!-- Route Selection -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider mb-2">Select Route / Channel</label>
+                            <div class="grid grid-cols-3 gap-2.5">
+                                <button type="button" onclick="selectRoute('Transactional', 'ASL-NOTIFY')" class="route-btn active-route px-3 py-2.5 rounded-xl border border-brand-500 bg-brand-500/15 text-brand-700 dark:text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all" data-route="Transactional">
+                                    <i class="fa-solid fa-key text-brand-500 dark:text-brand-400"></i>
+                                    <span>Transactional/OTP</span>
+                                </button>
+                                <button type="button" onclick="selectRoute('Promotional', 'ASL-OFFER')" class="route-btn px-3 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-dark-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 text-xs font-semibold flex items-center justify-center gap-2 transition-all" data-route="Promotional">
+                                    <i class="fa-solid fa-bullhorn text-amber-500 dark:text-amber-400"></i>
+                                    <span>Promotional</span>
+                                </button>
+                                <button type="button" onclick="selectRoute('Two-Way', 'ASL-2WAY')" class="route-btn px-3 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-dark-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 text-xs font-semibold flex items-center justify-center gap-2 transition-all" data-route="Two-Way">
+                                    <i class="fa-solid fa-comments text-cyan-500 dark:text-cyan-400"></i>
+                                    <span>Two-Way SMS</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sender ID & Phone Number -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider mb-2">Sender ID / Header</label>
+                                <div class="relative">
+                                    <input type="text" id="sim-sender-id" value="ASL-NOTIFY" maxlength="11" class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-dark-800 border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white font-mono text-sm focus:outline-none focus:border-brand-500 uppercase">
+                                    <span class="absolute right-3 top-2.5 text-xs text-emerald-500 font-semibold flex items-center gap-1">
+                                        <i class="fa-solid fa-circle-check"></i> Approved
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider mb-2">Recipient Number</label>
+                                <input type="text" id="sim-recipient" value="+1 (555) 019-2834" class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-dark-800 border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white font-mono text-sm focus:outline-none focus:border-brand-500">
+                            </div>
+                        </div>
+
+                        <!-- Message Text Area -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="text-xs font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider">SMS Message Content</label>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="loadSampleText('otp')" class="text-[11px] text-brand-600 dark:text-brand-400 hover:underline font-medium">Sample OTP</button>
+                                    <span class="text-slate-400 dark:text-slate-600">•</span>
+                                    <button type="button" onclick="loadSampleText('promo')" class="text-[11px] text-brand-600 dark:text-brand-400 hover:underline font-medium">Sample Promo</button>
+                                    <span class="text-slate-400 dark:text-slate-600">•</span>
+                                    <button type="button" onclick="loadSampleText('alert')" class="text-[11px] text-brand-600 dark:text-brand-400 hover:underline font-medium">Sample Alert</button>
+                                </div>
+                            </div>
+                            <textarea id="sim-message" rows="4" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-dark-800 border border-slate-200 dark:border-white/15 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-brand-500 custom-scrollbar leading-relaxed" placeholder="Type your SMS message here...">Your OTP for ASL SMS HUB Portal login is 940215. Valid for 10 minutes. Please do not share this OTP with anyone.</textarea>
+                        </div>
+
+                        <!-- Counters & Telemetry Bar -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-100 dark:bg-dark-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-white/5 text-center">
+                            <div>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">Characters</p>
+                                <p id="sim-char-count" class="text-base font-bold text-slate-900 dark:text-white">106</p>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">SMS Parts</p>
+                                <p id="sim-credit-count" class="text-base font-bold text-brand-600 dark:text-brand-400">1 Credit</p>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">Encoding</p>
+                                <p id="sim-encoding" class="text-base font-bold text-emerald-500">GSM 7-bit</p>
+                            </div>
+                            <div>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">DLT Status</p>
+                                <p class="text-base font-bold text-cyan-600 dark:text-cyan-400">Passed</p>
+                            </div>
+                        </div>
+
+                        <!-- Send Button -->
+                        <button type="button" id="sim-send-btn" onclick="triggerSimulatedSend()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-brand-600/30 flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Simulate Instant Delivery</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Live Preview Device -->
+                <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col">
+                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-200 dark:border-white/10">
+                        <span class="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 tracking-wider">Device Live Screen</span>
+                        <span id="sim-live-status" class="text-xs font-semibold text-emerald-500 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Ready to Receive
+                        </span>
+                    </div>
+
+                    <!-- Screen Preview Container -->
+                    <div class="bg-slate-900 rounded-2xl p-4 border border-white/5 flex-grow flex flex-col justify-between min-h-[300px]">
+                        <div>
+                            <!-- Simulated Notification Banner -->
+                            <div id="sim-notification" class="hidden mb-4 p-3 rounded-xl bg-dark-700/90 border border-brand-500/40 shadow-xl transition-all duration-300 animate-bounce">
+                                <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                                    <span class="font-bold text-white flex items-center gap-1">
+                                        <i class="fa-solid fa-comment-sms text-brand-400"></i> <span id="sim-notif-header">ASL-NOTIFY</span>
+                                    </span>
+                                    <span>Now</span>
+                                </div>
+                                <p id="sim-notif-body" class="text-xs text-slate-200 line-clamp-2">Message received</p>
+                            </div>
+
+                            <!-- Main Message Thread -->
+                            <div class="space-y-3">
+                                <div class="text-center">
+                                    <span class="text-[10px] text-slate-400 bg-white/5 px-2 py-0.5 rounded-full">Today</span>
+                                </div>
+
+                                <div id="sim-delivered-bubble" class="bg-brand-600/20 border border-brand-500/40 p-3.5 rounded-2xl rounded-tl-sm text-slate-100 transition-all">
+                                    <div class="flex justify-between items-center text-[10px] text-brand-400 mb-1">
+                                        <span id="sim-preview-sender" class="font-bold">ASL-NOTIFY</span>
+                                        <span id="sim-preview-time">Just now</span>
+                                    </div>
+                                    <p id="sim-preview-text" class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                                        Your OTP for ASL SMS HUB Portal login is 940215. Valid for 10 minutes. Please do not share this OTP with anyone.
+                                    </p>
+                                    <div class="mt-2 flex items-center justify-end gap-1 text-[10px] text-emerald-400">
+                                        <i class="fa-solid fa-check-double"></i>
+                                        <span id="sim-delivery-latency">Delivered in 1.4s</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Telemetry Log -->
+                        <div class="mt-6 pt-3 border-t border-white/10 font-mono text-[11px] text-slate-400 space-y-1">
+                            <div class="flex justify-between">
+                                <span>Message ID:</span>
+                                <span class="text-white" id="sim-msg-id">msg_8f93a10c</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Carrier Node:</span>
+                                <span class="text-brand-400">ASL-DIRECT-PIPE</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>DLR Status:</span>
+                                <span class="text-emerald-400 font-bold" id="sim-dlr-status">DELIVRD (0x000)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- FEATURES & CAPABILITIES GRID -->
+    <!-- ========================================================================= -->
+    <section id="features" class="py-20 lg:py-28 bg-slate-100/60 dark:bg-dark-900/50 border-t border-slate-200 dark:border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Unmatched Performance
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Engineered for High-Volume Messaging & High Delivery
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mt-4 text-base sm:text-lg">
+                    Everything you need to broadcast millions of messages effortlessly with highest deliverability and lowest latency.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="glass-card glass-card-hover p-8 rounded-3xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-500/15 text-brand-600 dark:text-brand-400 flex items-center justify-center text-2xl mb-6 border border-brand-500/30">
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Sub-Second OTP Routing</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        Dedicated high-priority queues for time-critical 2FA, OTPs, and alerts with automatic telco failover and &lt; 2s delivery SLA.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card glass-card-hover p-8 rounded-3xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-2xl mb-6 border border-cyan-500/30">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">100% DLT Compliance</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        Seamless management of Principal Entity IDs, Header/Sender IDs, Consent Templates, and scrubbing filters to prevent regulatory rejection.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card glass-card-hover p-8 rounded-3xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-2xl mb-6 border border-indigo-500/30">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Custom Sender ID Management</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        Register multiple custom brand sender headers, transactional alphanumeric IDs, and promotional routing tags with instant approval tracking.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card glass-card-hover p-8 rounded-3xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-500/15 text-purple-600 dark:text-purple-400 flex items-center justify-center text-2xl mb-6 border border-purple-500/30">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Real-Time DLR Analytics</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        Track live campaign delivery rates, click-through rates on shortened links, undelivered reason codes, and operator performance.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="glass-card glass-card-hover p-8 rounded-3xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl mb-6 border border-emerald-500/30">
+                        <i class="fa-solid fa-address-book"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Smart Audience Manager</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        Upload millions of contacts via Excel/CSV, segment by tags, schedule recurring broadcasts, and scrub against global DND lists automatically.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="glass-card glass-card-hover p-8 rounded-3xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center text-2xl mb-6 border border-rose-500/30">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Global Tier-1 Reach</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        Direct interconnections with over 800+ mobile operators across 180+ countries for seamless cross-border delivery with zero hops.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- SOLUTIONS BY USE CASE / INDUSTRY -->
+    <!-- ========================================================================= -->
+    <section id="solutions" class="py-20 lg:py-28 bg-white dark:bg-dark-900/40 border-t border-slate-200 dark:border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-layer-group"></i> Tailored Solutions
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Powering Every Business Communication Channel
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mt-4 text-base sm:text-lg">
+                    Whether you are an eCommerce store, a digital bank, or a healthcare provider, ASL SMS HUB provides specialized messaging architecture for your exact use case.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 hover:border-brand-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-brand-500/15 text-brand-600 dark:text-brand-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">OTP & 2FA Gateway</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                        Zero-delay authentication codes with automated backup carrier failover, ensuring your user signups and logins are never stalled.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 hover:border-cyan-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Promotional Campaigns</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                        Broadcast flash sales, festive offers, and personalized marketing messages to millions of contacts with instant click tracking.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 hover:border-indigo-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Transactional Alerts</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                        Bank account balances, invoice receipts, shipping status, booking confirmations, and mission-critical event triggers 24/7.
+                    </p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass-card p-6 rounded-2xl border border-slate-200 dark:border-white/10 hover:border-purple-500/40 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/15 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Voice SMS & WhatsApp</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                        Expand beyond standard SMS with automated outbound voice broadcast, interactive IVR, and official WhatsApp Business message integration.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- CARRIER ROUTES & GLOBAL NETWORK -->
+    <!-- ========================================================================= -->
+    <section id="routes" class="py-20 lg:py-28 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card p-8 sm:p-14 rounded-3xl border border-slate-200 dark:border-white/10 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 text-xs font-bold uppercase tracking-wider mb-4">
+                            <i class="fa-solid fa-network-wired"></i> High-Throughput Network
+                        </div>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+                            Carrier-Grade Infrastructure with Direct Telecom Pipes
+                        </h2>
+                        <p class="text-slate-600 dark:text-slate-300 mt-4 text-base leading-relaxed">
+                            ASL SMS HUB directly interfaces with national and international telecom operators to bypass intermediary aggregators, maximizing speed, security, and delivery rates.
+                        </p>
+
+                        <div class="mt-6 grid grid-cols-2 gap-4">
+                            <div class="bg-slate-100 dark:bg-dark-900/80 p-4 rounded-xl border border-slate-200 dark:border-white/5">
+                                <p class="text-2xl font-extrabold text-slate-900 dark:text-white">5,000+</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">TPS Capacity</p>
+                            </div>
+                            <div class="bg-slate-100 dark:bg-dark-900/80 p-4 rounded-xl border border-slate-200 dark:border-white/5">
+                                <p class="text-2xl font-extrabold text-emerald-500">0 Hops</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Direct Carrier Pipe</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 space-y-3">
+                        <div class="p-4 rounded-2xl bg-slate-100 dark:bg-dark-900/90 border border-slate-200 dark:border-white/10 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-900 dark:text-white">Transactional Route (OTP / Alerts)</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">24/7 Delivery with Instant DND bypass for critical OTPs</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">Active</span>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-slate-100 dark:bg-dark-900/90 border border-slate-200 dark:border-white/10 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full bg-cyan-500"></span>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-900 dark:text-white">Promotional Route (Campaigns)</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">High-volume marketing with automated DND scrubbing</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-lg border border-cyan-500/20">Active</span>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-slate-100 dark:bg-dark-900/90 border border-slate-200 dark:border-white/10 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-900 dark:text-white">Two-Way SMS & Virtual Numbers</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Receive inbound replies, surveys, and customer feedback</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-lg border border-indigo-500/20">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- INTERACTIVE PRICING CALCULATOR & PLANS -->
+    <!-- ========================================================================= -->
+    <section id="pricing" class="py-20 lg:py-28 relative bg-slate-100/50 dark:bg-dark-900/50 border-t border-slate-200 dark:border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-tags"></i> Transparent Volume Pricing
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Simple, Transparent, Pay-As-You-Grow
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mt-4 text-base sm:text-lg">
+                    No setup fees. No hidden maintenance charges. Volume discounts apply automatically.
+                </p>
+            </div>
+
+            <!-- Interactive Volume Calculator Bar -->
+            <div class="glass-card p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-white/10 max-w-4xl mx-auto mb-16 shadow-2xl">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-900 dark:text-white">Interactive Volume Cost Estimator</h4>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Slide to estimate your monthly SMS volume & cost</p>
+                    </div>
+                    <div class="text-right">
+                        <span id="calc-volume-display" class="text-2xl sm:text-3xl font-extrabold text-brand-600 dark:text-brand-400">50,000</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase block">SMS / Month</span>
+                    </div>
+                </div>
+
+                <!-- Range Slider -->
+                <input type="range" id="pricing-slider" min="5000" max="500000" step="5000" value="50000" oninput="updatePricingEstimate(this.value)" class="w-full h-2.5 bg-slate-200 dark:bg-dark-800 rounded-lg appearance-none cursor-pointer accent-brand-500">
+
+                <div class="flex justify-between text-[11px] text-slate-500 dark:text-slate-400 mt-2 font-mono">
+                    <span>5,000 SMS</span>
+                    <span>100,000 SMS</span>
+                    <span>250,000 SMS</span>
+                    <span>500,000+ SMS</span>
+                </div>
+
+                <!-- Estimated Cost Card -->
+                <div class="mt-6 pt-6 border-t border-slate-200 dark:border-white/10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                    <div class="bg-slate-100 dark:bg-dark-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-white/5">
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Rate per SMS</p>
+                        <p id="calc-rate-display" class="text-xl font-bold text-emerald-500">$0.0038</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-dark-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-white/5">
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Estimated Total</p>
+                        <p id="calc-total-display" class="text-xl font-bold text-slate-900 dark:text-white">$190.00</p>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-dark-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-white/5">
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Credits Expiry</p>
+                        <p class="text-xl font-bold text-cyan-600 dark:text-cyan-400">Lifetime Valid</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- Starter Plan -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Starter Pack</div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Pay As You Go</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 mb-6">Perfect for small projects, startups & basic OTP notifications.</p>
+                        
+                        <div class="flex items-baseline gap-1 mb-6 pb-6 border-b border-slate-200 dark:border-white/10">
+                            <span class="text-4xl font-extrabold text-slate-900 dark:text-white">$0.0045</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">/ SMS</span>
+                        </div>
+
+                        <ul class="space-y-3.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>High-Speed Transactional Route</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Free DLT & Sender ID Support</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Realtime Delivery Reports</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Contact Manager & CSV Upload</span>
+                            </li>
+                            <li class="flex items-center gap-2.5 text-slate-400 dark:text-slate-500">
+                                <i class="fa-solid fa-xmark text-xs"></i>
+                                <span>Dedicated Account Manager</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="{{ route('login') }}" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 text-slate-900 dark:text-white font-bold text-center text-sm transition-all border border-slate-200 dark:border-transparent">
+                        Sign In to Portal
+                    </a>
+                </div>
+
+                <!-- Business / Growth (Featured) -->
+                <div class="glass-card p-8 rounded-3xl border-2 border-brand-500 relative flex flex-col justify-between shadow-2xl shadow-brand-500/15 bg-white dark:bg-dark-800/90">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-brand-600 to-cyan-500 text-white text-[11px] font-bold uppercase tracking-wider shadow-lg">
+                        Most Popular
+                    </div>
+
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 mb-2">Growth Tier</div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Business Scale</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 mb-6">For high-growth apps, fintechs, and marketing teams.</p>
+                        
+                        <div class="flex items-baseline gap-1 mb-6 pb-6 border-b border-slate-200 dark:border-white/10">
+                            <span class="text-4xl font-extrabold text-slate-900 dark:text-white">$0.0035</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">/ SMS</span>
+                        </div>
+
+                        <ul class="space-y-3.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span><strong>Sub-Second</strong> OTP Priority Queue</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Dynamic Sender ID & Multi-Header</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>5,000 TPS Concurrency</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Campaign Analytics & DLR Logs</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Priority 24/7 Chat & Ticket Support</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="{{ route('login') }}" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-center text-sm shadow-lg shadow-brand-600/30 transition-all">
+                        Sign In & Recharge
+                    </a>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="glass-card p-8 rounded-3xl border border-slate-200 dark:border-white/10 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-2">Custom Volume</div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Enterprise Wholesale</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 mb-6">For telecoms, banking institutions & multi-million broadcasts.</p>
+                        
+                        <div class="flex items-baseline gap-1 mb-6 pb-6 border-b border-slate-200 dark:border-white/10">
+                            <span class="text-4xl font-extrabold text-slate-900 dark:text-white">Custom</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Wholesale Slab</span>
+                        </div>
+
+                        <ul class="space-y-3.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-8">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Direct SMPP Server Connectivity</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Custom 99.99% Uptime SLA Agreement</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Dedicated Telecom Direct Pipe</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Dedicated Account Manager</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-500 text-xs"></i>
+                                <span>Custom Postpaid Billing Slabs</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="{{ route('login') }}" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 text-slate-900 dark:text-white font-bold text-center text-sm transition-all border border-slate-200 dark:border-transparent">
+                        Contact Sales
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- FREQUENTLY ASKED QUESTIONS (ACCORDION) -->
+    <!-- ========================================================================= -->
+    <section id="faq" class="py-20 lg:py-28 bg-slate-50 dark:bg-dark-900/50 border-t border-slate-200 dark:border-white/5">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-circle-question"></i> Got Questions?
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Frequently Asked Questions
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mt-3 text-base">
+                    Find quick answers regarding our ASL SMS HUB platform, DLT registration, delivery tracking, and credit validity.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                
+                <!-- FAQ Item 1 -->
+                <div class="glass-card rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden">
+                    <button type="button" onclick="toggleFaq(1)" class="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-slate-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                        <span>How fast is your OTP delivery speed?</span>
+                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-content-1" class="hidden px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-white/5 pt-3">
+                        Our Transactional and OTP pipelines use dedicated Tier-1 carrier direct links with smart multi-carrier redundancy. The average latency is under 1.8 seconds worldwide.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="glass-card rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden">
+                    <button type="button" onclick="toggleFaq(2)" class="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-slate-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                        <span>What is DLT registration and do you assist with it?</span>
+                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-content-2" class="hidden px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-white/5 pt-3">
+                        DLT (Distributed Ledger Technology) is a regulatory requirement mandated by telecom authorities to safeguard consumers against spam. We provide full assistance to help you register your Principal Entity, approved Sender Headers, and Content Templates.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="glass-card rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden">
+                    <button type="button" onclick="toggleFaq(3)" class="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-slate-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                        <span>Do prepaid SMS credits expire?</span>
+                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-content-2" class="hidden px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-white/5 pt-3">
+                        No! All prepaid SMS recharge credits come with <strong>Lifetime Validity</strong>. You can use your purchased balance anytime without fear of expiration.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="glass-card rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden">
+                    <button type="button" onclick="toggleFaq(4)" class="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-slate-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                        <span>How are Delivery Reports (DLR) tracked?</span>
+                        <i id="faq-icon-4" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-content-4" class="hidden px-6 pb-5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-white/5 pt-3">
+                        You can view live interactive status updates (Delivered, Sent, Undelivered, DND Blocked) directly inside your web portal dashboard in real-time.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- BOTTOM CALL TO ACTION -->
+    <!-- ========================================================================= -->
+    <section id="contact" class="py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl p-8 sm:p-14 overflow-hidden bg-gradient-to-r from-brand-900 via-dark-800 to-dark-900 border border-brand-500/30 shadow-2xl text-white">
+                <!-- Background glow inside banner -->
+                <div class="absolute -right-10 -bottom-10 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 text-center lg:text-left">
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                            Ready to Elevate Your Customer Messaging?
+                        </h2>
+                        <p class="text-slate-300 mt-3 text-base max-w-2xl">
+                            Sign in to your ASL SMS HUB portal to launch high-impact campaigns, manage contacts, and track live carrier delivery reports.
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
+                        <a href="{{ route('login') }}" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-500 via-indigo-600 to-cyan-500 text-white font-bold text-center text-sm shadow-xl shadow-brand-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span>Sign In to Portal</span>
+                        </a>
+                        <a href="#simulator" class="w-full py-3.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-center text-sm border border-white/10 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-play text-brand-400 text-xs"></i>
+                            <span>Try Live Sandbox</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- FOOTER -->
+    <!-- ========================================================================= -->
+    <footer class="border-t border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-dark-900 pt-16 pb-12 text-slate-500 dark:text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                
+                <!-- Brand Info -->
+                <div class="lg:col-span-2 space-y-4">
+                    <a href="{{ route('home') }}" class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-cyan-400 p-[1.5px]">
+                            <div class="w-full h-full bg-white dark:bg-dark-900 rounded-[10px] flex items-center justify-center">
+                                <svg class="w-5 h-5 text-brand-600 dark:text-brand-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#3B82F6" />
+                                    <circle cx="7" cy="10" r="1.5" fill="#ffffff" />
+                                    <circle cx="12" cy="10" r="1.5" fill="#ffffff" />
+                                    <circle cx="17" cy="10" r="1.5" fill="#ffffff" />
+                                </svg>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-1">
+                            ASL SMS <span class="text-brand-600 dark:text-brand-400">HUB</span>
+                        </span>
+                    </a>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed max-w-sm">
+                        ASL SMS HUB - High-availability enterprise messaging gateway. Delivering mission-critical OTPs, transactional alerts, and smart bulk marketing campaigns worldwide.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            All Carrier Routes Operational
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Column 1: Solutions -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Solutions</h4>
+                    <ul class="space-y-2.5 text-xs sm:text-sm">
+                        <li><a href="#features" class="hover:text-brand-600 dark:hover:text-white transition">Bulk SMS Gateway</a></li>
+                        <li><a href="#features" class="hover:text-brand-600 dark:hover:text-white transition">OTP & 2FA Routing</a></li>
+                        <li><a href="#features" class="hover:text-brand-600 dark:hover:text-white transition">Transactional Alerts</a></li>
+                        <li><a href="#features" class="hover:text-brand-600 dark:hover:text-white transition">Two-Way SMS</a></li>
+                        <li><a href="#features" class="hover:text-brand-600 dark:hover:text-white transition">Voice SMS Broadcast</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 2: Quick Links & Access -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Portals & Quick Links</h4>
+                    <ul class="space-y-2.5 text-xs sm:text-sm">
+                        <li><a href="{{ route('login') }}" class="hover:text-brand-600 dark:hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-right-to-bracket text-xs text-brand-600 dark:text-brand-400"></i> Customer Sign In</a></li>
+                        <li><a href="#simulator" class="hover:text-brand-600 dark:hover:text-white transition">Live Route Simulator</a></li>
+                        <li><a href="#routes" class="hover:text-brand-600 dark:hover:text-white transition">Carrier Routes</a></li>
+                        <li><a href="#pricing" class="hover:text-brand-600 dark:hover:text-white transition">Volume Pricing</a></li>
+                        <li><a href="#faq" class="hover:text-brand-600 dark:hover:text-white transition">Help & FAQ</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Bottom Sub-Footer -->
+            <div class="pt-8 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+                <p>&copy; {{ date('Y') }} ASL SMS HUB. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <a href="#" class="hover:text-slate-900 dark:hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-900 dark:hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="hover:text-slate-900 dark:hover:text-white transition">DLT Compliance Guidelines</a>
+                    <a href="#" class="hover:text-slate-900 dark:hover:text-white transition">Security</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT LOGIC FOR SIMULATOR, THEME TOGGLE & INTERACTION -->
+    <!-- ========================================================================= -->
+    <script>
+        // ==========================================
+        // Dark / Light Theme Toggle Engine
+        // ==========================================
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeLabel = document.getElementById('theme-label');
+        const mobileNavThemeBtn = document.getElementById('mobile-theme-btn-nav');
+        const mobileNavThemeIcon = document.getElementById('mobile-nav-theme-icon');
+        const drawerThemeToggle = document.getElementById('mobile-drawer-theme-toggle');
+        const drawerThemeIcon = document.getElementById('drawer-theme-icon');
+        const drawerThemeText = document.getElementById('drawer-theme-text');
+
+        function applyThemeMode(isDark) {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                
+                if (darkIcon) darkIcon.classList.add('hidden');
+                if (lightIcon) lightIcon.classList.remove('hidden');
+                if (themeLabel) themeLabel.textContent = 'Light Mode';
+
+                if (mobileNavThemeIcon) mobileNavThemeIcon.className = 'fa-solid fa-sun text-amber-400 text-sm';
+                if (drawerThemeIcon) drawerThemeIcon.className = 'fa-solid fa-sun text-amber-400 text-sm';
+                if (drawerThemeText) drawerThemeText.textContent = 'Light Mode';
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+
+                if (darkIcon) darkIcon.classList.remove('hidden');
+                if (lightIcon) lightIcon.classList.add('hidden');
+                if (themeLabel) themeLabel.textContent = 'Dark Mode';
+
+                if (mobileNavThemeIcon) mobileNavThemeIcon.className = 'fa-solid fa-moon text-indigo-500 text-sm';
+                if (drawerThemeIcon) drawerThemeIcon.className = 'fa-solid fa-moon text-indigo-500 text-sm';
+                if (drawerThemeText) drawerThemeText.textContent = 'Dark Mode';
+            }
+        }
+
+        // Initialize Theme State
+        const isCurrentDark = document.documentElement.classList.contains('dark');
+        applyThemeMode(isCurrentDark);
+
+        function toggleTheme() {
+            const isDarkNow = document.documentElement.classList.contains('dark');
+            applyThemeMode(!isDarkNow);
+        }
+
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+        if (mobileNavThemeBtn) mobileNavThemeBtn.addEventListener('click', toggleTheme);
+        if (drawerThemeToggle) drawerThemeToggle.addEventListener('click', toggleTheme);
+
+
+        // ==========================================
+        // Mobile Navigation Drawer Toggle
+        // ==========================================
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    hamburgerIcon.classList.replace('fa-bars', 'fa-xmark');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    hamburgerIcon.classList.replace('fa-xmark', 'fa-bars');
+                }
+            });
+
+            // Close mobile menu when clicking nav links
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    hamburgerIcon.classList.replace('fa-xmark', 'fa-bars');
+                });
+            });
+        }
+
+
+        // ==========================================
+        // Live SMS Simulator Logic
+        // ==========================================
+        const simMessage = document.getElementById('sim-message');
+        const simCharCount = document.getElementById('sim-char-count');
+        const simCreditCount = document.getElementById('sim-credit-count');
+        const simEncoding = document.getElementById('sim-encoding');
+        const simPreviewText = document.getElementById('sim-preview-text');
+        const simSenderId = document.getElementById('sim-sender-id');
+        const simPreviewSender = document.getElementById('sim-preview-sender');
+        const simNotifHeader = document.getElementById('sim-notif-header');
+        const simNotifBody = document.getElementById('sim-notif-body');
+
+        function updateLiveCounters() {
+            if (!simMessage) return;
+            const text = simMessage.value;
+            const len = text.length;
+            
+            // Check Unicode
+            const isUnicode = /[^\u0000-\u00ff]/.test(text);
+            
+            if (simCharCount) simCharCount.textContent = len;
+            if (simEncoding) simEncoding.textContent = isUnicode ? 'Unicode (UTF-8)' : 'GSM 7-bit';
+
+            // Calculate SMS credits
+            let credits = 1;
+            if (!isUnicode) {
+                credits = len <= 160 ? 1 : Math.ceil(len / 153);
+            } else {
+                credits = len <= 70 ? 1 : Math.ceil(len / 67);
+            }
+            if (simCreditCount) simCreditCount.textContent = `${credits} Credit${credits > 1 ? 's' : ''}`;
+
+            // Update screen preview
+            if (simPreviewText) simPreviewText.textContent = text || 'Empty message body...';
+            if (simNotifBody) simNotifBody.textContent = text || 'Empty message body...';
+        }
+
+        if (simMessage) {
+            simMessage.addEventListener('input', updateLiveCounters);
+        }
+        if (simSenderId) {
+            simSenderId.addEventListener('input', () => {
+                const header = simSenderId.value || 'ASL-NOTIFY';
+                if (simPreviewSender) simPreviewSender.textContent = header;
+                if (simNotifHeader) simNotifHeader.textContent = header;
+            });
+        }
+
+        // Sample Text Loader
+        function loadSampleText(type) {
+            if (!simMessage) return;
+            if (type === 'otp') {
+                const randomOtp = Math.floor(100000 + Math.random() * 900000);
+                simMessage.value = `Your OTP for ASL SMS HUB Portal login is ${randomOtp}. Valid for 10 minutes. Please do not share this OTP with anyone.`;
+                if (simSenderId) simSenderId.value = 'ASL-NOTIFY';
+            } else if (type === 'promo') {
+                simMessage.value = `🎉 ASL Mega Weekend Offer! Get flat 30% extra SMS credits on all recharge plans today! Use promo code FLASH30.`;
+                if (simSenderId) simSenderId.value = 'ASL-OFFER';
+            } else if (type === 'alert') {
+                simMessage.value = `Dear Customer, your order #ASL-88219 has been dispatched via Express Delivery and will arrive tomorrow by 4:00 PM.`;
+                if (simSenderId) simSenderId.value = 'ASL-ALERT';
+            }
+            updateLiveCounters();
+            if (simSenderId) {
+                const header = simSenderId.value;
+                if (simPreviewSender) simPreviewSender.textContent = header;
+                if (simNotifHeader) simNotifHeader.textContent = header;
+            }
+        }
+
+        // Route Selector
+        function selectRoute(routeName, defaultSender) {
+            document.querySelectorAll('.route-btn').forEach(btn => {
+                btn.classList.remove('active-route', 'border-brand-500', 'bg-brand-500/15', 'text-brand-700', 'dark:text-white');
+                btn.classList.add('border-slate-200', 'dark:border-white/10', 'bg-slate-100', 'dark:bg-dark-800', 'text-slate-700', 'dark:text-slate-300');
+            });
+            const activeBtn = document.querySelector(`[data-route="${routeName}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active-route', 'border-brand-500', 'bg-brand-500/15', 'text-brand-700', 'dark:text-white');
+                activeBtn.classList.remove('border-slate-200', 'dark:border-white/10', 'bg-slate-100', 'dark:bg-dark-800', 'text-slate-700', 'dark:text-slate-300');
+            }
+            if (simSenderId) {
+                simSenderId.value = defaultSender;
+                if (simPreviewSender) simPreviewSender.textContent = defaultSender;
+                if (simNotifHeader) simNotifHeader.textContent = defaultSender;
+            }
+        }
+
+        // Simulated Send Trigger with realistic latency
+        function triggerSimulatedSend() {
+            const sendBtn = document.getElementById('sim-send-btn');
+            const liveStatus = document.getElementById('sim-live-status');
+            const deliveredBubble = document.getElementById('sim-delivered-bubble');
+            const notification = document.getElementById('sim-notification');
+            const msgId = document.getElementById('sim-msg-id');
+            const latencyDisplay = document.getElementById('sim-delivery-latency');
+
+            if (sendBtn) {
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Transmitting over Carrier Pipe...';
+            }
+            if (liveStatus) {
+                liveStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Routing...';
+                liveStatus.className = 'text-xs font-semibold text-amber-500 flex items-center gap-1.5';
+            }
+
+            const latency = (0.8 + Math.random() * 0.7).toFixed(1);
+
+            setTimeout(() => {
+                if (notification) {
+                    notification.classList.remove('hidden');
+                    setTimeout(() => notification.classList.add('hidden'), 4000);
+                }
+                if (deliveredBubble) {
+                    deliveredBubble.classList.add('ring-2', 'ring-emerald-400');
+                    setTimeout(() => deliveredBubble.classList.remove('ring-2', 'ring-emerald-400'), 1500);
+                }
+                if (liveStatus) {
+                    liveStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Delivered';
+                    liveStatus.className = 'text-xs font-semibold text-emerald-500 flex items-center gap-1.5';
+                }
+                if (msgId) {
+                    msgId.textContent = 'msg_' + Math.random().toString(36).substring(2, 10);
+                }
+                if (latencyDisplay) {
+                    latencyDisplay.textContent = `Delivered in ${latency}s`;
+                }
+                if (sendBtn) {
+                    sendBtn.disabled = false;
+                    sendBtn.innerHTML = '<i class="fa-solid fa-check text-emerald-500 mr-2"></i> Sent Successfully! Test Again';
+                }
+            }, 1000);
+        }
+
+        // Pricing Estimator Slider
+        function updatePricingEstimate(volume) {
+            const vol = parseInt(volume);
+            const volDisplay = document.getElementById('calc-volume-display');
+            const rateDisplay = document.getElementById('calc-rate-display');
+            const totalDisplay = document.getElementById('calc-total-display');
+
+            let rate = 0.0045;
+            if (vol >= 250000) rate = 0.0030;
+            else if (vol >= 100000) rate = 0.0034;
+            else if (vol >= 50000) rate = 0.0038;
+            else if (vol >= 20000) rate = 0.0042;
+
+            const total = (vol * rate).toFixed(2);
+
+            if (volDisplay) volDisplay.textContent = vol.toLocaleString();
+            if (rateDisplay) rateDisplay.textContent = `$${rate.toFixed(4)}`;
+            if (totalDisplay) totalDisplay.textContent = `$${total}`;
+        }
+
+        // FAQ Accordion Toggle
+        function toggleFaq(id) {
+            const content = document.getElementById(`faq-content-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            if (!content) return;
+
+            const isHidden = content.classList.contains('hidden');
+            // Close all
+            for (let i = 1; i <= 4; i++) {
+                const c = document.getElementById(`faq-content-${i}`);
+                const ic = document.getElementById(`faq-icon-${i}`);
+                if (c) c.classList.add('hidden');
+                if (ic) ic.classList.remove('rotate-180');
+            }
+
+            if (isHidden) {
+                content.classList.remove('hidden');
+                if (icon) icon.classList.add('rotate-180');
+            }
+        }
+    </script>
+</body>
 </html>
