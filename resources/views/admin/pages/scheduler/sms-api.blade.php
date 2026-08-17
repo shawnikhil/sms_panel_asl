@@ -1,8 +1,7 @@
 @extends('admin.layout.master')
 
 @section('content')
-<div class="content-wrapper">
-    <div class="container-xxl flex-grow-1 container-p-y">
+<div class="container-xxl flex-grow-1 container-p-y">
         
         <!-- Breadcrumb & Page Header Bar -->
         <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
@@ -295,8 +294,6 @@
                     Showing <strong>3</strong> of <strong>3</strong> Gateways
                 </div>
             </div>
-
-        </div>
 
         </div>
 </div>

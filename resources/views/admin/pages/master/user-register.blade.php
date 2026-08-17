@@ -1,837 +1,522 @@
 @extends('admin.layout.master')
 
 @section('content')
-<div class="content-wrapper">
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="admin-form-shell">
-            <div class="top-action-bar">
-                <button type="button" class="action-btn save-btn">
-                    <i class="bx bx-check"></i> Save
-                </button>
-                <button type="button" class="action-btn edit-btn" data-bs-toggle="modal" data-bs-target="#editUserModal">
-                    <i class="bx bx-pencil"></i> Edit
-                </button>
-                <button type="button" class="action-btn delete-btn" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
-                    <i class="bx bx-trash"></i> Del
-                </button>
-                <button type="button" class="action-btn clear-btn" data-bs-toggle="modal" data-bs-target="#clearUserModal">
-                    <i class="bx bx-x"></i> Clear
-                </button>
-            </div>
+<div class="container-xxl flex-grow-1 container-p-y pt-3 pb-5">
 
-            <div class="user-register-card">
-                <div class="form-section-title">[ USER PERSONAL DETAILS ]</div>
+    {{-- ── Breadcrumb Bar with Generous Spacing ── --}}
+    <div class="sms-breadcrumb-wrapper d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pt-2 pb-1">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bx bx-home text-secondary" style="font-size: 1.15rem;"></i>
+            <span class="crumb-section">Master</span>
+            <span class="crumb-sep">|</span>
+            <span class="crumb-active">User Register</span>
+        </div>
+    </div>
 
-                <div class="user-form-grid">
-                    <div class="user-form-row">
-                        <label class="user-form-label">First Name <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap highlight-field">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-
-                        <label class="user-form-label">Last Name</label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="user-form-row">
-                        <label class="user-form-label">User Type <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <select class="user-form-control select-control">
-                                <option value="">-- Select --</option>
-                                <option>Retail</option>
-                                <option>Reseller</option>
-                                <option>Enterprise</option>
-                            </select>
-                        </div>
-
-                        <label class="user-form-label">Company Name <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="user-form-row">
-                        <label class="user-form-label">Contact No <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-
-                        <label class="user-form-label">Email Id</label>
-                        <div class="user-form-control-wrap">
-                            <input type="email" class="user-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="user-form-row">
-                        <label class="user-form-label">Date of Birth</label>
-                        <div class="user-form-control-wrap">
-                            <input type="date" class="user-form-control" value="" />
-                        </div>
-
-                        <label class="user-form-label">Sex <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <select class="user-form-control select-control">
-                                <option value="">-- Select --</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section-title">[ ADDRESS DETAILS ]</div>
-
-                <div class="user-form-grid">
-                    <div class="user-form-row">
-                        <label class="user-form-label">Address <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap full-width">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="user-form-row">
-                        <label class="user-form-label">Landmark</label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-
-                        <label class="user-form-label">Nationality</label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="user-form-row">
-                        <label class="user-form-label">Pin Code <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-
-                        <label class="user-form-label">PAN No</label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section-title">[ OTHER'S DETAILS ]</div>
-
-                <div class="user-form-grid">
-                    <div class="user-form-row">
-                        <label class="user-form-label">GST Number</label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-
-                        <label class="user-form-label">Aadhaar Number <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="user-form-row">
-                        <label class="user-form-label">User IP Address</label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-
-                        <label class="user-form-label">Callback URL</label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="user-form-row">
-                        <label class="user-form-label">OTP Verified <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <select class="user-form-control select-control">
-                                <option value="">-- Select --</option>
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section-title">[ PACKAGE DETAILS ]</div>
-
-                <div class="user-form-grid">
-                    <div class="user-form-row">
-                        <label class="user-form-label">Select Package <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <select class="user-form-control select-control">
-                                <option value="">-- Select --</option>
-                                <option>Basic</option>
-                                <option>Standard</option>
-                                <option>Premium</option>
-                            </select>
-                        </div>
-
-                        <label class="user-form-label">Lock Amount</label>
-                        <div class="user-form-control-wrap">
-                            <input type="text" class="user-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="user-form-row">
-                        <label class="user-form-label">Login Status <span class="mandatory">*</span></label>
-                        <div class="user-form-control-wrap">
-                            <select class="user-form-control select-control">
-                                <option value="">-- Select --</option>
-                                <option>ACTIVE</option>
-                                <option>INACTIVE</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-footer-action">
-                    <button type="button" class="footer-btn primary-btn">
-                        <i class="bx bx-check"></i> Save
-                    </button>
-                    <button type="button" class="footer-btn secondary-btn" data-bs-toggle="modal" data-bs-target="#clearUserModal">
-                        <i class="bx bx-x"></i> Clear
-                    </button>
-                </div>
-            </div>
+    {{-- ── Main Shell Container ── --}}
+    <div class="sms-card-shell mb-4">
+        
+        {{-- Top Action Bar matching Enterprise Style --}}
+        <div class="help-top-action-bar d-flex flex-wrap align-items-center gap-2 px-3 py-2 border-bottom">
+            <button type="button" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="saveUserRecord()">
+                <i class="bx bx-check"></i> SAVE
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                <i class="bx bx-pencil"></i> EDIT
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" onclick="deleteUserRecord()">
+                <i class="bx bx-trash"></i> DEL
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" onclick="clearUserForm()">
+                <i class="bx bx-refresh"></i> CLEAR
+            </button>
         </div>
 
+        {{-- Form Content Body --}}
+        <div class="sms-card-body p-4 bg-white">
+            <form id="userRegisterForm" onsubmit="event.preventDefault(); saveUserRecord();">
+                <input type="hidden" id="user_id" value="" />
+
+                {{-- Row 1: User Type & Package --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        USER TYPE <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <select id="user_type" class="form-select sms-input" required>
+                            <option value="RETAILER" selected>RETAILER</option>
+                            <option value="DISTRIBUTOR">DISTRIBUTOR</option>
+                            <option value="MASTER DISTRIBUTOR">MASTER DISTRIBUTOR</option>
+                            <option value="API USER">API USER</option>
+                        </select>
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        PACKAGE <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <select id="user_package" class="form-select sms-input" required>
+                            <option value="PREPAID PLAN API" selected>PREPAID PLAN API</option>
+                            <option value="ENTERPRISE ROUTE">ENTERPRISE ROUTE</option>
+                            <option value="STANDARD API">STANDARD API</option>
+                        </select>
+                    </div>
+                </div>
+
+                {{-- Row 2: Company Name & User Name --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        COMPANY NAME <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="user_company" class="form-control sms-input" placeholder="Business name..." required />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        USER NAME <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="user_name" class="form-control sms-input" placeholder="Full legal name..." required />
+                    </div>
+                </div>
+
+                {{-- Row 3: Contact Number & Email ID --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        CONTACT NO <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="user_contact" class="form-control sms-input font-monospace" placeholder="10-digit number..." required />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        EMAIL ID <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="email" id="user_email" class="form-control sms-input" placeholder="user@domain.com" required />
+                    </div>
+                </div>
+
+                {{-- Row 4: Password & Status --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        PASSWORD <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="password" id="user_password" class="form-control sms-input" placeholder="Enter secure password..." required />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        STATUS <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <select id="user_status" class="form-select sms-input" required>
+                            <option value="ACTIVE" selected>ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                        </select>
+                    </div>
+                </div>
+
+                {{-- Row 5: PAN No & GST No --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        PAN NUMBER
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="user_pan" class="form-control sms-input font-monospace text-uppercase" placeholder="ABCDE1234F" />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        GST NUMBER
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="user_gst" class="form-control sms-input font-monospace text-uppercase" placeholder="22AAAAA0000A1Z5" />
+                    </div>
+                </div>
+
+                {{-- Row 6: Callback URL & IP Address --}}
+                <div class="row align-items-center mb-4">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        CALLBACK URL
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="url" id="user_callback" class="form-control sms-input font-monospace" placeholder="https://api.yourdomain.com/webhook" />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        IP ADDRESS
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="user_ip" class="form-control sms-input font-monospace" placeholder="e.g. 103.21.244.0" />
+                    </div>
+                </div>
+
+                {{-- Bottom Action Buttons --}}
+                <div class="row">
+                    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="submit" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1 px-3">
+                                <i class="bx bx-check"></i> SAVE
+                            </button>
+                            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1 px-3" onclick="clearUserForm()">
+                                <i class="bx bx-refresh"></i> CLEAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
 </div>
 
+{{-- ── Edit User Details Modal ── --}}
 <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog edit-user-modal-dialog modal-dialog-centered">
-        <div class="modal-content edit-user-modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">EDIT USER DETAILS !</h5>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header border-bottom py-3 px-4 bg-white d-flex align-items-center justify-content-between">
+                <h5 class="modal-title fs-6 fw-bold text-dark mb-0">
+                    EDIT USER DETAILS !
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body edit-user-modal-body">
-                <div class="edit-user-filter-row">
-                    <div class="edit-user-field-box">
-                        <label>USER NAME</label>
-                        <input type="text" class="form-control" value="" />
+
+            <div class="modal-body p-4 bg-white">
+                {{-- Search Filter Form inside Modal --}}
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end help-field-label">USER NAME</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="modal_filter_username" class="form-control sms-input" placeholder="" oninput="filterUserModalTable()" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end help-field-label">CONTACT NO</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="modal_filter_usercontact" class="form-control sms-input" placeholder="" oninput="filterUserModalTable()" />
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="edit-user-field-box">
-                        <label>CONTACT NUMBER</label>
-                        <input type="text" class="form-control" value="" />
+                    <div class="col-md-2 text-start">
+                        <button type="button" class="btn btn-primary btn-sm px-3 fw-bold" onclick="resetUserModalFilter()">
+                            ALL
+                        </button>
                     </div>
-
-                    <button type="button" class="all-btn">ALL</button>
                 </div>
 
-                <div class="edit-user-pagination">
-                    <button type="button" class="page-btn">«</button>
-                    <button type="button" class="page-btn current">1</button>
-                    <button type="button" class="page-btn">»</button>
+                {{-- Pagination Inside Modal --}}
+                <div class="d-flex justify-content-center my-3">
+                    <div class="sms-pagination-container">
+                        <nav aria-label="User modal navigation">
+                            <ul class="pagination pagination-sm mb-0 justify-content-center">
+                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">«</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">»</a></li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
 
-                <div class="table-responsive edit-user-table-wrap">
-                    <table class="table table-bordered mb-0 edit-user-table">
-                        <thead>
+                {{-- Table Component inside Modal --}}
+                <div class="table-responsive text-nowrap border rounded" style="max-height: 420px; overflow-y: auto;">
+                    <table class="table table-hover table-bordered mb-0 align-middle" id="userModalTable" style="font-size: 0.8125rem;">
+                        <thead class="table-light">
                             <tr>
-                                <th>#</th>
+                                <th style="width: 40px;" class="text-center">#</th>
                                 <th>REG NO</th>
                                 <th>USER NAME</th>
                                 <th>COMPANY NAME</th>
                                 <th>USER TYPE</th>
-                                <th>PACKAGE NAME</th>
-                                <th>LOCK AMOUNT</th>
-                                <th>MOBILE</th>
-                                <th>WHATSAPP</th>
-                                <th>EMAIL ID</th>
-                                <th>DOB</th>
-                                <th>SEX</th>
-                                <th>PINNO</th>
-                                <th>PANNO</th>
-                                <th>GST NUMBER</th>
-                                <th>AADHAAR NUMBER</th>
-                                <th>OTP CHECK</th>
-                                <th>OTP TYPE</th>
-                                <th>ADDRESS</th>
-                                <th>USER ID</th>
-                                <th>STATUS</th>
-                                <th>REG DATE</th>
+                                <th>CONTACT NO</th>
+                                <th>PACKAGE</th>
+                                <th class="text-center">STATUS</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>3905</td>
-                                <td>sahista pay</td>
-                                <td>sahistapay</td>
-                                <td>API USER</td>
-                                <td><span class="package-pill">PREPAID PLAN API</span></td>
-                                <td>0</td>
-                                <td>9800546248</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
+                        <tbody id="userModalTbody">
+                            @php
+                                $usersList = [
+                                    [
+                                        'id' => 1,
+                                        'reg_no' => '3902',
+                                        'name' => 'Nikhil Kumar',
+                                        'company' => 'ASL WALLETS',
+                                        'type' => 'API USER',
+                                        'contact' => '8709305218',
+                                        'email' => 'tech@aslhub.com',
+                                        'package' => 'PREPAID PLAN API',
+                                        'status' => 'ACTIVE'
+                                    ],
+                                    [
+                                        'id' => 2,
+                                        'reg_no' => '3905',
+                                        'name' => 'sahista pay',
+                                        'company' => 'sahistapay',
+                                        'type' => 'RETAILER',
+                                        'contact' => '9800546248',
+                                        'email' => 'sahista@payzone.net',
+                                        'package' => 'PREPAID PLAN API',
+                                        'status' => 'ACTIVE'
+                                    ],
+                                    [
+                                        'id' => 3,
+                                        'reg_no' => '3903',
+                                        'name' => 'GAURAV KUMAR',
+                                        'company' => 'GAURAV ENTERPRISES',
+                                        'type' => 'DISTRIBUTOR',
+                                        'contact' => '8348920759',
+                                        'email' => 'gaurav@domain.com',
+                                        'package' => 'STANDARD API',
+                                        'status' => 'ACTIVE'
+                                    ]
+                                ];
+                            @endphp
+
+                            @foreach($usersList as $user)
+                            <tr class="user-record-row"
+                                style="cursor: pointer;"
+                                data-id="{{ $user['id'] }}"
+                                data-name="{{ $user['name'] }}"
+                                data-company="{{ $user['company'] }}"
+                                data-contact="{{ $user['contact'] }}"
+                                data-email="{{ $user['email'] }}"
+                                data-type="{{ $user['type'] }}"
+                                data-package="{{ $user['package'] }}"
+                                data-status="{{ $user['status'] }}"
+                                onclick="selectUserRecord({{ json_encode($user) }})">
+                                <td class="text-center text-muted fw-bold">{{ $user['id'] }}</td>
+                                <td><span class="font-monospace text-primary fw-bold">{{ $user['reg_no'] }}</span></td>
+                                <td><span class="fw-bold text-dark">{{ $user['name'] }}</span></td>
+                                <td><span class="fw-semibold text-secondary">{{ $user['company'] }}</span></td>
+                                <td><span class="badge bg-label-info">{{ $user['type'] }}</span></td>
+                                <td><span class="font-monospace">{{ $user['contact'] }}</span></td>
+                                <td><span class="badge bg-label-primary">{{ $user['package'] }}</span></td>
+                                <td class="text-center">
+                                    <span class="badge {{ $user['status'] === 'ACTIVE' ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $user['status'] }}
+                                    </span>
+                                </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>3904</td>
-                                <td>test Kumar</td>
-                                <td>ASL WALLETS</td>
-                                <td>API USER</td>
-                                <td><span class="package-pill">PREPAID PLAN API</span></td>
-                                <td>0</td>
-                                <td>9973732671</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>3903</td>
-                                <td>Gaurav Kumar</td>
-                                <td>ASL WALLETS</td>
-                                <td>API USER</td>
-                                <td><span class="package-pill">PREPAID PLAN API</span></td>
-                                <td>0</td>
-                                <td>8348920759</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="modal-footer edit-user-modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">CLOSE</button>
+
+            <div class="modal-footer py-2 bg-light">
+                <button type="button" class="btn btn-light border px-4" data-bs-dismiss="modal" style="background-color: #e9ecef;">
+                    CLOSE
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Delete User</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this user?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="clearUserModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Clear Form</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Do you want to clear the user form fields?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-warning">Clear</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+{{-- ── Page Styles ── --}}
 <style>
-    .admin-form-shell {
-        background: #f3f3f3;
-        border: 1px solid #d5d5d5;
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
-        margin-top: 10px;
+    /* Breadcrumb Header Spacing & Appearance */
+    .sms-breadcrumb-wrapper {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.75rem;
+        margin-bottom: 1.5rem !important;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
     }
-
-    .top-action-bar {
-        background: #0d7291;
-        padding: 10px 14px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    .action-btn,
-    .footer-btn {
-        border: 1px solid rgba(0,0,0,0.15);
-        background: #f4f4f4;
-        color: #222;
+    .sms-breadcrumb-wrapper .crumb-section {
+        color: #64748b;
         font-weight: 600;
+    }
+    .sms-breadcrumb-wrapper .crumb-sep {
+        color: #94a3b8;
+        font-weight: 400;
+    }
+    .sms-breadcrumb-wrapper .crumb-active {
+        color: #0f172a;
+        font-weight: 700;
+    }
+    html.dark .sms-breadcrumb-wrapper .crumb-active {
+        color: #f8fafc;
+    }
+
+    /* Shell & Headers */
+    .sms-card-shell {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .help-top-action-bar {
+        background: var(--bg-action-bar, #1a4f78);
+    }
+    html.dark .help-top-action-bar {
+        background: #1e293b;
+    }
+
+    /* Form Fields */
+    .help-field-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #475569;
+        letter-spacing: 0.03em;
         text-transform: uppercase;
-        letter-spacing: 0.02em;
-        padding: 8px 14px;
+        white-space: nowrap;
+    }
+    html.dark .help-field-label {
+        color: #cbd5e1;
+    }
+
+    .sms-input {
         border-radius: 3px;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        cursor: pointer;
-        font-size: 13px;
+        border: 1px solid #ced4da;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8125rem;
+        background-color: #ffffff;
+    }
+    html.dark .sms-input {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
     }
 
-    .save-btn,
-    .primary-btn {
-        background: #f28b2d;
-        color: #fff;
-        border-color: #d9781d;
-    }
-
-    .action-btn {
-        flex: 0 0 auto;
-    }
-
-    .edit-btn,
-    .delete-btn,
-    .clear-btn,
-    .secondary-btn {
-        background: #f0f0f0;
-        color: #1b1b1b;
-    }
-
-    .user-register-card {
-        background: #f6f6f6;
-        border: 1px solid #d9d9d9;
-        border-top: none;
-        padding: 0;
-    }
-
-    .form-section-title {
-        font-size: 13px;
+    /* Orange Action Button */
+    .btn-orange-action {
+        background-color: #f97316;
+        color: #ffffff;
         font-weight: 700;
-        color: #2c2c2c;
+        font-size: 0.75rem;
         letter-spacing: 0.04em;
-        text-transform: uppercase;
-        padding: 12px 16px 10px;
-        border-bottom: 1px solid #d9d9d9;
-        text-align: left;
+        border-radius: 3px;
+        padding: 0.35rem 0.85rem;
+        border: none;
+        box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+        transition: all 0.2s ease;
+    }
+    .btn-orange-action:hover {
+        background-color: #ea580c;
+        color: #ffffff;
+        transform: translateY(-1px);
     }
 
-    .modal-content {
-        border-radius: 0;
-        border: 1px solid #d7d7d7;
-        box-shadow: none;
+    /* Table Hover on Modal */
+    .user-record-row:hover {
+        background-color: #f1f5f9 !important;
     }
-
-    .modal-header {
-        position: relative;
-        background: #0d7291;
-        color: #fff;
-        border-bottom: 1px solid #0a5f7e;
-        padding: 14px 18px;
-        min-height: 56px;
-    }
-
-    .modal-title {
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        margin: 0;
-        color: #fff;
-    }
-
-    .btn-close {
-        position: absolute;
-        right: 18px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 22px;
-        height: 22px;
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-        opacity: 1;
-        padding: 0;
-        margin: 0;
-        filter: invert(1) grayscale(100%) brightness(2);
-    }
-
-    .btn-close::before,
-    .btn-close::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 2px;
-        height: 18px;
-        background: #fff;
-        border-radius: 2px;
-        transform-origin: center;
-    }
-
-    .btn-close::before {
-        transform: translate(-50%, -50%) rotate(45deg);
-    }
-
-    .btn-close::after {
-        transform: translate(-50%, -50%) rotate(-45deg);
-    }
-
-    .btn-close:hover,
-    .btn-close:focus {
-        opacity: 1;
-        box-shadow: none;
-    }
-
-    .user-form-grid {
-        display: block;
-        width: 100%;
-    }
-
-    .edit-user-modal-dialog {
-        max-width: 72vw;
-        width: 72vw;
-        margin: 1.5rem auto;
-    }
-
-    .edit-user-modal-content {
-        background: #f2f2f2;
-        border: 1px solid #d7d7d7;
-    }
-
-    .edit-user-modal-body {
-        background: #f5f5f5;
-        padding: 10px 12px 8px;
-    }
-
-    .edit-user-filter-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr auto;
-        gap: 10px;
-        align-items: end;
-        padding: 4px 0 8px;
-        border-bottom: 1px solid #d6d6d6;
-    }
-
-    .edit-user-field-box {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .edit-user-field-box label {
-        font-size: 12px;
-        font-weight: 700;
-        color: #1e1e1e;
-        text-transform: uppercase;
-        margin: 0;
-    }
-
-    .edit-user-field-box .form-control {
-        width: 100%;
-        height: 34px;
-        border: 1px solid #bdbdbd;
-        border-radius: 0;
-        background: #fff;
-        font-size: 12px;
-    }
-
-    .all-btn {
-        border: 0;
-        background: #1d9adf;
-        color: #fff;
-        font-weight: 700;
-        text-transform: uppercase;
-        min-width: 74px;
-        height: 34px;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .edit-user-pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 0 8px;
-    }
-
-    .page-btn {
-        width: 28px;
-        height: 28px;
-        border: 1px solid #cfcfcf;
-        background: #f4f4f4;
-        color: #444;
-        font-weight: 700;
-        padding: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-    }
-
-    .page-btn.current {
-        background: #1d9adf;
-        color: #fff;
-        border-color: #1d9adf;
-    }
-
-    .edit-user-table-wrap {
-        border: 1px solid #d5d5d5;
-        background: #fff;
-        overflow-x: auto;
-    }
-
-    .edit-user-table {
-        min-width: 1120px;
-        margin: 0;
-        border-collapse: collapse;
-    }
-
-    .edit-user-table thead th {
-        background: #e9e9e9;
-        color: #1f1f1f;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        padding: 8px 6px;
-        border: 1px solid #d0d0d0;
-        white-space: nowrap;
-    }
-
-    .edit-user-table tbody td {
-        font-size: 11px;
-        padding: 7px 8px;
-        border: 1px solid #d8d8d8;
-        color: #2a2a2a;
-        white-space: nowrap;
-        background: #fff;
-    }
-
-    .edit-user-table tbody tr:nth-child(odd) td {
-        background: #f7f7f7;
-    }
-
-    .package-pill {
-        display: inline-block;
-        background: #f28b2d;
-        color: #fff;
-        font-weight: 700;
-        padding: 2px 6px;
-        border-radius: 2px;
-        font-size: 10px;
-        line-height: 1.4;
-        text-transform: uppercase;
-    }
-
-    .edit-user-modal-footer {
-        background: #f4f4f4;
-        border-top: 1px solid #d7d7d7;
-        padding: 10px 14px;
-        justify-content: flex-end;
-    }
-
-    .edit-user-modal-footer .btn {
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        border-radius: 0;
-        min-width: 90px;
-    }
-
-    @media (max-width: 1200px) {
-        .edit-user-modal-dialog {
-            max-width: 78vw;
-            width: 78vw;
-        }
-    }
-
-    @media (max-width: 992px) {
-        .edit-user-modal-dialog {
-            max-width: 88vw;
-            width: 88vw;
-        }
-
-        .edit-user-filter-row {
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .all-btn {
-            grid-column: 1 / -1;
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .edit-user-modal-dialog {
-            max-width: 94vw;
-            width: 94vw;
-            margin: 1rem auto;
-        }
-
-        .edit-user-filter-row {
-            grid-template-columns: 1fr;
-        }
-
-        .edit-user-table {
-            min-width: 980px;
-        }
-    }
-
-    .user-form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        border-bottom: 1px solid #d9d9d9;
-    }
-
-    .user-form-label {
-        display: flex;
-        align-items: center;
-        padding: 12px 14px;
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: #1d1d1d;
-        border-right: 1px solid #d9d9d9;
-        background: rgba(0,0,0,0.01);
-    }
-
-    .user-form-control-wrap {
-        display: flex;
-        align-items: center;
-        padding: 8px 12px;
-        border-right: 1px solid #d9d9d9;
-    }
-
-    .user-form-control-wrap:last-child {
-        border-right: none;
-    }
-
-    .full-width {
-        grid-column: 2 / span 3;
-    }
-
-    .highlight-field {
-        background: #fff7a8;
-    }
-
-    .mandatory {
-        color: #e53935;
-        margin-left: 4px;
-    }
-
-    .user-form-control {
-        width: 100%;
-        height: 30px;
-        border: 1px solid #bfc0c1;
-        background: #fff;
-        padding: 6px 10px;
-        font-size: 12px;
-        color: #222;
-        outline: none;
-        border-radius: 2px;
-    }
-
-    .select-control {
-        appearance: auto;
-    }
-
-    .user-form-control:focus {
-        border-color: #4ea9d9;
-        box-shadow: 0 0 0 1px rgba(78,169,217,0.15);
-    }
-
-    .form-footer-action {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 10px;
-        padding: 14px 16px 18px;
-        flex-wrap: nowrap;
-    }
-
-    .footer-btn {
-        min-width: 112px;
-        justify-content: center;
-        flex: 0 0 auto;
-    }
-
-    @media (max-width: 992px) {
-        .user-form-row {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .top-action-bar {
-            padding: 8px 10px;
-        }
-
-        .action-btn {
-            padding: 7px 10px;
-            font-size: 11px;
-        }
-
-        .user-form-row {
-            grid-template-columns: 1fr;
-        }
-
-        .user-form-label,
-        .user-form-control-wrap {
-            border-right: none;
-            border-bottom: 1px solid #d9d9d9;
-        }
-
-        .full-width {
-            grid-column: auto;
-        }
-
-        .form-footer-action {
-            gap: 8px;
-            justify-content: flex-end;
-            flex-wrap: nowrap;
-        }
-
-        .footer-btn {
-            min-width: 96px;
-            padding: 8px 10px;
-            font-size: 12px;
-        }
+    html.dark .user-record-row:hover {
+        background-color: #1e293b !important;
     }
 </style>
+
+{{-- ── Page Scripts ── --}}
+<script>
+    // Save User
+    function saveUserRecord() {
+        const name = document.getElementById('user_name').value.trim();
+        const company = document.getElementById('user_company').value.trim();
+        const contact = document.getElementById('user_contact').value.trim();
+
+        if (!company) {
+            alert('Please enter COMPANY NAME!');
+            document.getElementById('user_company').focus();
+            return;
+        }
+
+        if (!name) {
+            alert('Please enter USER NAME!');
+            document.getElementById('user_name').focus();
+            return;
+        }
+
+        if (!contact) {
+            alert('Please enter CONTACT NO!');
+            document.getElementById('user_contact').focus();
+            return;
+        }
+
+        alert(`User account for "${name}" (${company}) saved successfully!`);
+    }
+
+    // Delete User
+    function deleteUserRecord() {
+        const name = document.getElementById('user_name').value.trim();
+        if (!name) {
+            alert('No user selected to delete.');
+            return;
+        }
+        if (confirm(`Are you sure you want to delete user "${name}"?`)) {
+            clearUserForm();
+            alert('User deleted successfully!');
+        }
+    }
+
+    // Clear Form
+    function clearUserForm() {
+        document.getElementById('user_id').value = '';
+        document.getElementById('user_name').value = '';
+        document.getElementById('user_company').value = '';
+        document.getElementById('user_contact').value = '';
+        document.getElementById('user_email').value = '';
+        document.getElementById('user_type').value = 'RETAILER';
+        document.getElementById('user_package').value = 'PREPAID PLAN API';
+        document.getElementById('user_status').value = 'ACTIVE';
+        document.getElementById('user_password').value = '';
+        document.getElementById('user_pan').value = '';
+        document.getElementById('user_gst').value = '';
+        document.getElementById('user_callback').value = '';
+        document.getElementById('user_ip').value = '';
+    }
+
+    // Modal Selection
+    function selectUserRecord(user) {
+        document.getElementById('user_id').value = user.id;
+        document.getElementById('user_name').value = user.name;
+        document.getElementById('user_company').value = user.company;
+        document.getElementById('user_contact').value = user.contact;
+        document.getElementById('user_email').value = user.email;
+        document.getElementById('user_type').value = user.type || 'RETAILER';
+        document.getElementById('user_package').value = user.package || 'PREPAID PLAN API';
+        document.getElementById('user_status').value = user.status || 'ACTIVE';
+        document.getElementById('user_password').value = '********';
+
+        // Close modal
+        const modalEl = document.getElementById('editUserModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+    }
+
+    // Modal Filter Logic
+    function filterUserModalTable() {
+        const filterName = (document.getElementById('modal_filter_username').value || '').trim().toLowerCase();
+        const filterContact = (document.getElementById('modal_filter_usercontact').value || '').trim().toLowerCase();
+
+        document.querySelectorAll('#userModalTbody tr.user-record-row').forEach(row => {
+            const name = (row.dataset.name || '').toLowerCase();
+            const contact = (row.dataset.contact || '').toLowerCase();
+
+            let match = true;
+            if (filterName && !name.includes(filterName)) match = false;
+            if (filterContact && !contact.includes(filterContact)) match = false;
+
+            if (match) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function resetUserModalFilter() {
+        document.getElementById('modal_filter_username').value = '';
+        document.getElementById('modal_filter_usercontact').value = '';
+        document.querySelectorAll('#userModalTbody tr.user-record-row').forEach(row => {
+            row.style.display = '';
+        });
+    }
+</script>
 @endsection

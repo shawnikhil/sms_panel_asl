@@ -151,11 +151,11 @@
             <div data-i18n="All User Ledger">All User Ledger</div>
           </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('admin.reports.user_wise_ledger') ? 'active' : '' }}">
+        <!-- <li class="menu-item {{ request()->routeIs('admin.reports.user_wise_ledger') ? 'active' : '' }}">
           <a href="{{ route('admin.reports.user_wise_ledger') }}" class="menu-link">
             <div data-i18n="User Wise Ledger">User Wise Ledger</div>
           </a>
-        </li>
+        </li> -->
       </ul>
     </li>
 
@@ -178,28 +178,14 @@
       </ul>
     </li>
 
-    <li class="menu-item {{ request()->routeIs(['admin.dashboard.settings.profile','admin.dashboard.settings.api_keys','admin.dashboard.settings.security']) ? 'active open' : '' }}">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-cog"></i>
-        <div data-i18n="Settings">Settings</div>
+    <li class="menu-item">
+      <form id="admin-sidebar-logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+        @csrf
+      </form>
+      <a href="javascript:void(0);" class="menu-link text-danger" onclick="event.preventDefault(); if(confirm('Are you sure you want to sign out?')) { document.getElementById('admin-sidebar-logout-form').submit(); }">
+        <i class="menu-icon tf-icons bx bx-log-out"></i>
+        <div data-i18n="Signout">SIGNOUT</div>
       </a>
-      <ul class="menu-sub">
-        <li class="menu-item {{ request()->routeIs('admin.dashboard.settings.profile') ? 'active' : '' }}">
-          <a href="{{ route('admin.dashboard.settings.profile') }}" class="menu-link">
-            <div data-i18n="Profile">Profile</div>
-          </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('admin.dashboard.settings.api_keys') ? 'active' : '' }}">
-          <a href="{{ route('admin.dashboard.settings.api_keys') }}" class="menu-link">
-            <div data-i18n="API Keys">API Keys</div>
-          </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('admin.dashboard.settings.security') ? 'active' : '' }}">
-          <a href="{{ route('admin.dashboard.settings.security') }}" class="menu-link">
-            <div data-i18n="Security">Security</div>
-          </a>
-        </li>
-      </ul>
     </li>
   </ul>
 </aside>

@@ -1,528 +1,430 @@
 @extends('admin.layout.master')
 
 @section('content')
-<div class="content-wrapper">
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="bank-register-shell">
-            <div class="bank-breadcrumb-bar">
-                <span class="crumb-home">🏠</span>
-                <span>Master Account</span>
-                <span class="crumb-separator">|</span>
-                <span class="crumb-current">Bank Register</span>
-            </div>
+<div class="container-xxl flex-grow-1 container-p-y pt-3 pb-5">
 
-            <div class="top-action-bar">
-                <button type="button" class="action-btn save-btn">
-                    <i class="bx bx-check"></i> Save
-                </button>
-                <button type="button" class="action-btn edit-btn" data-bs-toggle="modal" data-bs-target="#editBankModal">
-                    <i class="bx bx-pencil"></i> Edit
-                </button>
-                <button type="button" class="action-btn delete-btn" data-bs-toggle="modal" data-bs-target="#deleteBankModal">
-                    <i class="bx bx-trash"></i> Del
-                </button>
-                <button type="button" class="action-btn clear-btn" data-bs-toggle="modal" data-bs-target="#clearBankModal">
-                    <i class="bx bx-x"></i> Clear
-                </button>
-            </div>
-
-            <div class="bank-card">
-                <div class="bank-form-grid">
-                    <div class="bank-form-row full-row">
-                        <label class="bank-form-label">Bank Name <span class="mandatory">*</span></label>
-                        <div class="bank-form-control-wrap">
-                            <input type="text" class="bank-form-control" value="" />
-                        </div>
-                    </div>
-
-                    <div class="bank-form-row split-row">
-                        <div class="bank-field-group">
-                            <label class="bank-form-label">Branch Name <span class="mandatory">*</span></label>
-                            <div class="bank-form-control-wrap">
-                                <input type="text" class="bank-form-control" value="" />
-                            </div>
-                        </div>
-
-                        <div class="bank-field-group">
-                            <label class="bank-form-label">A/C No <span class="mandatory">*</span></label>
-                            <div class="bank-form-control-wrap">
-                                <input type="text" class="bank-form-control" value="" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bank-form-row split-row">
-                        <div class="bank-field-group">
-                            <label class="bank-form-label">IFSC Code</label>
-                            <div class="bank-form-control-wrap">
-                                <input type="text" class="bank-form-control" value="" />
-                            </div>
-                        </div>
-
-                        <div class="bank-field-group">
-                            <label class="bank-form-label">Status <span class="mandatory">*</span></label>
-                            <div class="bank-form-control-wrap select-wrap">
-                                <select class="bank-form-control">
-                                    <option value="Y">Y</option>
-                                    <option value="N">N</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bank-form-actions">
-                    <button type="button" class="bank-footer-btn primary-btn">
-                        <i class="bx bx-check"></i> Save
-                    </button>
-                    <button type="button" class="bank-footer-btn secondary-btn" data-bs-toggle="modal" data-bs-target="#clearBankModal">
-                        <i class="bx bx-x"></i> Clear
-                    </button>
-                </div>
-            </div>
+    {{-- ── Breadcrumb Bar with Proper Spacing ── --}}
+    <div class="sms-breadcrumb-wrapper d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pt-2 pb-1">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bx bx-home text-secondary" style="font-size: 1.15rem;"></i>
+            <span class="crumb-section">Master Account</span>
+            <span class="crumb-sep">|</span>
+            <span class="crumb-active">Bank Register</span>
         </div>
     </div>
+
+    {{-- ── Main Shell Container ── --}}
+    <div class="sms-card-shell mb-4">
+        
+        {{-- Top Action Bar matching Enterprise Style --}}
+        <div class="help-top-action-bar d-flex flex-wrap align-items-center gap-2 px-3 py-2 border-bottom">
+            <button type="button" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="saveBankRecord()">
+                <i class="bx bx-check"></i> SAVE
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#editBankModal">
+                <i class="bx bx-pencil"></i> EDIT
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" onclick="deleteBankRecord()">
+                <i class="bx bx-trash"></i> DEL
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" onclick="clearBankForm()">
+                <i class="bx bx-refresh"></i> CLEAR
+            </button>
+        </div>
+
+        {{-- Form Content Body --}}
+        <div class="sms-card-body p-4 bg-white">
+            <form id="bankRegisterForm" onsubmit="event.preventDefault(); saveBankRecord();">
+                <input type="hidden" id="bank_id" value="" />
+
+                {{-- Row 1: Bank Name --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        BANK NAME <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-10">
+                        <input type="text" id="bank_name" class="form-control sms-input" placeholder="e.g. HDFC BANK / STATE BANK OF INDIA" required />
+                    </div>
+                </div>
+
+                {{-- Row 2: Account Number & IFSC Code --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        ACCOUNT NUMBER <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="account_number" class="form-control sms-input font-monospace" placeholder="Enter account number..." required />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        IFSC CODE <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="ifsc_code" class="form-control sms-input font-monospace text-uppercase" placeholder="e.g. HDFC0001234" required />
+                    </div>
+                </div>
+
+                {{-- Row 3: Branch Name & Status --}}
+                <div class="row align-items-center mb-4">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        BRANCH NAME
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="branch_name" class="form-control sms-input" placeholder="e.g. Main Branch, Sector 62" />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        STATUS <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <select id="bank_status" class="form-select sms-input" style="max-width: 260px;">
+                            <option value="Y" selected>Y</option>
+                            <option value="N">N</option>
+                        </select>
+                    </div>
+                </div>
+
+                {{-- Bottom Action Buttons --}}
+                <div class="row">
+                    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="submit" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1 px-3">
+                                <i class="bx bx-check"></i> SAVE
+                            </button>
+                            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1 px-3" onclick="clearBankForm()">
+                                <i class="bx bx-refresh"></i> CLEAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div>
 
+{{-- ── Edit Bank Details Modal ── --}}
 <div class="modal fade" id="editBankModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog bank-edit-modal-dialog modal-dialog-centered">
-        <div class="modal-content bank-edit-modal-content">
-            <div class="modal-header bank-edit-header">
-                <h5 class="modal-title bank-edit-title">EDIT BANK DETAILS !</h5>
-                <button type="button" class="btn-close bank-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header border-bottom py-3 px-4 bg-white d-flex align-items-center justify-content-between">
+                <h5 class="modal-title fs-6 fw-bold text-dark mb-0">
+                    EDIT BANK DETAILS !
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body bank-edit-body">
-                <div class="table-responsive bank-edit-table-wrap">
-                    <table class="table table-bordered mb-0 bank-edit-table">
-                        <thead>
+            <div class="modal-body p-4 bg-white">
+                {{-- Search Filter Form inside Modal --}}
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end help-field-label">BANK NAME</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="modal_filter_bank" class="form-control sms-input" placeholder="" oninput="filterBankModalTable()" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end help-field-label">ACCOUNT NO</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="modal_filter_acc" class="form-control sms-input" placeholder="" oninput="filterBankModalTable()" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 text-start">
+                        <button type="button" class="btn btn-primary btn-sm px-3 fw-bold" onclick="resetBankModalFilter()">
+                            ALL
+                        </button>
+                    </div>
+                </div>
+
+                {{-- Pagination Inside Modal --}}
+                <div class="d-flex justify-content-center my-3">
+                    <div class="sms-pagination-container">
+                        <nav aria-label="Bank modal navigation">
+                            <ul class="pagination pagination-sm mb-0 justify-content-center">
+                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">«</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">»</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                {{-- Table Component inside Modal --}}
+                <div class="table-responsive text-nowrap border rounded" style="max-height: 420px; overflow-y: auto;">
+                    <table class="table table-hover table-bordered mb-0 align-middle" id="bankModalTable" style="font-size: 0.8125rem;">
+                        <thead class="table-light">
                             <tr>
-                                <th>#</th>
+                                <th style="width: 40px;" class="text-center">#</th>
                                 <th>BANK NAME</th>
-                                <th>BRANCH</th>
-                                <th>ACCOUNT NO</th>
+                                <th>ACCOUNT NUMBER</th>
                                 <th>IFSC CODE</th>
-                                <th>STATUS</th>
+                                <th>BRANCH NAME</th>
+                                <th class="text-center">STATUS</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>UCO BANK</td>
-                                <td>test1</td>
-                                <td>444444444444444</td>
-                                <td>DBDRL@!#</td>
-                                <td>Y</td>
+                        <tbody id="bankModalTbody">
+                            @php
+                                $bankRecords = [
+                                    [
+                                        'id' => 1,
+                                        'name' => 'HDFC BANK LIMITED',
+                                        'acc' => '50200048291044',
+                                        'ifsc' => 'HDFC0000128',
+                                        'branch' => 'Noida Sector 18',
+                                        'status' => 'Y'
+                                    ],
+                                    [
+                                        'id' => 2,
+                                        'name' => 'ICICI BANK',
+                                        'acc' => '002105018392',
+                                        'ifsc' => 'ICIC0000021',
+                                        'branch' => 'Connaught Place New Delhi',
+                                        'status' => 'Y'
+                                    ],
+                                    [
+                                        'id' => 3,
+                                        'name' => 'STATE BANK OF INDIA',
+                                        'acc' => '38491029384',
+                                        'ifsc' => 'SBIN0004123',
+                                        'branch' => 'Salt Lake Sector 5',
+                                        'status' => 'N'
+                                    ]
+                                ];
+                            @endphp
+
+                            @foreach($bankRecords as $record)
+                            <tr class="bank-record-row"
+                                style="cursor: pointer;"
+                                data-id="{{ $record['id'] }}"
+                                data-name="{{ $record['name'] }}"
+                                data-acc="{{ $record['acc'] }}"
+                                data-ifsc="{{ $record['ifsc'] }}"
+                                data-branch="{{ $record['branch'] }}"
+                                data-status="{{ $record['status'] }}"
+                                onclick="selectBankRecord({{ json_encode($record) }})">
+                                <td class="text-center text-muted fw-bold">{{ $record['id'] }}</td>
+                                <td><span class="fw-bold text-dark">{{ $record['name'] }}</span></td>
+                                <td><span class="font-monospace text-primary fw-bold">{{ $record['acc'] }}</span></td>
+                                <td><span class="badge bg-label-info font-monospace">{{ $record['ifsc'] }}</span></td>
+                                <td><span class="text-secondary">{{ $record['branch'] }}</span></td>
+                                <td class="text-center">
+                                    <span class="badge {{ $record['status'] === 'Y' ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $record['status'] }}
+                                    </span>
+                                </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="modal-footer bank-edit-footer">
-                <button type="button" class="btn btn-light bank-close-action" data-bs-dismiss="modal">CLOSE</button>
+            <div class="modal-footer py-2 bg-light">
+                <button type="button" class="btn btn-light border px-4" data-bs-dismiss="modal" style="background-color: #e9ecef;">
+                    CLOSE
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="deleteBankModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered bank-confirm-modal-dialog">
-        <div class="modal-content bank-confirm-modal-content">
-            <div class="modal-header bank-confirm-header">
-                <h5 class="modal-title bank-confirm-title">Delete Bank</h5>
-                <button type="button" class="btn-close bank-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body bank-confirm-body">
-                Are you sure you want to delete this bank record?
-            </div>
-            <div class="modal-footer bank-confirm-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="clearBankModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered bank-confirm-modal-dialog">
-        <div class="modal-content bank-confirm-modal-content">
-            <div class="modal-header bank-confirm-header">
-                <h5 class="modal-title bank-confirm-title">Clear Form</h5>
-                <button type="button" class="btn-close bank-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body bank-confirm-body">
-                Do you want to clear the bank form fields?
-            </div>
-            <div class="modal-footer bank-confirm-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-warning">Clear</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+{{-- ── Page Styles ── --}}
 <style>
-    .bank-register-shell {
-        background: #f2f2f2;
-        border: 1px solid #d4d4d4;
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
+    /* Breadcrumb Header Spacing & Appearance */
+    .sms-breadcrumb-wrapper {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.75rem;
+        margin-bottom: 1.5rem !important;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
     }
-
-    .bank-breadcrumb-bar {
-        background: #f5f5f5;
-        border-bottom: 1px solid #d7d7d7;
-        padding: 12px 16px;
-        font-size: 14px;
+    .sms-breadcrumb-wrapper .crumb-section {
+        color: #64748b;
         font-weight: 600;
-        color: #1d1d1d;
-        display: flex;
-        align-items: center;
-        gap: 10px;
     }
-
-    .crumb-home {
-        font-size: 16px;
+    .sms-breadcrumb-wrapper .crumb-sep {
+        color: #94a3b8;
+        font-weight: 400;
     }
-
-    .crumb-separator {
-        color: #6f6f6f;
-    }
-
-    .crumb-current {
-        color: #1d1d1d;
+    .sms-breadcrumb-wrapper .crumb-active {
+        color: #0f172a;
         font-weight: 700;
     }
-
-    .top-action-bar {
-        background: #0d7291;
-        padding: 10px 14px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        white-space: nowrap;
+    html.dark .sms-breadcrumb-wrapper .crumb-active {
+        color: #f8fafc;
     }
 
-    .action-btn,
-    .bank-footer-btn {
-        border: 1px solid rgba(0,0,0,0.15);
-        background: #f4f4f4;
-        color: #222;
+    /* Shell & Headers */
+    .sms-card-shell {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .help-top-action-bar {
+        background: var(--bg-action-bar, #1a4f78);
+    }
+    html.dark .help-top-action-bar {
+        background: #1e293b;
+    }
+
+    /* Form Fields */
+    .help-field-label {
+        font-size: 0.78rem;
         font-weight: 700;
-        text-transform: uppercase;
+        color: #475569;
         letter-spacing: 0.03em;
-        padding: 9px 16px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    html.dark .help-field-label {
+        color: #cbd5e1;
+    }
+
+    .sms-input {
         border-radius: 3px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        cursor: pointer;
-        font-size: 13px;
-        line-height: 1;
-        flex: 0 0 auto;
+        border: 1px solid #ced4da;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8125rem;
+        background-color: #ffffff;
+    }
+    html.dark .sms-input {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
     }
 
-    .save-btn,
-    .primary-btn {
-        background: #f28b2d;
-        color: #fff;
-        border-color: #d8741f;
-    }
-
-    .edit-btn,
-    .delete-btn,
-    .clear-btn,
-    .secondary-btn {
-        background: #e3e3e3;
-        color: #1e1e1e;
-        border-color: #c9c9c9;
-    }
-
-    .bank-card {
-        background: #f7f7f7;
-        border: 1px solid #d9d9d9;
-        border-top: none;
-    }
-
-    .bank-form-grid {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .bank-form-row {
-        display: grid;
-        border-bottom: 1px solid #d9d9d9;
-        min-height: 60px;
-    }
-
-    .full-row {
-        grid-template-columns: 1fr;
-    }
-
-    .split-row {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .bank-field-group {
-        display: grid;
-        grid-template-columns: 1fr;
-        border-right: 1px solid #d9d9d9;
-    }
-
-    .bank-field-group:last-child {
-        border-right: none;
-    }
-
-    .bank-form-label {
-        display: flex;
-        align-items: center;
-        padding: 12px 16px 8px;
-        font-size: 12px;
+    /* Orange Action Button */
+    .btn-orange-action {
+        background-color: #f97316;
+        color: #ffffff;
         font-weight: 700;
-        color: #1a1a1a;
-        text-transform: uppercase;
+        font-size: 0.75rem;
         letter-spacing: 0.04em;
-        background: rgba(0,0,0,0.01);
+        border-radius: 3px;
+        padding: 0.35rem 0.85rem;
+        border: none;
+        box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+        transition: all 0.2s ease;
+    }
+    .btn-orange-action:hover {
+        background-color: #ea580c;
+        color: #ffffff;
+        transform: translateY(-1px);
     }
 
-    .full-row .bank-form-label {
-        border-bottom: 1px solid #d9d9d9;
+    /* Table Hover on Modal */
+    .bank-record-row:hover {
+        background-color: #f1f5f9 !important;
     }
-
-    .bank-form-control-wrap {
-        display: flex;
-        align-items: center;
-        padding: 0 16px 12px;
-    }
-
-    .bank-form-control {
-        width: 100%;
-        height: 34px;
-        border: 1px solid #bfc0c1;
-        background: #fff;
-        padding: 7px 10px;
-        font-size: 14px;
-        color: #222;
-        border-radius: 2px;
-        outline: none;
-    }
-
-    .bank-form-control:focus {
-        border-color: #4ea9d9;
-        box-shadow: 0 0 0 1px rgba(78,169,217,0.15);
-    }
-
-    .mandatory {
-        color: #e53935;
-        margin-left: 6px;
-    }
-
-    .select-wrap select {
-        appearance: auto;
-        -webkit-appearance: menulist;
-    }
-
-    .bank-form-actions {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
-        padding: 16px 16px 18px;
-        background: #f7f7f7;
-    }
-
-    .bank-page-footer {
-        text-align: center;
-        padding: 18px 12px;
-        font-size: 13px;
-        color: #4a4a4a;
-        background: #f3f3f3;
-        border-top: 1px solid #d6d6d6;
-        font-weight: 600;
-    }
-
-    .bank-edit-modal-dialog {
-        max-width: 78vw;
-        width: 78vw;
-        margin: 2rem auto;
-    }
-
-    .bank-edit-modal-content {
-        background: #f2f2f2;
-        border: 1px solid #d7d7d7;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .bank-edit-header {
-        background: #0d7291;
-        color: #fff;
-        border-bottom: 1px solid #0a5f7e;
-        min-height: 54px;
-        padding: 14px 18px;
-        position: relative;
-    }
-
-    .bank-edit-title {
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        margin: 0;
-        color: #fff;
-    }
-
-    .bank-close-btn {
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 22px;
-        height: 22px;
-        opacity: 1;
-        filter: invert(1) grayscale(100%) brightness(2);
-    }
-
-    .bank-edit-body {
-        background: #f5f5f5;
-        padding: 16px 18px 10px;
-    }
-
-    .bank-edit-table-wrap {
-        border: 1px solid #d5d5d5;
-        background: #fff;
-        overflow-x: auto;
-    }
-
-    .bank-edit-table {
-        min-width: 860px;
-        margin: 0;
-        border-collapse: collapse;
-    }
-
-    .bank-edit-table thead th {
-        background: #e8e8e8;
-        color: #1f1f1f;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        padding: 10px 8px;
-        border: 1px solid #d0d0d0;
-        white-space: nowrap;
-    }
-
-    .bank-edit-table tbody td {
-        font-size: 12px;
-        padding: 9px 10px;
-        border: 1px solid #d8d8d8;
-        color: #2b2b2b;
-        white-space: nowrap;
-        background: #fff;
-    }
-
-    .bank-edit-table tbody tr:nth-child(odd) td {
-        background: #f7f7f7;
-    }
-
-    .bank-edit-footer {
-        background: #f4f4f4;
-        border-top: 1px solid #d7d7d7;
-        padding: 12px 16px;
-        justify-content: flex-end;
-    }
-
-    .bank-close-action {
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-radius: 0;
-        min-width: 90px;
-        padding: 8px 18px;
-    }
-
-    .bank-confirm-modal-dialog {
-        max-width: 460px;
-        width: 460px;
-    }
-
-    .bank-confirm-modal-content {
-        border-radius: 0;
-        border: 1px solid #d7d7d7;
-        box-shadow: none;
-    }
-
-    .bank-confirm-header {
-        background: #0d7291;
-        color: #fff;
-        border-bottom: 1px solid #0a5f7e;
-        min-height: 52px;
-        padding: 12px 16px;
-        position: relative;
-    }
-
-    .bank-confirm-title {
-        color: #fff;
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        margin: 0;
-    }
-
-    .bank-confirm-body {
-        background: #f5f5f5;
-        font-size: 15px;
-        color: #2a2a2a;
-        padding: 22px 20px;
-    }
-
-    .bank-confirm-footer {
-        background: #f4f4f4;
-        border-top: 1px solid #d7d7d7;
-        padding: 12px 16px;
-        justify-content: flex-end;
-        gap: 10px;
-    }
-
-    @media (max-width: 768px) {
-        .top-action-bar {
-            padding: 8px 10px;
-        }
-
-        .action-btn,
-        .bank-footer-btn {
-            padding: 7px 10px;
-            font-size: 11px;
-        }
-
-        .split-row {
-            grid-template-columns: 1fr;
-        }
-
-        .bank-field-group {
-            border-right: none;
-            border-bottom: 1px solid #d9d9d9;
-        }
-
-        .bank-field-group:last-child {
-            border-bottom: none;
-        }
-
-        .bank-form-actions {
-            justify-content: flex-end;
-            flex-wrap: nowrap;
-        }
-
-        .bank-edit-modal-dialog {
-            max-width: 94vw;
-            width: 94vw;
-            margin: 1rem auto;
-        }
+    html.dark .bank-record-row:hover {
+        background-color: #1e293b !important;
     }
 </style>
+
+{{-- ── Page Scripts ── --}}
+<script>
+    // Save Bank
+    function saveBankRecord() {
+        const name = document.getElementById('bank_name').value.trim();
+        const acc = document.getElementById('account_number').value.trim();
+        const ifsc = document.getElementById('ifsc_code').value.trim();
+
+        if (!name) {
+            alert('Please enter BANK NAME!');
+            document.getElementById('bank_name').focus();
+            return;
+        }
+
+        if (!acc) {
+            alert('Please enter ACCOUNT NUMBER!');
+            document.getElementById('account_number').focus();
+            return;
+        }
+
+        if (!ifsc) {
+            alert('Please enter IFSC CODE!');
+            document.getElementById('ifsc_code').focus();
+            return;
+        }
+
+        alert(`Bank record "${name}" saved successfully!`);
+    }
+
+    // Delete Bank
+    function deleteBankRecord() {
+        const name = document.getElementById('bank_name').value.trim();
+        if (!name) {
+            alert('No bank record selected to delete.');
+            return;
+        }
+        if (confirm(`Are you sure you want to delete bank record "${name}"?`)) {
+            clearBankForm();
+            alert('Bank record deleted successfully!');
+        }
+    }
+
+    // Clear Form
+    function clearBankForm() {
+        document.getElementById('bank_id').value = '';
+        document.getElementById('bank_name').value = '';
+        document.getElementById('account_number').value = '';
+        document.getElementById('ifsc_code').value = '';
+        document.getElementById('branch_name').value = '';
+        document.getElementById('bank_status').value = 'Y';
+    }
+
+    // Modal Selection
+    function selectBankRecord(rec) {
+        document.getElementById('bank_id').value = rec.id;
+        document.getElementById('bank_name').value = rec.name;
+        document.getElementById('account_number').value = rec.acc;
+        document.getElementById('ifsc_code').value = rec.ifsc;
+        document.getElementById('branch_name').value = rec.branch;
+        document.getElementById('bank_status').value = rec.status || 'Y';
+
+        // Close modal
+        const modalEl = document.getElementById('editBankModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+    }
+
+    // Modal Filter Logic
+    function filterBankModalTable() {
+        const filterName = (document.getElementById('modal_filter_bank').value || '').trim().toLowerCase();
+        const filterAcc = (document.getElementById('modal_filter_acc').value || '').trim().toLowerCase();
+
+        document.querySelectorAll('#bankModalTbody tr.bank-record-row').forEach(row => {
+            const name = (row.dataset.name || '').toLowerCase();
+            const acc = (row.dataset.acc || '').toLowerCase();
+
+            let match = true;
+            if (filterName && !name.includes(filterName)) match = false;
+            if (filterAcc && !acc.includes(filterAcc)) match = false;
+
+            if (match) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function resetBankModalFilter() {
+        document.getElementById('modal_filter_bank').value = '';
+        document.getElementById('modal_filter_acc').value = '';
+        document.querySelectorAll('#bankModalTbody tr.bank-record-row').forEach(row => {
+            row.style.display = '';
+        });
+    }
+</script>
 @endsection

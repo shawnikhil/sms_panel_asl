@@ -21,6 +21,7 @@ class MasterController extends Controller
 
     public function adminRegister()
     {
+      
         return $this->render('admin.pages.master.admin-register');
     }
 

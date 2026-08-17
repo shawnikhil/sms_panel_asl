@@ -1,10 +1,8 @@
 @extends('admin.layout.master')
 
 @section('content')
-<!-- Content wrapper -->
-<div class="content-wrapper">
-  <!-- Content -->
-  <div class="container-xxl flex-grow-1 container-p-y">
+<!-- Content -->
+<div class="container-xxl flex-grow-1 container-p-y">
     
     <!-- Welcome Header Banner -->
     <div class="row mb-4">
@@ -444,6 +442,4 @@
   <!-- / Content -->
 
   <div class="content-backdrop fade"></div>
-</div>
-<!-- / Content wrapper -->
 @endsection

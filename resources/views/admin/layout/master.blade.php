@@ -283,163 +283,183 @@
         vertical-align: middle !important;
       }
 
+      /* Standardized Global Modal Sizing Across All Pages */
+      .modal-dialog {
+        max-width: 860px !important;
+        width: 92% !important;
+        margin: 1.75rem auto !important;
+      }
+
+      /* Confirmation / Small Modals */
+      .modal-dialog.modal-sm,
+      .modal-dialog.modal-confirm,
+      .modal-dialog.package-confirm-modal-dialog,
+      .modal-dialog.bank-confirm-modal-dialog,
+      .modal-dialog.fund-transfer-clear-modal-dialog,
+      .modal-dialog[id*="delete"],
+      .modal-dialog[id*="clear"],
+      .modal-dialog[id*="Confirm"] {
+        max-width: 440px !important;
+        width: 92% !important;
+      }
+
+      /* Large Detail / Table / Edit Modals */
+      .modal-dialog.modal-lg,
+      .modal-dialog.modal-xl,
+      .modal-dialog.edit-user-modal-dialog,
+      .modal-dialog.bank-edit-modal-dialog,
+      .modal-dialog.package-edit-modal-dialog,
+      .modal-dialog.fund-transfer-modal-dialog {
+        max-width: 860px !important;
+        width: 92% !important;
+      }
+
       /* Modal Polish */
       .modal-content {
         background-color: var(--bg-surface) !important;
         border: 1px solid var(--border-color) !important;
-        box-shadow: var(--shadow-dropdown) !important;
-        border-radius: 1.25rem !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+        border-radius: 6px !important;
         overflow: hidden;
       }
 
       .modal-header {
         border-bottom: 1px solid var(--border-color) !important;
-        background-color: var(--bg-table-head) !important;
+        background-color: var(--bg-surface) !important;
         color: var(--text-primary) !important;
+        padding: 0.85rem 1.25rem !important;
+      }
+
+      .modal-body {
+        background-color: var(--bg-surface) !important;
+        padding: 1.25rem !important;
       }
 
       .modal-footer {
         border-top: 1px solid var(--border-color) !important;
         background-color: var(--bg-table-head) !important;
+        padding: 0.75rem 1.25rem !important;
       }
 
       .modal-title {
         color: var(--text-primary) !important;
         font-weight: 700 !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 0.02em;
       }
 
       /* ==============================================================
-         GLOBAL FORM SHELLS (USER REGISTER, FUND TRANSFER, BANK, ETC.)
+         GLOBAL ENTERPRISE SHELLS & COMPONENTS
          ============================================================== */
+      .sms-card-shell,
       .admin-form-shell,
       .bank-register-shell,
       .fund-transfer-shell,
       .package-register-shell {
         background: var(--bg-surface) !important;
         border: 1px solid var(--border-color) !important;
-        border-radius: 1rem !important;
+        border-radius: 4px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
         overflow: hidden !important;
-        box-shadow: var(--shadow-card) !important;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem !important;
       }
 
-      .top-action-bar {
-        background: var(--bg-action-bar) !important;
-        padding: 0.85rem 1.25rem !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 0.5rem !important;
+      .sms-breadcrumb-wrapper {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.75rem;
+        margin-bottom: 1.5rem !important;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+
+      .sms-breadcrumb-wrapper .crumb-section {
+        color: #64748b;
+        font-weight: 600;
+      }
+
+      .sms-breadcrumb-wrapper .crumb-sep {
+        color: #94a3b8;
+        font-weight: 400;
+      }
+
+      .sms-breadcrumb-wrapper .crumb-active {
+        color: #0f172a;
+        font-weight: 700;
+      }
+
+      html.dark .sms-breadcrumb-wrapper .crumb-active {
+        color: #f8fafc;
+      }
+
+      .help-top-action-bar {
+        background: #1a4f78 !important;
+        padding: 0.6rem 1rem !important;
         border-bottom: 1px solid var(--border-color) !important;
       }
 
-      .action-btn, .package-footer-btn, .bank-footer-btn {
-        border-radius: 0.5rem !important;
-        font-weight: 700 !important;
-        font-size: 0.8125rem !important;
-        padding: 0.5rem 1rem !important;
-        transition: all 0.2s ease !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      html.dark .help-top-action-bar {
+        background: #1e293b !important;
       }
 
-      .save-btn, .primary-btn {
-        background: #10b981 !important;
+      .sms-card-header {
+        background: #6c757d !important;
         color: #ffffff !important;
-        border: none !important;
-        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3) !important;
-      }
-
-      .save-btn:hover, .primary-btn:hover {
-        background: #059669 !important;
-        transform: translateY(-1px);
-      }
-
-      .edit-btn {
-        background: #3b82f6 !important;
-        color: #ffffff !important;
-        border: none !important;
-        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3) !important;
-      }
-
-      .delete-btn {
-        background: #ef4444 !important;
-        color: #ffffff !important;
-        border: none !important;
-        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3) !important;
-      }
-
-      .clear-btn, .secondary-btn {
-        background: rgba(255, 255, 255, 0.15) !important;
-        color: #ffffff !important;
-        backdrop-filter: blur(10px);
-      }
-
-      .bank-breadcrumb-bar, .package-breadcrumb-bar, .fund-transfer-breadcrumb {
-        background: var(--bg-table-head) !important;
-        border-bottom: 1px solid var(--border-color) !important;
-        color: var(--text-primary) !important;
         padding: 0.75rem 1.25rem !important;
         font-weight: 600 !important;
-        font-size: 0.875rem !important;
       }
 
-      .crumb-current {
-        color: var(--brand-primary) !important;
+      html.dark .sms-card-header {
+        background: #334155 !important;
+      }
+
+      .help-field-label,
+      .sms-field-label {
+        font-size: 0.78rem !important;
         font-weight: 700 !important;
+        color: #475569 !important;
+        letter-spacing: 0.03em !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
       }
 
-      .user-register-card, .bank-card, .fund-transfer-card, .package-card {
-        background: var(--bg-surface) !important;
-        border: none !important;
-        padding: 1.25rem !important;
+      html.dark .help-field-label,
+      html.dark .sms-field-label {
+        color: #cbd5e1 !important;
       }
 
-      .form-section-title {
-        background: var(--bg-table-head) !important;
-        border: 1px solid var(--border-color) !important;
-        color: var(--brand-primary) !important;
-        font-weight: 800 !important;
+      .sms-input {
+        border-radius: 3px !important;
+        border: 1px solid #ced4da !important;
+        padding: 0.45rem 0.75rem !important;
         font-size: 0.8125rem !important;
-        letter-spacing: 0.05em !important;
-        border-radius: 0.5rem !important;
-        padding: 0.5rem 1rem !important;
-        margin-bottom: 1.25rem !important;
+        background-color: #ffffff !important;
+        color: #1e293b !important;
       }
 
-      .user-form-label, .bank-form-label, .fund-transfer-form-label, .package-form-label {
-        color: var(--text-secondary) !important;
+      html.dark .sms-input {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+      }
+
+      .btn-orange-action {
+        background-color: #f97316 !important;
+        color: #ffffff !important;
         font-weight: 700 !important;
         font-size: 0.75rem !important;
-        text-transform: uppercase !important;
         letter-spacing: 0.04em !important;
-        background: transparent !important;
+        border-radius: 3px !important;
+        padding: 0.35rem 0.85rem !important;
+        border: none !important;
+        box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3) !important;
+        transition: all 0.2s ease !important;
       }
 
-      .user-form-control, .bank-form-control, .fund-transfer-form-control, .package-form-control {
-        background: var(--bg-input) !important;
-        border: 1px solid var(--border-input) !important;
-        color: var(--text-primary) !important;
-        border-radius: 0.5rem !important;
-        padding: 0.5rem 0.75rem !important;
-        font-size: 0.875rem !important;
-      }
-
-      .user-form-control:focus, .bank-form-control:focus, .fund-transfer-form-control:focus, .package-form-control:focus {
-        border-color: var(--brand-primary) !important;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
-      }
-
-      .user-form-row, .bank-form-row, .fund-transfer-form-row, .package-form-row {
-        border-color: var(--border-color) !important;
-      }
-
-      .bank-page-footer, .package-page-footer, .fund-transfer-page-footer, .user-page-footer {
-        background: var(--bg-table-head) !important;
-        border-top: 1px solid var(--border-color) !important;
-        color: var(--text-muted) !important;
-        font-size: 0.8125rem !important;
-        padding: 1rem !important;
-        text-align: center !important;
-        font-weight: 600 !important;
+      .btn-orange-action:hover {
+        background-color: #ea580c !important;
+        color: #ffffff !important;
+        transform: translateY(-1px);
       }
 
       /* ==============================================================

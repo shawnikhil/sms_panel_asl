@@ -1,7 +1,6 @@
 @extends('admin.layout.master')
 
 @section('content')
-<div class="content-wrapper">
   <div class="container-xxl flex-grow-1 container-p-y">
 
     {{-- ── Page Header ── --}}
@@ -287,7 +286,6 @@
     </div>
 
   </div>
-</div>
 
 {{-- ═══════════════════════════════════════════════════════
      MODAL: ADD TEMPLATE

@@ -1,649 +1,468 @@
 @extends('admin.layout.master')
 
 @section('content')
-<div class="content-wrapper">
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="fund-transfer-shell">
-            <div class="fund-transfer-breadcrumb">
-                <span class="crumb-home">🏠</span>
-                <span>Manage API User</span>
-                <span class="crumb-separator">|</span>
-                <span class="crumb-current">Fund Transfer</span>
-            </div>
+<div class="container-xxl flex-grow-1 container-p-y pt-3 pb-5">
 
-            <div class="top-action-bar">
-                <button type="button" class="action-btn save-btn">
-                    <i class="bx bx-check"></i> Send
-                </button>
-                <button type="button" class="action-btn edit-btn" data-bs-toggle="modal" data-bs-target="#viewFundTransferModal">
-                    <i class="bx bx-show"></i> View
-                </button>
-                <button type="button" class="action-btn clear-btn" data-bs-toggle="modal" data-bs-target="#clearFundTransferModal">
-                    <i class="bx bx-x"></i> Clear
-                </button>
-            </div>
-
-            <div class="fund-transfer-card">
-                <div class="fund-transfer-form-grid">
-                    <div class="fund-transfer-form-row full-row">
-                        <label class="fund-transfer-form-label">API User <span class="mandatory">*</span></label>
-                        <div class="fund-transfer-form-control-wrap api-user-select-wrap">
-                            <select class="fund-transfer-form-control api-user-select">
-                                <option value="">-- Select --</option>
-                                <option value="GAURAV KUMAR : M - 8348920759 [BAL: 0]">GAURAV KUMAR : M - 8348920759 [BAL: 0]</option>
-                                <option value="NIKHIL KUMAR : M - 8709305218 [BAL: 227]">NIKHIL KUMAR : M - 8709305218 [BAL: 227]</option>
-                                <option value="SAHISTA PAY : M - 9800546248 [BAL: 478]">SAHISTA PAY : M - 9800546248 [BAL: 478]</option>
-                                <option value="TEST KUMAR : M - 9973732671 [BAL: 0]">TEST KUMAR : M - 9973732671 [BAL: 0]</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="fund-transfer-form-row split-row">
-                        <div class="fund-transfer-field-group">
-                            <label class="fund-transfer-form-label">Transfer Amount <span class="mandatory">*</span></label>
-                            <div class="fund-transfer-form-control-wrap">
-                                <input type="text" class="fund-transfer-form-control" value="" />
-                            </div>
-                        </div>
-
-                        <div class="fund-transfer-field-group">
-                            <label class="fund-transfer-form-label">Transaction Date</label>
-                            <div class="fund-transfer-form-control-wrap">
-                                <input type="text" class="fund-transfer-form-control" value="14/08/2026" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="fund-transfer-form-row split-row">
-                        <div class="fund-transfer-field-group">
-                            <label class="fund-transfer-form-label">Transfer Type <span class="mandatory">*</span></label>
-                            <div class="fund-transfer-form-control-wrap">
-                                <select class="fund-transfer-form-control">
-                                    <option value="FUND TRANSFER">FUND TRANSFER</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="fund-transfer-field-group">
-                            <label class="fund-transfer-form-label">Wallet Type <span class="mandatory">*</span></label>
-                            <div class="fund-transfer-form-control-wrap">
-                                <select class="fund-transfer-form-control">
-                                    <option value="PREPAID BALANCE">PREPAID BALANCE</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="fund-transfer-form-row full-row">
-                        <label class="fund-transfer-form-label">Transaction Desc</label>
-                        <div class="fund-transfer-form-control-wrap">
-                            <input type="text" class="fund-transfer-form-control" value="" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="fund-transfer-actions">
-                    <button type="button" class="fund-transfer-btn primary-btn">
-                        <i class="bx bx-check"></i> Send
-                    </button>
-                    <button type="button" class="fund-transfer-btn secondary-btn">
-                        <i class="bx bx-check"></i> Send OTP
-                    </button>
-                    <button type="button" class="fund-transfer-btn tertiary-btn" data-bs-toggle="modal" data-bs-target="#clearFundTransferModal">
-                        <i class="bx bx-x"></i> Clear
-                    </button>
-                </div>
-
-            </div>
-
+    {{-- ── Breadcrumb Bar with Generous Spacing ── --}}
+    <div class="sms-breadcrumb-wrapper d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pt-2 pb-1">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bx bx-home text-secondary" style="font-size: 1.15rem;"></i>
+            <span class="crumb-section">Manage API User</span>
+            <span class="crumb-sep">|</span>
+            <span class="crumb-active">Fund Transfer</span>
         </div>
     </div>
+
+    {{-- ── Main Shell Container ── --}}
+    <div class="sms-card-shell mb-4">
+        
+        {{-- Top Action Bar matching Enterprise Style --}}
+        <div class="help-top-action-bar d-flex flex-wrap align-items-center gap-2 px-3 py-2 border-bottom">
+            <button type="button" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="submitFundTransfer()">
+                <i class="bx bx-check"></i> SEND
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#viewFundTransferModal">
+                <i class="bx bx-show"></i> VIEW
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" onclick="clearFundTransferForm()">
+                <i class="bx bx-refresh"></i> CLEAR
+            </button>
+        </div>
+
+        {{-- Form Content Body --}}
+        <div class="sms-card-body p-4 bg-white">
+            <form id="fundTransferForm" onsubmit="event.preventDefault(); submitFundTransfer();">
+                <input type="hidden" id="transfer_id" value="" />
+
+                {{-- Row 1: API User --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        API USER <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-10">
+                        <select id="api_user_select" class="form-select sms-input" required>
+                            <option value="">-- Select --</option>
+                            <option value="GAURAV KUMAR : M - 8348920759 [BAL: 0.00]">GAURAV KUMAR : M - 8348920759 [BAL: 0.00]</option>
+                            <option value="NIKHIL KUMAR : M - 8709305218 [BAL: 227.40]">NIKHIL KUMAR : M - 8709305218 [BAL: 227.40]</option>
+                            <option value="SAHISTA PAY : M - 9800546248 [BAL: 478.48]">SAHISTA PAY : M - 9800546248 [BAL: 478.48]</option>
+                            <option value="TEST KUMAR : M - 9973732671 [BAL: 0.00]">TEST KUMAR : M - 9973732671 [BAL: 0.00]</option>
+                        </select>
+                    </div>
+                </div>
+
+                {{-- Row 2: Transfer Amount & Transaction Date --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        TRANSFER AMOUNT <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="number" step="0.01" id="transfer_amount" class="form-control sms-input" placeholder="0.00" required />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        TRANSACTION DATE
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <div class="input-group">
+                            <input type="date" id="transaction_date" class="form-control sms-input" value="{{ date('Y-m-d') }}" />
+                            <button class="btn btn-light border sms-calendar-btn" type="button" onclick="document.getElementById('transaction_date').showPicker ? document.getElementById('transaction_date').showPicker() : document.getElementById('transaction_date').focus()">
+                                <i class="bx bx-calendar"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Row 3: Transfer Type & Wallet Type --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        TRANSFER TYPE <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <select id="transfer_type" class="form-select sms-input" required>
+                            <option value="FUND TRANSFER" selected>FUND TRANSFER</option>
+                            <option value="CREDIT ADJUSTMENT">CREDIT ADJUSTMENT</option>
+                            <option value="DEBIT ADJUSTMENT">DEBIT ADJUSTMENT</option>
+                        </select>
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        WALLET TYPE <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <select id="wallet_type" class="form-select sms-input" required>
+                            <option value="PREPAID BALANCE" selected>PREPAID BALANCE</option>
+                            <option value="UTILITY BALANCE">UTILITY BALANCE</option>
+                            <option value="BANK WALLET">BANK WALLET</option>
+                        </select>
+                    </div>
+                </div>
+
+                {{-- Row 4: Transaction Desc --}}
+                <div class="row align-items-center mb-4">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        TRANSACTION DESC
+                    </label>
+                    <div class="col-sm-9 col-md-10">
+                        <input type="text" id="transaction_desc" class="form-control sms-input" placeholder="Optional remark or notes..." />
+                    </div>
+                </div>
+
+                {{-- Bottom Action Buttons --}}
+                <div class="row">
+                    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="submit" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1 px-3">
+                                <i class="bx bx-check"></i> SEND
+                            </button>
+                            <button type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1 px-3" onclick="sendTransferOTP()">
+                                <i class="bx bx-mobile-alt"></i> SEND OTP
+                            </button>
+                            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1 px-3" onclick="clearFundTransferForm()">
+                                <i class="bx bx-refresh"></i> CLEAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div>
 
+{{-- ── Edit Fund Transfer Details Modal ── --}}
 <div class="modal fade" id="viewFundTransferModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog fund-transfer-modal-dialog modal-dialog-centered">
-        <div class="modal-content fund-transfer-modal-content">
-            <div class="modal-header fund-transfer-modal-header">
-                <h5 class="modal-title fund-transfer-modal-title">EDIT FUND TRANSFER DETAILS !</h5>
-                <button type="button" class="btn-close fund-transfer-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header border-bottom py-3 px-4 bg-white d-flex align-items-center justify-content-between">
+                <h5 class="modal-title fs-6 fw-bold text-dark mb-0">
+                    EDIT FUND TRANSFER DETAILS !
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body fund-transfer-modal-body">
-                <div class="fund-transfer-filter-row">
-                    <div class="fund-transfer-field-box">
-                        <label>Company Name</label>
-                        <input type="text" class="form-control" value="" />
+            <div class="modal-body p-4 bg-white">
+                {{-- Search Filter Form inside Modal --}}
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end help-field-label">USER NAME</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="modal_filter_user" class="form-control sms-input" placeholder="" oninput="filterFundTransferModalTable()" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end help-field-label">TRAN ID</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="modal_filter_tran" class="form-control sms-input" placeholder="" oninput="filterFundTransferModalTable()" />
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="fund-transfer-field-box">
-                        <label>User Name</label>
-                        <input type="text" class="form-control" value="" />
+                    <div class="col-md-2 text-start">
+                        <button type="button" class="btn btn-primary btn-sm px-3 fw-bold" onclick="resetFundTransferModalFilter()">
+                            ALL
+                        </button>
                     </div>
-
-                    <button type="button" class="all-btn">ALL</button>
                 </div>
 
-                <div class="fund-transfer-pagination">
-                    <button type="button" class="page-btn">«</button>
-                    <button type="button" class="page-btn current">1</button>
-                    <button type="button" class="page-btn">»</button>
+                {{-- Pagination Inside Modal --}}
+                <div class="d-flex justify-content-center my-3">
+                    <div class="sms-pagination-container">
+                        <nav aria-label="Fund transfer modal navigation">
+                            <ul class="pagination pagination-sm mb-0 justify-content-center">
+                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">«</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">»</a></li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
 
-                <div class="table-responsive fund-transfer-table-wrap">
-                    <table class="table table-bordered mb-0 fund-transfer-table">
-                        <thead>
+                {{-- Table Component inside Modal --}}
+                <div class="table-responsive text-nowrap border rounded" style="max-height: 420px; overflow-y: auto;">
+                    <table class="table table-hover table-bordered mb-0 align-middle" id="fundTransferModalTable" style="font-size: 0.8125rem;">
+                        <thead class="table-light">
                             <tr>
-                                <th>#</th>
+                                <th style="width: 40px;" class="text-center">#</th>
                                 <th>TRAN ID</th>
-                                <th>USER REGNO</th>
+                                <th>REG NO</th>
                                 <th>COMPANY NAME</th>
                                 <th>USER NAME</th>
                                 <th>TRANSFER TYPE</th>
-                                <th>TRANSFER AMOUNT</th>
+                                <th class="text-end">TRANSFER AMOUNT</th>
                                 <th>WALLET TYPE</th>
-                                <th>OPENING BALANCE</th>
-                                <th>CLOSING BALANCE</th>
-                                <th>TRAN DESC</th>
-                                <th>TRANS DATE/TIME</th>
-                                <th>INSERT DATE</th>
+                                <th class="text-end">OPENING BAL</th>
+                                <th class="text-end">CLOSING BAL</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>14212</td>
-                                <td>3905</td>
-                                <td>sahistapay</td>
-                                <td>sahista pay</td>
-                                <td>FUND TRANSFER</td>
-                                <td>500</td>
-                                <td>PREPAID BALANCE</td>
-                                <td>2500</td>
-                                <td>2000</td>
-                                <td>Transfer to wallet</td>
-                                <td>2026-08-14 12:30:00</td>
-                                <td>2026-08-14</td>
+                        <tbody id="fundTransferModalTbody">
+                            @php
+                                $transferRecords = [
+                                    [
+                                        'id' => 1,
+                                        'tran_id' => '1771146747209',
+                                        'reg_no' => '3902',
+                                        'company' => 'ASL WALLETS',
+                                        'user' => 'Nikhil Kumar',
+                                        'type' => 'FUND TRANSFER',
+                                        'amount' => '500.00',
+                                        'wallet' => 'PREPAID BALANCE',
+                                        'open_bal' => '0.00',
+                                        'close_bal' => '500.00'
+                                    ],
+                                    [
+                                        'id' => 2,
+                                        'tran_id' => '1771146748301',
+                                        'reg_no' => '3905',
+                                        'company' => 'sahistapay',
+                                        'user' => 'sahista pay',
+                                        'type' => 'FUND TRANSFER',
+                                        'amount' => '500.00',
+                                        'wallet' => 'PREPAID BALANCE',
+                                        'open_bal' => '0.00',
+                                        'close_bal' => '500.00'
+                                    ]
+                                ];
+                            @endphp
+
+                            @foreach($transferRecords as $record)
+                            <tr class="transfer-record-row"
+                                style="cursor: pointer;"
+                                data-user="{{ $record['user'] }}"
+                                data-tran="{{ $record['tran_id'] }}"
+                                data-amount="{{ $record['amount'] }}"
+                                data-wallet="{{ $record['wallet'] }}"
+                                data-type="{{ $record['type'] }}"
+                                onclick="selectTransferRecord({{ json_encode($record) }})">
+                                <td class="text-center text-muted fw-bold">{{ $record['id'] }}</td>
+                                <td><span class="badge bg-label-secondary font-monospace">{{ $record['tran_id'] }}</span></td>
+                                <td><span class="font-monospace text-primary fw-bold">{{ $record['reg_no'] }}</span></td>
+                                <td><span class="fw-semibold text-secondary">{{ $record['company'] }}</span></td>
+                                <td><span class="fw-bold text-dark">{{ $record['user'] }}</span></td>
+                                <td><span class="badge bg-label-info">{{ $record['type'] }}</span></td>
+                                <td class="text-end font-monospace fw-bold text-success">{{ $record['amount'] }}</td>
+                                <td><span class="badge bg-label-primary">{{ $record['wallet'] }}</span></td>
+                                <td class="text-end font-monospace text-muted">{{ $record['open_bal'] }}</td>
+                                <td class="text-end font-monospace fw-bold text-dark">{{ $record['close_bal'] }}</td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>14211</td>
-                                <td>3902</td>
-                                <td>ASL WALLETS</td>
-                                <td>Nikhil Kumar</td>
-                                <td>FUND TRANSFER</td>
-                                <td>500</td>
-                                <td>PREPAID BALANCE</td>
-                                <td>1600</td>
-                                <td>1100</td>
-                                <td>Transfer to wallet</td>
-                                <td>2026-08-14 11:10:00</td>
-                                <td>2026-08-14</td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="modal-footer fund-transfer-modal-footer">
-                <button type="button" class="btn btn-light fund-transfer-close-action" data-bs-dismiss="modal">CLOSE</button>
+            <div class="modal-footer py-2 bg-light">
+                <button type="button" class="btn btn-light border px-4" data-bs-dismiss="modal" style="background-color: #e9ecef;">
+                    CLOSE
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="clearFundTransferModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered fund-transfer-clear-modal-dialog">
-        <div class="modal-content fund-transfer-clear-modal-content">
-            <div class="modal-header fund-transfer-clear-header">
-                <h5 class="modal-title fund-transfer-clear-title">Clear Form</h5>
-                <button type="button" class="btn-close fund-transfer-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body fund-transfer-clear-body">
-                Do you want to clear the fund transfer form fields?
-            </div>
-            <div class="modal-footer fund-transfer-clear-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-warning">Clear</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+{{-- ── Page Styles ── --}}
 <style>
-    .fund-transfer-shell {
-        background: #f2f2f2;
-        border: 1px solid #d4d4d4;
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
+    /* Breadcrumb Header Spacing & Appearance */
+    .sms-breadcrumb-wrapper {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.75rem;
+        margin-bottom: 1.5rem !important;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
     }
-
-    .fund-transfer-breadcrumb {
-        background: #f5f5f5;
-        border-bottom: 1px solid #d7d7d7;
-        padding: 12px 16px;
-        font-size: 14px;
+    .sms-breadcrumb-wrapper .crumb-section {
+        color: #64748b;
         font-weight: 600;
-        color: #1d1d1d;
-        display: flex;
-        align-items: center;
-        gap: 10px;
     }
-
-    .crumb-home {
-        font-size: 16px;
+    .sms-breadcrumb-wrapper .crumb-sep {
+        color: #94a3b8;
+        font-weight: 400;
     }
-
-    .crumb-separator {
-        color: #6f6f6f;
-    }
-
-    .crumb-current {
-        color: #1d1d1d;
+    .sms-breadcrumb-wrapper .crumb-active {
+        color: #0f172a;
         font-weight: 700;
     }
-
-    .top-action-bar {
-        background: #0d7291;
-        padding: 10px 14px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        white-space: nowrap;
+    html.dark .sms-breadcrumb-wrapper .crumb-active {
+        color: #f8fafc;
     }
 
-    .action-btn,
-    .fund-transfer-btn {
-        border: 1px solid rgba(0,0,0,0.15);
-        background: #f4f4f4;
-        color: #222;
+    /* Shell & Headers */
+    .sms-card-shell {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .help-top-action-bar {
+        background: var(--bg-action-bar, #1a4f78);
+    }
+    html.dark .help-top-action-bar {
+        background: #1e293b;
+    }
+
+    /* Form Fields */
+    .help-field-label {
+        font-size: 0.78rem;
         font-weight: 700;
-        text-transform: uppercase;
+        color: #475569;
         letter-spacing: 0.03em;
-        padding: 9px 16px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    html.dark .help-field-label {
+        color: #cbd5e1;
+    }
+
+    .sms-input {
         border-radius: 3px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        cursor: pointer;
-        font-size: 13px;
-        line-height: 1;
-        flex: 0 0 auto;
+        border: 1px solid #ced4da;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8125rem;
+        background-color: #ffffff;
+    }
+    html.dark .sms-input {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
     }
 
-    .save-btn,
-    .primary-btn {
-        background: #f28b2d;
-        color: #fff;
-        border-color: #d8741f;
+    .sms-calendar-btn {
+        background-color: #f8f9fa;
+        color: #495057;
+    }
+    html.dark .sms-calendar-btn {
+        background-color: #1e293b;
+        border-color: #334155;
+        color: #cbd5e1;
     }
 
-    .edit-btn,
-    .clear-btn,
-    .tertiary-btn {
-        background: #dfe7eb;
-        color: #1e1e1e;
-        border-color: #c7d2d7;
-    }
-
-    .fund-transfer-card {
-        background: #f7f7f7;
-        border: 1px solid #d9d9d9;
-        border-top: none;
-    }
-
-    .fund-transfer-form-grid {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .fund-transfer-form-row {
-        display: grid;
-        border-bottom: 1px solid #d9d9d9;
-        min-height: 56px;
-    }
-
-    .full-row {
-        grid-template-columns: 1fr;
-    }
-
-    .split-row {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .fund-transfer-field-group {
-        display: grid;
-        grid-template-columns: 1fr;
-        border-right: 1px solid #d9d9d9;
-    }
-
-    .fund-transfer-field-group:last-child {
-        border-right: none;
-    }
-
-    .fund-transfer-form-label {
-        display: flex;
-        align-items: center;
-        padding: 12px 16px 8px;
-        font-size: 12px;
+    /* Orange Action Button */
+    .btn-orange-action {
+        background-color: #f97316;
+        color: #ffffff;
         font-weight: 700;
-        color: #1a1a1a;
-        text-transform: uppercase;
+        font-size: 0.75rem;
         letter-spacing: 0.04em;
-        background: rgba(0,0,0,0.01);
+        border-radius: 3px;
+        padding: 0.35rem 0.85rem;
+        border: none;
+        box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+        transition: all 0.2s ease;
+    }
+    .btn-orange-action:hover {
+        background-color: #ea580c;
+        color: #ffffff;
+        transform: translateY(-1px);
     }
 
-    .full-row .fund-transfer-form-label {
-        border-bottom: 1px solid #d9d9d9;
+    /* Table Hover on Modal */
+    .transfer-record-row:hover {
+        background-color: #f1f5f9 !important;
     }
-
-    .fund-transfer-form-control-wrap {
-        display: flex;
-        align-items: center;
-        padding: 0 16px 12px;
-    }
-
-    .api-user-select-wrap {
-        position: relative;
-        padding-right: 0;
-    }
-
-    .fund-transfer-form-control {
-        width: 100%;
-        height: 34px;
-        border: 1px solid #bfc0c1;
-        background: #fff;
-        padding: 7px 10px;
-        font-size: 14px;
-        color: #222;
-        border-radius: 2px;
-        outline: none;
-    }
-
-    .api-user-select {
-        appearance: auto;
-        -webkit-appearance: menulist;
-    }
-
-    .mandatory {
-        color: #e53935;
-        margin-left: 6px;
-    }
-
-    .fund-transfer-actions {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
-        padding: 16px 16px 18px;
-        background: #f7f7f7;
-    }
-
-    .fund-transfer-footer {
-        text-align: center;
-        padding: 18px 12px;
-        font-size: 13px;
-        color: #4a4a4a;
-        background: #f3f3f3;
-        border-top: 1px solid #d6d6d6;
-        font-weight: 600;
-    }
-
-    .fund-transfer-modal-dialog {
-        max-width: 86vw;
-        width: 86vw;
-        margin: 2rem auto;
-    }
-
-    .fund-transfer-modal-content {
-        background: #f2f2f2;
-        border: 1px solid #d7d7d7;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .fund-transfer-modal-header {
-        background: #0d7291;
-        color: #fff;
-        border-bottom: 1px solid #0a5f7e;
-        min-height: 54px;
-        padding: 14px 18px;
-        position: relative;
-    }
-
-    .fund-transfer-modal-title {
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        margin: 0;
-        color: #fff;
-    }
-
-    .fund-transfer-close-btn {
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 22px;
-        height: 22px;
-        opacity: 1;
-        filter: invert(1) grayscale(100%) brightness(2);
-    }
-
-    .fund-transfer-modal-body {
-        background: #f5f5f5;
-        padding: 12px 14px 10px;
-    }
-
-    .fund-transfer-filter-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr auto;
-        gap: 16px;
-        align-items: end;
-        padding: 8px 0 12px;
-        border-bottom: 1px solid #d6d6d6;
-    }
-
-    .fund-transfer-field-box {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .fund-transfer-field-box label {
-        font-size: 12px;
-        font-weight: 700;
-        color: #1e1e1e;
-        text-transform: uppercase;
-        margin: 0;
-    }
-
-    .fund-transfer-field-box .form-control {
-        width: 100%;
-        height: 34px;
-        border: 1px solid #bdbdbd;
-        border-radius: 0;
-        background: #fff;
-    }
-
-    .all-btn {
-        border: 0;
-        background: #1d9adf;
-        color: #fff;
-        font-weight: 700;
-        text-transform: uppercase;
-        min-width: 80px;
-        height: 34px;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .fund-transfer-pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 0 12px;
-    }
-
-    .page-btn {
-        width: 28px;
-        height: 28px;
-        border: 1px solid #cfcfcf;
-        background: #f4f4f4;
-        color: #444;
-        font-weight: 700;
-        padding: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .page-btn.current {
-        background: #1d9adf;
-        color: #fff;
-        border-color: #1d9adf;
-    }
-
-    .fund-transfer-table-wrap {
-        border: 1px solid #d5d5d5;
-        background: #fff;
-        overflow-x: auto;
-    }
-
-    .fund-transfer-table {
-        min-width: 1400px;
-        margin: 0;
-        border-collapse: collapse;
-    }
-
-    .fund-transfer-table thead th {
-        background: #e8e8e8;
-        color: #1f1f1f;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        padding: 10px 8px;
-        border: 1px solid #d0d0d0;
-        white-space: nowrap;
-    }
-
-    .fund-transfer-table tbody td {
-        font-size: 12px;
-        padding: 9px 10px;
-        border: 1px solid #d8d8d8;
-        color: #2b2b2b;
-        white-space: nowrap;
-        background: #fff;
-    }
-
-    .fund-transfer-table tbody tr:nth-child(odd) td {
-        background: #f7f7f7;
-    }
-
-    .fund-transfer-modal-footer {
-        background: #f4f4f4;
-        border-top: 1px solid #d7d7d7;
-        padding: 12px 16px;
-        justify-content: flex-end;
-    }
-
-    .fund-transfer-close-action {
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-radius: 0;
-        min-width: 90px;
-        padding: 8px 18px;
-    }
-
-    .fund-transfer-clear-modal-dialog {
-        max-width: 460px;
-        width: 460px;
-    }
-
-    .fund-transfer-clear-modal-content {
-        border-radius: 0;
-        border: 1px solid #d7d7d7;
-        box-shadow: none;
-    }
-
-    .fund-transfer-clear-header {
-        background: #0d7291;
-        color: #fff;
-        border-bottom: 1px solid #0a5f7e;
-        min-height: 52px;
-        padding: 12px 16px;
-        position: relative;
-    }
-
-    .fund-transfer-clear-title {
-        color: #fff;
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        margin: 0;
-    }
-
-    .fund-transfer-clear-body {
-        background: #f5f5f5;
-        font-size: 15px;
-        color: #2a2a2a;
-        padding: 22px 20px;
-    }
-
-    .fund-transfer-clear-footer {
-        background: #f4f4f4;
-        border-top: 1px solid #d7d7d7;
-        padding: 12px 16px;
-        justify-content: flex-end;
-        gap: 10px;
-    }
-
-    @media (max-width: 768px) {
-        .top-action-bar {
-            padding: 8px 10px;
-        }
-
-        .action-btn,
-        .fund-transfer-btn {
-            padding: 7px 10px;
-            font-size: 11px;
-        }
-
-        .split-row {
-            grid-template-columns: 1fr;
-        }
-
-        .fund-transfer-field-group {
-            border-right: none;
-            border-bottom: 1px solid #d9d9d9;
-        }
-
-        .fund-transfer-field-group:last-child {
-            border-bottom: none;
-        }
-
-        .fund-transfer-actions {
-            justify-content: flex-end;
-            flex-wrap: nowrap;
-        }
-
-        .fund-transfer-filter-row {
-            grid-template-columns: 1fr;
-        }
-
-        .fund-transfer-modal-dialog {
-            max-width: 94vw;
-            width: 94vw;
-            margin: 1rem auto;
-        }
+    html.dark .transfer-record-row:hover {
+        background-color: #1e293b !important;
     }
 </style>
 
+{{-- ── Page Scripts ── --}}
+<script>
+    // Submit Fund Transfer
+    function submitFundTransfer() {
+        const user = document.getElementById('api_user_select').value;
+        const amount = document.getElementById('transfer_amount').value;
+        const type = document.getElementById('transfer_type').value;
+        const wallet = document.getElementById('wallet_type').value;
+
+        if (!user) {
+            alert('Please select API USER!');
+            document.getElementById('api_user_select').focus();
+            return;
+        }
+
+        if (!amount || parseFloat(amount) <= 0) {
+            alert('Please enter a valid TRANSFER AMOUNT!');
+            document.getElementById('transfer_amount').focus();
+            return;
+        }
+
+        alert(`Fund Transfer of ₹${parseFloat(amount).toFixed(2)} to [${user}] initiated successfully!`);
+    }
+
+    // Send OTP
+    function sendTransferOTP() {
+        const user = document.getElementById('api_user_select').value;
+        if (!user) {
+            alert('Please select API USER first!');
+            return;
+        }
+        alert(`OTP has been sent to registered mobile for ${user}.`);
+    }
+
+    // Clear Form
+    function clearFundTransferForm() {
+        document.getElementById('transfer_id').value = '';
+        document.getElementById('api_user_select').value = '';
+        document.getElementById('transfer_amount').value = '';
+        document.getElementById('transfer_type').value = 'FUND TRANSFER';
+        document.getElementById('wallet_type').value = 'PREPAID BALANCE';
+        document.getElementById('transaction_desc').value = '';
+    }
+
+    // Modal Selection
+    function selectTransferRecord(rec) {
+        document.getElementById('transfer_id').value = rec.id;
+        document.getElementById('transfer_amount').value = rec.amount;
+        document.getElementById('transfer_type').value = rec.type;
+        document.getElementById('wallet_type').value = rec.wallet;
+
+        // Try select matching user
+        const select = document.getElementById('api_user_select');
+        for (let i = 0; i < select.options.length; i++) {
+            if (select.options[i].text.includes(rec.user) || select.options[i].text.includes(rec.reg_no)) {
+                select.selectedIndex = i;
+                break;
+            }
+        }
+
+        // Close modal
+        const modalEl = document.getElementById('viewFundTransferModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+    }
+
+    // Modal Filter Logic
+    function filterFundTransferModalTable() {
+        const filterUser = (document.getElementById('modal_filter_user').value || '').trim().toLowerCase();
+        const filterTran = (document.getElementById('modal_filter_tran').value || '').trim().toLowerCase();
+
+        document.querySelectorAll('#fundTransferModalTbody tr.transfer-record-row').forEach(row => {
+            const user = (row.dataset.user || '').toLowerCase();
+            const tran = (row.dataset.tran || '').toLowerCase();
+
+            let match = true;
+            if (filterUser && !user.includes(filterUser)) match = false;
+            if (filterTran && !tran.includes(filterTran)) match = false;
+
+            if (match) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function resetFundTransferModalFilter() {
+        document.getElementById('modal_filter_user').value = '';
+        document.getElementById('modal_filter_tran').value = '';
+        document.querySelectorAll('#fundTransferModalTbody tr.transfer-record-row').forEach(row => {
+            row.style.display = '';
+        });
+    }
+</script>
 @endsection

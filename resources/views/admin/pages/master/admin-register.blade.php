@@ -1,584 +1,456 @@
 @extends('admin.layout.master')
 
 @section('content')
-<div class="content-wrapper">
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="admin-form-shell">
-            <div class="top-action-bar">
-                <button type="button" class="action-btn save-btn">
-                    <i class="bx bx-check"></i> Save
-                </button>
-                <button type="button" class="action-btn edit-btn" data-bs-toggle="modal" data-bs-target="#editAdminModal">
-                    <i class="bx bx-pencil"></i> Edit
-                </button>
-                <button type="button" class="action-btn delete-btn" data-bs-toggle="modal" data-bs-target="#deleteAdminModal">
-                    <i class="bx bx-trash"></i> Del
-                </button>
-                <button type="button" class="action-btn clear-btn" data-bs-toggle="modal" data-bs-target="#clearAdminModal">
-                    <i class="bx bx-x"></i> Clear
-                </button>
-            </div>
+<div class="container-xxl flex-grow-1 container-p-y pt-3 pb-5">
 
-            <div class="admin-form-card">
-                <div class="form-section-title">
-                    <i class="bx bx-user"></i> Admin Details
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-row">
-                        <label class="form-label">First Name <span class="mandatory">*</span></label>
-                        <div class="form-control-wrap highlight-field">
-                            <input type="text" value="" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <label class="form-label">Last Name <span class="mandatory">*</span></label>
-                        <div class="form-control-wrap">
-                            <input type="text" value="" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <label class="form-label">Mobile Number <span class="mandatory">*</span></label>
-                        <div class="form-control-wrap">
-                            <input type="text" value="" class="form-control" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <label class="form-label">Admin ID <span class="mandatory">*</span></label>
-                        <div class="form-control-wrap disabled-field">
-                            <input type="text" value="admin" class="form-control" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <label class="form-label">Password <span class="mandatory">*</span></label>
-                        <div class="form-control-wrap password-wrap">
-                            <input type="password" value="" class="form-control" placeholder="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-footer-action">
-                    <button type="button" class="footer-btn primary-btn">
-                        <i class="bx bx-check"></i> Save
-                    </button>
-                    <button type="button" class="footer-btn secondary-btn" data-bs-toggle="modal" data-bs-target="#clearAdminModal">
-                        <i class="bx bx-x"></i> Clear
-                    </button>
-                </div>
-            </div>
+    {{-- ── Breadcrumb Bar with Generous Spacing ── --}}
+    <div class="sms-breadcrumb-wrapper d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pt-2 pb-1">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bx bx-home text-secondary" style="font-size: 1.15rem;"></i>
+            <span class="crumb-section">Master</span>
+            <span class="crumb-sep">|</span>
+            <span class="crumb-active">Admin Register</span>
         </div>
     </div>
+
+    {{-- ── Main Shell Container ── --}}
+    <div class="sms-card-shell mb-4">
+        
+        {{-- Top Action Bar matching Enterprise Style --}}
+        <div class="help-top-action-bar d-flex flex-wrap align-items-center gap-2 px-3 py-2 border-bottom">
+            <button type="button" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="saveAdminRecord()">
+                <i class="bx bx-check"></i> SAVE
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#editAdminModal">
+                <i class="bx bx-pencil"></i> EDIT
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" onclick="deleteAdminRecord()">
+                <i class="bx bx-trash"></i> DEL
+            </button>
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" onclick="clearAdminForm()">
+                <i class="bx bx-refresh"></i> CLEAR
+            </button>
+        </div>
+
+        {{-- Form Content Body --}}
+        <div class="sms-card-body p-4 bg-white">
+            <form id="adminRegisterForm" onsubmit="event.preventDefault(); saveAdminRecord();">
+                <input type="hidden" id="admin_id" value="" />
+
+                {{-- Row 1: Admin Name & Mobile --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        ADMIN NAME <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="admin_name" class="form-control sms-input" placeholder="Full name..." required />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        MOBILE NO <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="admin_mobile" class="form-control sms-input font-monospace" placeholder="10-digit mobile number..." required />
+                    </div>
+                </div>
+
+                {{-- Row 2: Login ID & Email --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        LOGIN ID <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="text" id="admin_login_id" class="form-control sms-input font-monospace" placeholder="Username / Login ID..." required />
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        EMAIL ID
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="email" id="admin_email" class="form-control sms-input" placeholder="admin@domain.com" />
+                    </div>
+                </div>
+
+                {{-- Row 3: Status & Role --}}
+                <div class="row align-items-center mb-3">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        STATUS <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <select id="admin_status" class="form-select sms-input" required>
+                            <option value="ACTIVE" selected>ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                        </select>
+                    </div>
+
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        ROLE <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <select id="admin_role" class="form-select sms-input" required>
+                            <option value="ADMIN" selected>ADMIN</option>
+                            <option value="SUPERADMIN">SUPERADMIN</option>
+                            <option value="MANAGER">MANAGER</option>
+                        </select>
+                    </div>
+                </div>
+
+                {{-- Row 4: Password --}}
+                <div class="row align-items-center mb-4">
+                    <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
+                        PASSWORD <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-sm-9 col-md-4">
+                        <input type="password" id="admin_password" class="form-control sms-input" placeholder="Enter secure password..." required />
+                    </div>
+                </div>
+
+                {{-- Bottom Action Buttons --}}
+                <div class="row">
+                    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="submit" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1 px-3">
+                                <i class="bx bx-check"></i> SAVE
+                            </button>
+                            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1 px-3" onclick="clearAdminForm()">
+                                <i class="bx bx-refresh"></i> CLEAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div>
 
+{{-- ── Edit Admin Details Modal ── --}}
 <div class="modal fade" id="editAdminModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog edit-user-modal-dialog modal-dialog-centered">
-        <div class="modal-content edit-user-modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">EDIT ADMIN DETAILS !</h5>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header border-bottom py-3 px-4 bg-white d-flex align-items-center justify-content-between">
+                <h5 class="modal-title fs-6 fw-bold text-dark mb-0">
+                    EDIT ADMIN DETAILS !
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body edit-user-modal-body">
-                <div class="table-responsive edit-user-table-wrap">
-                    <table class="table table-bordered mb-0 edit-user-table">
-                        <thead>
+
+            <div class="modal-body p-4 bg-white">
+                {{-- Search Filter Form inside Modal --}}
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end help-field-label">ADMIN NAME</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="modal_filter_admin_name" class="form-control sms-input" placeholder="" oninput="filterAdminModalTable()" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end help-field-label">MOBILE NO</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="modal_filter_admin_mob" class="form-control sms-input" placeholder="" oninput="filterAdminModalTable()" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 text-start">
+                        <button type="button" class="btn btn-primary btn-sm px-3 fw-bold" onclick="resetAdminModalFilter()">
+                            ALL
+                        </button>
+                    </div>
+                </div>
+
+                {{-- Pagination Inside Modal --}}
+                <div class="d-flex justify-content-center my-3">
+                    <div class="sms-pagination-container">
+                        <nav aria-label="Admin modal navigation">
+                            <ul class="pagination pagination-sm mb-0 justify-content-center">
+                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">«</a></li>
+                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">»</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                {{-- Table Component inside Modal --}}
+                <div class="table-responsive text-nowrap border rounded" style="max-height: 420px; overflow-y: auto;">
+                    <table class="table table-hover table-bordered mb-0 align-middle" id="adminModalTable" style="font-size: 0.8125rem;">
+                        <thead class="table-light">
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">ADMIN NAME</th>
-                                <th scope="col">MOBILE NO</th>
-                                <th scope="col">LOGIN ID</th>
-                                <th scope="col">PASSWORD</th>
-                                <th scope="col">EMAIL</th>
-                                <th scope="col">STATUS</th>
-                                <th scope="col">ROLE</th>
-                                <th scope="col">CREATED DATE</th>
+                                <th style="width: 40px;" class="text-center">#</th>
+                                <th>ADMIN NAME</th>
+                                <th>MOBILE NO</th>
+                                <th>LOGIN ID</th>
+                                <th>EMAIL</th>
+                                <th class="text-center">STATUS</th>
+                                <th>ROLE</th>
+                                <th>CREATED DATE</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>PAY ZONE</td>
-                                <td>6295654606</td>
-                                <td>admin</td>
-                                <td>xxxx</td>
-                                <td>-</td>
-                                <td>ACTIVE</td>
-                                <td>ADMIN</td>
-                                <td>2026-08-14</td>
+                        <tbody id="adminModalTbody">
+                            @php
+                                $adminRecords = [
+                                    [
+                                        'id' => 1,
+                                        'name' => 'PAY ZONE',
+                                        'mobile' => '6295654606',
+                                        'login_id' => 'admin',
+                                        'email' => 'admin@payzones.net',
+                                        'status' => 'ACTIVE',
+                                        'role' => 'ADMIN',
+                                        'date' => '2026-08-14'
+                                    ],
+                                    [
+                                        'id' => 2,
+                                        'name' => 'ASL SYSTEM ADMIN',
+                                        'mobile' => '8709305218',
+                                        'login_id' => 'asladmin',
+                                        'email' => 'tech@aslhub.com',
+                                        'status' => 'ACTIVE',
+                                        'role' => 'SUPERADMIN',
+                                        'date' => '2026-08-01'
+                                    ]
+                                ];
+                            @endphp
+
+                            @foreach($adminRecords as $record)
+                            <tr class="admin-record-row"
+                                style="cursor: pointer;"
+                                data-id="{{ $record['id'] }}"
+                                data-name="{{ $record['name'] }}"
+                                data-mobile="{{ $record['mobile'] }}"
+                                data-login="{{ $record['login_id'] }}"
+                                data-email="{{ $record['email'] }}"
+                                data-status="{{ $record['status'] }}"
+                                data-role="{{ $record['role'] }}"
+                                onclick="selectAdminRecord({{ json_encode($record) }})">
+                                <td class="text-center text-muted fw-bold">{{ $record['id'] }}</td>
+                                <td><span class="fw-bold text-dark">{{ $record['name'] }}</span></td>
+                                <td><span class="font-monospace text-primary fw-bold">{{ $record['mobile'] }}</span></td>
+                                <td><span class="badge bg-label-secondary font-monospace">{{ $record['login_id'] }}</span></td>
+                                <td><span class="text-secondary">{{ $record['email'] }}</span></td>
+                                <td class="text-center">
+                                    <span class="badge {{ $record['status'] === 'ACTIVE' ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $record['status'] }}
+                                    </span>
+                                </td>
+                                <td><span class="badge bg-label-info">{{ $record['role'] }}</span></td>
+                                <td><span class="font-monospace text-muted">{{ $record['date'] }}</span></td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="modal-footer edit-user-modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">CLOSE</button>
+
+            <div class="modal-footer py-2 bg-light">
+                <button type="button" class="btn btn-light border px-4" data-bs-dismiss="modal" style="background-color: #e9ecef;">
+                    CLOSE
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="deleteAdminModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Delete Admin</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this admin?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="clearAdminModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Clear Form</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Do you want to clear the admin form fields?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-warning">Clear</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+{{-- ── Page Styles ── --}}
 <style>
-    .admin-form-shell {
-        background: #f3f3f3;
-        border: 1px solid #d5d5d5;
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
-        margin-top: 10px;
+    /* Breadcrumb Header Spacing & Appearance */
+    .sms-breadcrumb-wrapper {
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.75rem;
+        margin-bottom: 1.5rem !important;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
     }
-
-    .top-action-bar {
-        background: #0d7291;
-        padding: 10px 14px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    .action-btn,
-    .footer-btn {
-        border: 1px solid rgba(0,0,0,0.15);
-        background: #f4f4f4;
-        color: #222;
+    .sms-breadcrumb-wrapper .crumb-section {
+        color: #64748b;
         font-weight: 600;
+    }
+    .sms-breadcrumb-wrapper .crumb-sep {
+        color: #94a3b8;
+        font-weight: 400;
+    }
+    .sms-breadcrumb-wrapper .crumb-active {
+        color: #0f172a;
+        font-weight: 700;
+    }
+    html.dark .sms-breadcrumb-wrapper .crumb-active {
+        color: #f8fafc;
+    }
+
+    /* Shell & Headers */
+    .sms-card-shell {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .help-top-action-bar {
+        background: var(--bg-action-bar, #1a4f78);
+    }
+    html.dark .help-top-action-bar {
+        background: #1e293b;
+    }
+
+    /* Form Fields */
+    .help-field-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #475569;
+        letter-spacing: 0.03em;
         text-transform: uppercase;
-        letter-spacing: 0.02em;
-        padding: 8px 14px;
+        white-space: nowrap;
+    }
+    html.dark .help-field-label {
+        color: #cbd5e1;
+    }
+
+    .sms-input {
         border-radius: 3px;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        cursor: pointer;
-        font-size: 13px;
+        border: 1px solid #ced4da;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8125rem;
+        background-color: #ffffff;
+    }
+    html.dark .sms-input {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
     }
 
-    .save-btn,
-    .primary-btn {
-        background: #f28b2d;
-        color: #fff;
-        border-color: #d9781d;
-    }
-
-    .action-btn {
-        flex: 0 0 auto;
-    }
-
-    .edit-btn,
-    .delete-btn,
-    .clear-btn,
-    .secondary-btn {
-        background: #f0f0f0;
-        color: #1b1b1b;
-    }
-
-    .admin-form-card {
-        background: #f7f7f7;
-        border: 1px solid #d9d9d9;
-        border-top: none;
-        padding: 0;
-    }
-
-    .form-section-title {
-        font-size: 17px;
+    /* Orange Action Button */
+    .btn-orange-action {
+        background-color: #f97316;
+        color: #ffffff;
         font-weight: 700;
-        color: #222;
+        font-size: 0.75rem;
         letter-spacing: 0.04em;
-        text-transform: uppercase;
-        padding: 14px 16px 12px;
-        border-bottom: 1px solid #d9d9d9;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        border-radius: 3px;
+        padding: 0.35rem 0.85rem;
+        border: none;
+        box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+        transition: all 0.2s ease;
+    }
+    .btn-orange-action:hover {
+        background-color: #ea580c;
+        color: #ffffff;
+        transform: translateY(-1px);
     }
 
-    .form-grid {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
+    /* Table Hover on Modal */
+    .admin-record-row:hover {
+        background-color: #f1f5f9 !important;
     }
-
-    .form-row {
-        display: grid;
-        grid-template-columns: 220px 1fr;
-        min-height: 58px;
-        border-bottom: 1px solid #d9d9d9;
-    }
-
-    .form-label {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 14px 16px;
-        font-size: 14px;
-        font-weight: 700;
-        color: #1a1a1a;
-        text-transform: uppercase;
-        letter-spacing: 0.02em;
-        background: rgba(0,0,0,0.01);
-        border-right: 1px solid #d9d9d9;
-    }
-
-    .mandatory {
-        color: #e53935;
-        margin-left: 6px;
-    }
-
-    .form-control-wrap {
-        display: flex;
-        align-items: center;
-        padding: 10px 14px;
-    }
-
-    .modal-content {
-        border-radius: 0;
-        border: 1px solid #d7d7d7;
-        box-shadow: none;
-    }
-
-    .modal-header {
-        position: relative;
-        background: #0d7291;
-        color: #fff;
-        border-bottom: 1px solid #0a5f7e;
-        padding: 14px 18px;
-        min-height: 56px;
-    }
-
-    .modal-title {
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        margin: 0;
-        color: #fff;
-    }
-
-    .btn-close {
-        position: absolute;
-        right: 18px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 22px;
-        height: 22px;
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-        opacity: 1;
-        padding: 0;
-        margin: 0;
-        filter: invert(1) grayscale(100%) brightness(2);
-    }
-
-    .btn-close::before,
-    .btn-close::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 2px;
-        height: 18px;
-        background: #fff;
-        border-radius: 2px;
-        transform-origin: center;
-    }
-
-    .btn-close::before {
-        transform: translate(-50%, -50%) rotate(45deg);
-    }
-
-    .btn-close::after {
-        transform: translate(-50%, -50%) rotate(-45deg);
-    }
-
-    .btn-close:hover,
-    .btn-close:focus {
-        opacity: 1;
-        box-shadow: none;
-    }
-
-    .edit-user-modal-dialog {
-        max-width: 72vw;
-        width: 72vw;
-        margin: 1.5rem auto;
-    }
-
-    .edit-user-modal-content {
-        background: #f2f2f2;
-        border: 1px solid #d7d7d7;
-    }
-
-    .edit-user-modal-body {
-        background: #f5f5f5;
-        padding: 12px 14px 10px;
-    }
-
-    .edit-user-filter-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr auto;
-        gap: 16px;
-        align-items: end;
-        padding: 8px 0 12px;
-        border-bottom: 1px solid #d6d6d6;
-    }
-
-    .edit-user-field-box {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .edit-user-field-box label {
-        font-size: 12px;
-        font-weight: 700;
-        color: #1e1e1e;
-        text-transform: uppercase;
-        margin: 0;
-    }
-
-    .edit-user-field-box .form-control {
-        width: 100%;
-        max-width: none;
-        height: 36px;
-        border: 1px solid #bdbdbd;
-        border-radius: 0;
-        background: #fff;
-    }
-
-    .all-btn {
-        border: 0;
-        background: #1d9adf;
-        color: #fff;
-        font-weight: 700;
-        text-transform: uppercase;
-        min-width: 80px;
-        height: 36px;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .edit-user-pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 0 14px;
-    }
-
-    .page-btn {
-        width: 30px;
-        height: 30px;
-        border: 1px solid #cfcfcf;
-        background: #f4f4f4;
-        color: #444;
-        font-weight: 700;
-        padding: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .page-btn.current {
-        background: #1d9adf;
-        color: #fff;
-        border-color: #1d9adf;
-    }
-
-    .edit-user-table-wrap {
-        border: 1px solid #d5d5d5;
-        background: #fff;
-        overflow-x: auto;
-    }
-
-    .edit-user-table {
-        min-width: 1180px;
-        margin: 0;
-        border-collapse: collapse;
-    }
-
-    .edit-user-table thead th {
-        background: #e9e9e9;
-        color: #1f1f1f;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        padding: 11px 8px;
-        border: 1px solid #d0d0d0;
-        white-space: nowrap;
-    }
-
-    .edit-user-table tbody td {
-        font-size: 12px;
-        padding: 8px 10px;
-        border: 1px solid #d8d8d8;
-        color: #2a2a2a;
-        white-space: nowrap;
-        background: #fff;
-    }
-
-    .edit-user-table tbody tr:nth-child(odd) td {
-        background: #f7f7f7;
-    }
-
-    .package-pill {
-        display: inline-block;
-        background: #f28b2d;
-        color: #fff;
-        font-weight: 700;
-        padding: 3px 8px;
-        border-radius: 2px;
-        font-size: 11px;
-        line-height: 1.4;
-        text-transform: uppercase;
-    }
-
-    .edit-user-modal-footer {
-        background: #f4f4f4;
-        border-top: 1px solid #d7d7d7;
-        padding: 12px 16px;
-        justify-content: flex-end;
-    }
-
-    .edit-user-modal-footer .btn {
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        border-radius: 0;
-        min-width: 90px;
-    }
-
-    .highlight-field {
-        background: #fff7a8;
-    }
-
-    .disabled-field .form-control {
-        background: #d5d5d5;
-        color: #222;
-    }
-
-    .form-control {
-        width: 100%;
-        max-width: 620px;
-        height: 36px;
-        border: 1px solid #bfc0c1;
-        background: #fff;
-        padding: 7px 10px;
-        font-size: 14px;
-        color: #222;
-        outline: none;
-        border-radius: 2px;
-    }
-
-    .form-control:focus {
-        border-color: #4ea9d9;
-        box-shadow: 0 0 0 1px rgba(78,169,217,0.15);
-    }
-
-    .form-footer-action {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 10px;
-        padding: 14px 16px 18px;
-        flex-wrap: nowrap;
-    }
-
-    .footer-btn {
-        min-width: 112px;
-        justify-content: center;
-        flex: 0 0 auto;
-    }
-
-    @media (max-width: 768px) {
-        .top-action-bar {
-            padding: 8px 10px;
-        }
-
-        .action-btn {
-            padding: 7px 10px;
-            font-size: 11px;
-        }
-
-        .form-row {
-            grid-template-columns: 1fr;
-        }
-
-        .form-label {
-            border-right: 0;
-            border-bottom: 1px solid #d9d9d9;
-            padding-bottom: 10px;
-        }
-
-        .form-control-wrap {
-            padding-top: 12px;
-            padding-bottom: 12px;
-        }
-
-        .form-footer-action {
-            gap: 8px;
-            justify-content: flex-end;
-            flex-wrap: nowrap;
-        }
-
-        .footer-btn {
-            min-width: 96px;
-            padding: 8px 10px;
-            font-size: 12px;
-        }
-
-        .edit-user-modal-dialog {
-            max-width: 94vw;
-            width: 94vw;
-            margin: 1rem auto;
-        }
-
-        .edit-user-filter-row {
-            grid-template-columns: 1fr;
-        }
-
-        .edit-user-table {
-            min-width: 980px;
-        }
+    html.dark .admin-record-row:hover {
+        background-color: #1e293b !important;
     }
 </style>
+
+{{-- ── Page Scripts ── --}}
+<script>
+    // Save Admin
+    function saveAdminRecord() {
+        const name = document.getElementById('admin_name').value.trim();
+        const mobile = document.getElementById('admin_mobile').value.trim();
+        const login = document.getElementById('admin_login_id').value.trim();
+
+        if (!name) {
+            alert('Please enter ADMIN NAME!');
+            document.getElementById('admin_name').focus();
+            return;
+        }
+
+        if (!mobile) {
+            alert('Please enter MOBILE NO!');
+            document.getElementById('admin_mobile').focus();
+            return;
+        }
+
+        if (!login) {
+            alert('Please enter LOGIN ID!');
+            document.getElementById('admin_login_id').focus();
+            return;
+        }
+
+        alert(`Admin user "${name}" saved successfully!`);
+    }
+
+    // Delete Admin
+    function deleteAdminRecord() {
+        const name = document.getElementById('admin_name').value.trim();
+        if (!name) {
+            alert('No admin selected to delete.');
+            return;
+        }
+        if (confirm(`Are you sure you want to delete admin "${name}"?`)) {
+            clearAdminForm();
+            alert('Admin user deleted successfully!');
+        }
+    }
+
+    // Clear Form
+    function clearAdminForm() {
+        document.getElementById('admin_id').value = '';
+        document.getElementById('admin_name').value = '';
+        document.getElementById('admin_mobile').value = '';
+        document.getElementById('admin_login_id').value = '';
+        document.getElementById('admin_email').value = '';
+        document.getElementById('admin_status').value = 'ACTIVE';
+        document.getElementById('admin_role').value = 'ADMIN';
+        document.getElementById('admin_password').value = '';
+    }
+
+    // Modal Selection
+    function selectAdminRecord(rec) {
+        document.getElementById('admin_id').value = rec.id;
+        document.getElementById('admin_name').value = rec.name;
+        document.getElementById('admin_mobile').value = rec.mobile;
+        document.getElementById('admin_login_id').value = rec.login_id;
+        document.getElementById('admin_email').value = rec.email;
+        document.getElementById('admin_status').value = rec.status || 'ACTIVE';
+        document.getElementById('admin_role').value = rec.role || 'ADMIN';
+        document.getElementById('admin_password').value = '********';
+
+        // Close modal
+        const modalEl = document.getElementById('editAdminModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+    }
+
+    // Modal Filter Logic
+    function filterAdminModalTable() {
+        const filterName = (document.getElementById('modal_filter_admin_name').value || '').trim().toLowerCase();
+        const filterMob = (document.getElementById('modal_filter_admin_mob').value || '').trim().toLowerCase();
+
+        document.querySelectorAll('#adminModalTbody tr.admin-record-row').forEach(row => {
+            const name = (row.dataset.name || '').toLowerCase();
+            const mob = (row.dataset.mobile || '').toLowerCase();
+
+            let match = true;
+            if (filterName && !name.includes(filterName)) match = false;
+            if (filterMob && !mob.includes(filterMob)) match = false;
+
+            if (match) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    function resetAdminModalFilter() {
+        document.getElementById('modal_filter_admin_name').value = '';
+        document.getElementById('modal_filter_admin_mob').value = '';
+        document.querySelectorAll('#adminModalTbody tr.admin-record-row').forEach(row => {
+            row.style.display = '';
+        });
+    }
+</script>
 @endsection
