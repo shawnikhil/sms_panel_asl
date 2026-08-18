@@ -290,7 +290,7 @@
                     @enderror
                 </div>
 
-                <!-- Remember Me Checkbox -->
+                <!-- Remember Me Checkbox (Required) -->
                 <div id="rememberContainer" class="flex items-center justify-between pt-1">
                     <label class="flex items-center gap-2.5 cursor-pointer select-none">
                         <input
@@ -298,13 +298,14 @@
                             id="remember"
                             name="remember"
                             value="1"
+                            required
                             class="w-4 h-4 rounded bg-dark-900 border-white/20 text-brand-600 focus:ring-brand-500 focus:ring-offset-dark-900 accent-brand-600"
                         />
-                        <span class="text-xs font-medium text-slate-300 hover:text-white">Remember this device</span>
+                        <span class="text-xs font-medium text-slate-300 hover:text-white">
+                            Remember this device <span class="text-rose-400 font-bold">*</span>
+                        </span>
                     </label>
                 </div>
-
-                <input type="hidden" name="remember" value="0" />
 
                 <!-- Submit Button -->
                 <button
@@ -477,6 +478,13 @@
             clearMessage();
 
             const step = form.dataset.step || 'credentials';
+
+            if (step === 'credentials' && !rememberCheckbox.checked) {
+                showMessage('Please check "Remember this device" to proceed with login.', 'danger');
+                rememberCheckbox.focus();
+                return;
+            }
+
             const endpoint = step === 'otp' ? '{{ route('admin.login.verify_otp') }}' : '{{ route('admin.login') }}';
             const formData = new FormData(form);
             const body = new URLSearchParams();

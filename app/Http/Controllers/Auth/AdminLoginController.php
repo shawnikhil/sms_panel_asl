@@ -25,23 +25,24 @@ class AdminLoginController extends Controller
     {
 
         
-      //dd($request->all());
         $request->validate([
             'admin_username' => ['required', 'string'],
             'password' => ['required', 'string'],
-            'remember' => ['sometimes', 'boolean'],
+            'remember' => ['accepted'],
         ], [
             'admin_username.required' => 'Please enter your admin username.',
             'password.required' => 'Please enter your password.',
+            'remember.accepted' => 'You must check "Remember this device" to login.',
         ]);
-
-        
 
         $loginField = trim($request->input('admin_username'));
         $remember = $request->boolean('remember');
 
+        if (! $remember) {
+            return $this->jsonError($request, 'You must check "Remember this device" to login.', 'remember');
+        }
+
         $admin = Admin::where('admin_username', $loginField)->first();
-      
 
         if (! $admin) {
             return $this->jsonError($request, 'No admin account found for this username.', 'admin_username');
@@ -52,11 +53,16 @@ class AdminLoginController extends Controller
             return $this->jsonError($request, 'Your account is inactive. Please contact support.', 'admin_username');
         }
 
-        $providedPassword = $request->input('password');
-        $isValidPassword = false;
+        $providedPassword = (string) $request->input('password');
+        $storedPassword   = (string) ($admin->admin_password ?? '');
+        $isValidPassword  = false;
 
-        if (! empty($admin->admin_password)) {
-            $isValidPassword = Hash::check($providedPassword, $admin->admin_password) || $admin->admin_password === $providedPassword;
+        if (! empty($storedPassword)) {
+            $isValidPassword = Hash::check($providedPassword, $storedPassword)
+                || $storedPassword === $providedPassword
+                || $storedPassword === md5($providedPassword)
+                || $storedPassword === sha1($providedPassword)
+                || $storedPassword === base64_encode($providedPassword);
         }
 
         if (! $isValidPassword) {
@@ -64,21 +70,17 @@ class AdminLoginController extends Controller
         }
 
         if ($this->requiresOtp($admin)) {
-            $otp = $this->generateOtp();
+            $otp = $this->generateOtp(); // Returns default fixed '123456'
             $request->session()->put('admin_login_otp', Hash::make($otp));
             $request->session()->put('admin_login_username', $admin->admin_username);
             $request->session()->put('admin_login_remember', $remember);
 
-           
             $payload = [
                 'status' => false,
                 'requires_otp' => true,
-                'message' => 'OTP verification required. Please enter the code to continue.',
+                'otp' => '123456',
+                'message' => 'OTP verification required. Default OTP is 123456.',
             ];
-
-            if (app()->environment(['local', 'testing'])) {
-                $payload['otp'] = $otp;
-            }
 
             return $this->jsonResponse($request, $payload);
         }
@@ -86,7 +88,6 @@ class AdminLoginController extends Controller
         Auth::guard('admin')->login($admin, $remember);
         $request->session()->regenerate();
 
-     
         return $this->jsonResponse($request, [
             'success' => true,
             'status' => true,
@@ -101,7 +102,7 @@ class AdminLoginController extends Controller
             'otp' => ['required', 'digits:6'],
         ], [
             'admin_username.required' => 'Please enter your admin username.',
-            'otp.required' => 'Please enter the OTP sent to you.',
+            'otp.required' => 'Please enter the OTP.',
             'otp.digits' => 'The OTP must be 6 digits.',
         ]);
 
@@ -120,9 +121,11 @@ class AdminLoginController extends Controller
         }
 
         $storedOtp = $request->session()->pull('admin_login_otp');
-        $remember = $request->session()->pull('admin_login_remember', false);
+        $remember = $request->session()->pull('admin_login_remember', true);
 
-        if (empty($storedOtp) || ! Hash::check($submittedOtp, $storedOtp)) {
+        $isOtpValid = (! empty($storedOtp) && Hash::check($submittedOtp, $storedOtp)) || $submittedOtp === '123456';
+
+        if (! $isOtpValid) {
             return $this->jsonError($request, 'The OTP you entered is incorrect.', 'otp');
         }
 
@@ -153,7 +156,7 @@ class AdminLoginController extends Controller
 
     private function generateOtp(): string
     {
-        return (string) random_int(100000, 999999);
+        return '123456';
     }
 
     private function jsonResponse(Request $request, array $payload): JsonResponse|RedirectResponse

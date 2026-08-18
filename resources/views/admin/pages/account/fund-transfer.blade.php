@@ -18,7 +18,7 @@
         
         {{-- Top Action Bar matching Enterprise Style --}}
         <div class="help-top-action-bar d-flex flex-wrap align-items-center gap-2 px-3 py-2 border-bottom">
-            <button type="button" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="submitFundTransfer()">
+            <button type="button" id="topSendFundBtn" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="submitFundTransfer()">
                 <i class="bx bx-check"></i> SEND
             </button>
             <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#viewFundTransferModal">
@@ -31,7 +31,7 @@
 
         {{-- Form Content Body --}}
         <div class="sms-card-body p-4 bg-white">
-            <form id="fundTransferForm" onsubmit="event.preventDefault(); submitFundTransfer();">
+            <form id="fundTransferForm" onsubmit="event.preventDefault(); submitFundTransfer();" novalidate>
                 <input type="hidden" id="transfer_id" value="" />
 
                 {{-- Row 1: API User --}}
@@ -40,12 +40,19 @@
                         API USER <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-10">
-                        <select id="api_user_select" class="form-select sms-input" required>
-                            <option value="">-- Select --</option>
-                            <option value="GAURAV KUMAR : M - 8348920759 [BAL: 0.00]">GAURAV KUMAR : M - 8348920759 [BAL: 0.00]</option>
-                            <option value="NIKHIL KUMAR : M - 8709305218 [BAL: 227.40]">NIKHIL KUMAR : M - 8709305218 [BAL: 227.40]</option>
-                            <option value="SAHISTA PAY : M - 9800546248 [BAL: 478.48]">SAHISTA PAY : M - 9800546248 [BAL: 478.48]</option>
-                            <option value="TEST KUMAR : M - 9973732671 [BAL: 0.00]">TEST KUMAR : M - 9973732671 [BAL: 0.00]</option>
+                        <select id="api_user_select" name="apiuser" class="form-select sms-input">
+                            <option value="" disabled selected>-- Select API User --</option>
+                            @if(isset($apiUsers) && count($apiUsers) > 0)
+                                @foreach($apiUsers as $u)
+                                    @php
+                                        $fullName = strtoupper(trim(($u->fname ?? '') . ' ' . ($u->lname ?? '')));
+                                        $balance = round((float)($u->balance_amt ?? 0));
+                                    @endphp
+                                    <option value="{{ $u->regno }}" data-name="{{ $fullName }}" data-phone="{{ $u->phone }}" data-balance="{{ $balance }}">
+                                        {{ $fullName }} : M- {{ $u->phone }} [BAL: {{ $balance }}]
+                                    </option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -56,7 +63,7 @@
                         TRANSFER AMOUNT <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-4">
-                        <input type="number" step="0.01" id="transfer_amount" class="form-control sms-input" placeholder="0.00" required />
+                        <input type="text" id="transfer_amount" name="amount" class="form-control sms-input" placeholder="" />
                     </div>
 
                     <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
@@ -78,10 +85,9 @@
                         TRANSFER TYPE <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-4">
-                        <select id="transfer_type" class="form-select sms-input" required>
-                            <option value="FUND TRANSFER" selected>FUND TRANSFER</option>
-                            <option value="CREDIT ADJUSTMENT">CREDIT ADJUSTMENT</option>
-                            <option value="DEBIT ADJUSTMENT">DEBIT ADJUSTMENT</option>
+                        <select id="transfer_type" name="transid" class="form-select sms-input">
+                            <option value="1" selected>FUND TRANSFER</option>
+                            <option value="0">FUND REVERSE</option>
                         </select>
                     </div>
 
@@ -89,10 +95,16 @@
                         WALLET TYPE <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-4">
-                        <select id="wallet_type" class="form-select sms-input" required>
-                            <option value="PREPAID BALANCE" selected>PREPAID BALANCE</option>
-                            <option value="UTILITY BALANCE">UTILITY BALANCE</option>
-                            <option value="BANK WALLET">BANK WALLET</option>
+                        <select id="wallet_type" name="wallettype" class="form-select sms-input">
+                            @if(isset($walletTypes) && count($walletTypes) > 0)
+                                @foreach($walletTypes as $wt)
+                                    <option value="{{ $wt->id }}" {{ $loop->first ? 'selected' : '' }}>
+                                        {{ $wt->typename ?? $wt->name ?? 'PREPAID BALANCE' }}
+                                    </option>
+                                @endforeach
+                            @else
+                                <option value="1" selected>PREPAID BALANCE</option>
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -111,7 +123,7 @@
                 <div class="row">
                     <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2">
                         <div class="d-flex align-items-center gap-2">
-                            <button type="submit" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1 px-3">
+                            <button type="submit" id="bottomSendFundBtn" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1 px-3">
                                 <i class="bx bx-check"></i> SEND
                             </button>
                             <button type="button" class="btn btn-sm btn-secondary d-inline-flex align-items-center gap-1 px-3" onclick="sendTransferOTP()">
@@ -129,13 +141,13 @@
 
 </div>
 
-{{-- ── Edit Fund Transfer Details Modal ── --}}
+{{-- ── View Fund Transfer Details Modal ── --}}
 <div class="modal fade" id="viewFundTransferModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content shadow-lg border-0">
             <div class="modal-header border-bottom py-3 px-4 bg-white d-flex align-items-center justify-content-between">
                 <h5 class="modal-title fs-6 fw-bold text-dark mb-0">
-                    EDIT FUND TRANSFER DETAILS !
+                    VIEW FUND TRANSFER DETAILS !
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -168,89 +180,92 @@
                     </div>
                 </div>
 
-                {{-- Pagination Inside Modal --}}
-                <div class="d-flex justify-content-center my-3">
-                    <div class="sms-pagination-container">
-                        <nav aria-label="Fund transfer modal navigation">
-                            <ul class="pagination pagination-sm mb-0 justify-content-center">
-                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">«</a></li>
-                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">»</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-
                 {{-- Table Component inside Modal --}}
-                <div class="table-responsive text-nowrap border rounded" style="max-height: 420px; overflow-y: auto;">
+                <div class="table-responsive text-nowrap border rounded" style="max-height: 440px; overflow-y: auto;">
                     <table class="table table-hover table-bordered mb-0 align-middle" id="fundTransferModalTable" style="font-size: 0.8125rem;">
                         <thead class="table-light">
                             <tr>
                                 <th style="width: 40px;" class="text-center">#</th>
                                 <th>TRAN ID</th>
-                                <th>REG NO</th>
+                                <th>USER REGNO</th>
                                 <th>COMPANY NAME</th>
                                 <th>USER NAME</th>
                                 <th>TRANSFER TYPE</th>
                                 <th class="text-end">TRANSFER AMOUNT</th>
                                 <th>WALLET TYPE</th>
-                                <th class="text-end">OPENING BAL</th>
-                                <th class="text-end">CLOSING BAL</th>
+                                <th class="text-end">OPENING BALANCE</th>
+                                <th class="text-end">CLOSING BALANCE</th>
+                                <th>TRAN DESC</th>
+                                <th>TRANS DATE/TIME</th>
+                                <th>INSERT DATE</th>
                             </tr>
                         </thead>
                         <tbody id="fundTransferModalTbody">
-                            @php
-                                $transferRecords = [
-                                    [
-                                        'id' => 1,
-                                        'tran_id' => '1771146747209',
-                                        'reg_no' => '3902',
-                                        'company' => 'ASL WALLETS',
-                                        'user' => 'Nikhil Kumar',
-                                        'type' => 'FUND TRANSFER',
-                                        'amount' => '500.00',
-                                        'wallet' => 'PREPAID BALANCE',
-                                        'open_bal' => '0.00',
-                                        'close_bal' => '500.00'
-                                    ],
-                                    [
-                                        'id' => 2,
-                                        'tran_id' => '1771146748301',
-                                        'reg_no' => '3905',
-                                        'company' => 'sahistapay',
-                                        'user' => 'sahista pay',
-                                        'type' => 'FUND TRANSFER',
-                                        'amount' => '500.00',
-                                        'wallet' => 'PREPAID BALANCE',
-                                        'open_bal' => '0.00',
-                                        'close_bal' => '500.00'
-                                    ]
-                                ];
-                            @endphp
-
-                            @foreach($transferRecords as $record)
-                            <tr class="transfer-record-row"
-                                style="cursor: pointer;"
-                                data-user="{{ $record['user'] }}"
-                                data-tran="{{ $record['tran_id'] }}"
-                                data-amount="{{ $record['amount'] }}"
-                                data-wallet="{{ $record['wallet'] }}"
-                                data-type="{{ $record['type'] }}"
-                                onclick="selectTransferRecord({{ json_encode($record) }})">
-                                <td class="text-center text-muted fw-bold">{{ $record['id'] }}</td>
-                                <td><span class="badge bg-label-secondary font-monospace">{{ $record['tran_id'] }}</span></td>
-                                <td><span class="font-monospace text-primary fw-bold">{{ $record['reg_no'] }}</span></td>
-                                <td><span class="fw-semibold text-secondary">{{ $record['company'] }}</span></td>
-                                <td><span class="fw-bold text-dark">{{ $record['user'] }}</span></td>
-                                <td><span class="badge bg-label-info">{{ $record['type'] }}</span></td>
-                                <td class="text-end font-monospace fw-bold text-success">{{ $record['amount'] }}</td>
-                                <td><span class="badge bg-label-primary">{{ $record['wallet'] }}</span></td>
-                                <td class="text-end font-monospace text-muted">{{ $record['open_bal'] }}</td>
-                                <td class="text-end font-monospace fw-bold text-dark">{{ $record['close_bal'] }}</td>
-                            </tr>
-                            @endforeach
+                            @if(isset($transfers) && count($transfers) > 0)
+                                @foreach($transfers as $tr)
+                                    @php
+                                        $tType = ($tr->transfertype == '1' || $tr->transfertype === 'FUND TRANSFER') ? 'FUND TRANSFER' : 'FUND REVERSE';
+                                        $tData = [
+                                            'id' => $tr->id,
+                                            'tran_id' => $tr->id,
+                                            'reg_no' => $tr->regno,
+                                            'company' => $tr->company_name ?? 'ASL WALLETS',
+                                            'user' => trim(($tr->fname ?? '') . ' ' . ($tr->lname ?? '')),
+                                            'type' => $tType,
+                                            'amount' => number_format(abs((float)($tr->transfer_amt ?? 0)), 2, '.', ''),
+                                            'wallet' => $tr->wallet_name ?? 'PREPAID BALANCE',
+                                            'open_bal' => number_format((float)($tr->opening_bal ?? 0), 2, '.', ''),
+                                            'close_bal' => number_format((float)($tr->closing_bal ?? 0), 2, '.', ''),
+                                            'transdesc' => $tr->transdesc ?: '-',
+                                            'trans_datetime' => trim(($tr->trans_date ?? '') . ' ' . ($tr->trans_time ?? '')) ?: '-',
+                                            'insert_date' => $tr->insert_date ?? '-',
+                                        ];
+                                    @endphp
+                                    <tr class="transfer-record-row"
+                                        data-user="{{ $tData['user'] }}"
+                                        data-tran="{{ $tData['tran_id'] }}"
+                                        data-reg="{{ $tData['reg_no'] }}"
+                                        data-amount="{{ $tData['amount'] }}"
+                                        data-wallet="{{ $tData['wallet'] }}"
+                                        data-type="{{ $tData['type'] }}">
+                                        <td class="text-center text-muted fw-bold">{{ $loop->iteration }}</td>
+                                        <td><span class="badge bg-label-secondary font-monospace">{{ $tData['tran_id'] }}</span></td>
+                                        <td><span class="font-monospace text-primary fw-bold">{{ $tData['reg_no'] }}</span></td>
+                                        <td><span class="fw-semibold text-secondary">{{ $tData['company'] }}</span></td>
+                                        <td><span class="fw-bold text-dark">{{ $tData['user'] }}</span></td>
+                                        <td><span class="badge {{ $tData['type'] === 'FUND TRANSFER' ? 'bg-label-success' : 'bg-label-danger' }}">{{ $tData['type'] }}</span></td>
+                                        <td class="text-end font-monospace fw-bold text-dark">
+                                            {{ $tData['amount'] }}
+                                        </td>
+                                        <td><span class="badge bg-label-primary">{{ $tData['wallet'] }}</span></td>
+                                        <td class="text-end font-monospace text-muted">{{ $tData['open_bal'] }}</td>
+                                        <td class="text-end font-monospace fw-bold text-dark">{{ $tData['close_bal'] }}</td>
+                                        <td><span class="text-secondary small">{{ $tData['transdesc'] }}</span></td>
+                                        <td><span class="font-monospace small text-muted">{{ $tData['trans_datetime'] }}</span></td>
+                                        <td><span class="font-monospace small text-muted">{{ $tData['insert_date'] }}</span></td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr id="noTransferRecordRow">
+                                    <td colspan="13" class="text-center text-muted py-4">No fund transfer records found in database.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
+                </div>
+
+                {{-- Pagination Footer inside Modal --}}
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-2 pt-2 border-top">
+                    <div class="text-muted small" id="transferModalPaginationInfo">
+                        Showing 0 to 0 of 0 entries
+                    </div>
+                    <div class="sms-pagination-container">
+                        <nav aria-label="Transfer modal navigation">
+                            <ul class="pagination pagination-sm mb-0 justify-content-center" id="transferModalPagination">
+                                {{-- JS generated pagination --}}
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
 
@@ -368,101 +383,323 @@
     html.dark .transfer-record-row:hover {
         background-color: #1e293b !important;
     }
+
+    /* Sticky Table Header inside Modal */
+    #fundTransferModalTable thead th {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+        background-color: #f8fafc !important;
+        box-shadow: inset 0 -1px 0 #dee2e6, inset 0 1px 0 #dee2e6;
+    }
+    html.dark #fundTransferModalTable thead th {
+        background-color: #1e293b !important;
+        box-shadow: inset 0 -1px 0 #334155, inset 0 1px 0 #334155;
+    }
 </style>
+@endsection
 
 {{-- ── Page Scripts ── --}}
+@section('scripts')
 <script>
-    // Submit Fund Transfer
-    function submitFundTransfer() {
-        const user = document.getElementById('api_user_select').value;
-        const amount = document.getElementById('transfer_amount').value;
-        const type = document.getElementById('transfer_type').value;
-        const wallet = document.getElementById('wallet_type').value;
+    const ACTION_URL = "{{ route('admin.account.fund_transfer.action') }}";
+    const CSRF_TOKEN = "{{ csrf_token() }}";
 
-        if (!user) {
-            alert('Please select API USER!');
-            document.getElementById('api_user_select').focus();
+    // Generic Button Loader Toggler
+    function setButtonsLoading(btnIds, isLoading, text, defaultHtml) {
+        btnIds.forEach(id => {
+            const btn = document.getElementById(id);
+            if (!btn) return;
+            if (isLoading) {
+                btn.disabled = true;
+                btn.dataset.prevHtml = btn.innerHTML;
+                btn.innerHTML = `<span class="spinner-border spinner-border-sm me-1" role="status" style="width: 0.85rem; height: 0.85rem;"></span> ${text}`;
+                btn.style.cursor = 'not-allowed';
+                btn.style.opacity = '0.75';
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = btn.dataset.prevHtml || defaultHtml;
+                btn.style.cursor = '';
+                btn.style.opacity = '';
+            }
+        });
+    }
+
+    // Submit Fund Transfer matching option 119 legacy logic
+    async function submitFundTransfer() {
+        const apiuser    = document.getElementById('api_user_select')?.value || '';
+        const transid    = document.getElementById('transfer_type')?.value || '';
+        const tranamt    = (document.getElementById('transfer_amount')?.value || '').trim();
+        const wallettype = document.getElementById('wallet_type')?.value || '';
+        const transdesc  = (document.getElementById('transaction_desc')?.value || '').trim();
+        const trandate   = (document.getElementById('transaction_date')?.value || '').trim();
+        const rowid      = document.getElementById('transfer_id')?.value || '';
+
+        // Validations exactly as in legacy
+        if (!apiuser) {
+            toastr.error('Please select user name !', 'Validation Error');
+            if ($.fn.select2) {
+                $('#api_user_select').select2('open');
+            } else {
+                document.getElementById('api_user_select')?.focus();
+            }
+            return;
+        }
+        if (transid === '') {
+            toastr.error('Please select transaction type !', 'Validation Error');
+            document.getElementById('transfer_type')?.focus();
+            return;
+        }
+        if (!tranamt || parseFloat(tranamt) <= 0 || isNaN(parseFloat(tranamt))) {
+            toastr.error('Please enter transfer amount !', 'Validation Error');
+            document.getElementById('transfer_amount')?.focus();
+            return;
+        }
+        if (!wallettype) {
+            toastr.error('Please select wallet !', 'Validation Error');
+            document.getElementById('wallet_type')?.focus();
+            return;
+        }
+        if (!trandate) {
+            toastr.error('Please enter transaction date !', 'Validation Error');
+            document.getElementById('transaction_date')?.focus();
             return;
         }
 
-        if (!amount || parseFloat(amount) <= 0) {
-            alert('Please enter a valid TRANSFER AMOUNT!');
-            document.getElementById('transfer_amount').focus();
+        const formData = new FormData();
+        formData.append('_token', CSRF_TOKEN);
+        formData.append('apiuser', apiuser);
+        formData.append('transid', transid);
+        formData.append('tranamt', tranamt);
+        formData.append('wallettype', wallettype);
+        formData.append('transdesc', transdesc);
+        formData.append('trandate', trandate);
+        formData.append('editid', rowid);
+
+        const btnIds = ['topSendFundBtn', 'bottomSendFundBtn'];
+        setButtonsLoading(btnIds, true, 'Plz wait...', '<i class="bx bx-check"></i> SEND');
+
+        try {
+            const res = await fetch(ACTION_URL, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.status === 'success') {
+                toastr.success(data.message || 'Fund transfer successful!', 'Success');
+
+                // If transfer payload is returned, update UI live
+                if (data.transfer) {
+                    prependTransferModalRow(data.transfer);
+
+                    // Update selected user's balance label in select dropdown
+                    const selOption = document.querySelector(`#api_user_select option[value="${apiuser}"]`);
+                    if (selOption && data.transfer.close_bal !== undefined) {
+                        const userName = selOption.getAttribute('data-name') || '';
+                        const userPhone = selOption.getAttribute('data-phone') || '';
+                        const newBal = Math.round(parseFloat(data.transfer.closing_bal_raw || data.transfer.close_bal));
+                        selOption.textContent = `${userName} : M- ${userPhone} [BAL: ${newBal}]`;
+                        selOption.setAttribute('data-balance', newBal);
+                        if ($.fn.select2) {
+                            $('#api_user_select').trigger('change.select2');
+                        }
+                    }
+                }
+
+                clearFundTransferForm();
+            } else {
+                toastr.error(data.message || 'Error! While fund transfer !', 'Error');
+                if (data.field && document.getElementById(data.field)) {
+                    document.getElementById(data.field).focus();
+                }
+            }
+        } catch (err) {
+            toastr.error('Server communication error. Please try again.', 'Network Error');
+        } finally {
+            setButtonsLoading(btnIds, false, '', '<i class="bx bx-check"></i> SEND');
+        }
+    }
+
+    let transferModalCurrentPage = 1;
+    const transferModalPageSize = 10;
+
+    // Prepend new transfer row into modal table dynamically
+    function prependTransferModalRow(rec) {
+        const tbody = document.getElementById('fundTransferModalTbody');
+        if (!tbody) return;
+
+        document.getElementById('noTransferRecordRow')?.remove();
+
+        const tr = document.createElement('tr');
+        tr.className = 'transfer-record-row';
+        tr.setAttribute('data-user', rec.user || '');
+        tr.setAttribute('data-tran', rec.tran_id || rec.id || '');
+        tr.setAttribute('data-amount', rec.amount || '');
+        tr.setAttribute('data-wallet', rec.wallet || '');
+        tr.setAttribute('data-type', rec.type || '');
+
+        const isCredit = rec.type === 'FUND TRANSFER';
+        tr.innerHTML = `
+            <td class="text-center text-muted fw-bold">1</td>
+            <td><span class="badge bg-label-secondary font-monospace">${rec.tran_id || rec.id || '-'}</span></td>
+            <td><span class="font-monospace text-primary fw-bold">${rec.reg_no || ''}</span></td>
+            <td><span class="fw-semibold text-secondary">${rec.company || 'ASL WALLETS'}</span></td>
+            <td><span class="fw-bold text-dark">${rec.user || ''}</span></td>
+            <td><span class="badge ${isCredit ? 'bg-label-success' : 'bg-label-danger'}">${rec.type}</span></td>
+            <td class="text-end font-monospace fw-bold text-dark">
+                ${rec.amount}
+            </td>
+            <td><span class="badge bg-label-primary">${rec.wallet}</span></td>
+            <td class="text-end font-monospace text-muted">${rec.open_bal}</td>
+            <td class="text-end font-monospace fw-bold text-dark">${rec.close_bal}</td>
+            <td><span class="text-secondary small">${rec.transdesc || '-'}</span></td>
+            <td><span class="font-monospace small text-muted">${rec.trans_datetime || '-'}</span></td>
+            <td><span class="font-monospace small text-muted">${rec.insert_date || '-'}</span></td>
+        `;
+
+        tbody.insertBefore(tr, tbody.firstChild);
+
+        // Re-index and refresh pagination
+        renderTransferModalPagination();
+    }
+
+    // Modal Pagination & Live Filter Logic
+    function renderTransferModalPagination() {
+        const filterUser = (document.getElementById('modal_filter_user')?.value || '').trim().toLowerCase();
+        const filterTran = (document.getElementById('modal_filter_tran')?.value || '').trim().toLowerCase();
+        const allRows = Array.from(document.querySelectorAll('#fundTransferModalTbody tr.transfer-record-row'));
+
+        const matchedRows = allRows.filter(row => {
+            const user = (row.dataset.user || '').toLowerCase();
+            const tran = (row.dataset.tran || '').toLowerCase();
+            if (filterUser && !user.includes(filterUser)) return false;
+            if (filterTran && !tran.includes(filterTran)) return false;
+            return true;
+        });
+
+        const totalRecords = matchedRows.length;
+        const totalPages = Math.max(1, Math.ceil(totalRecords / transferModalPageSize));
+        if (transferModalCurrentPage > totalPages) transferModalCurrentPage = totalPages;
+
+        const startIndex = (transferModalCurrentPage - 1) * transferModalPageSize;
+        const endIndex = startIndex + transferModalPageSize;
+
+        allRows.forEach(row => row.style.display = 'none');
+
+        matchedRows.forEach((row, idx) => {
+            const firstTd = row.querySelector('td:first-child');
+            if (firstTd) firstTd.textContent = idx + 1;
+
+            if (idx >= startIndex && idx < endIndex) {
+                row.style.display = '';
+            }
+        });
+
+        const infoEl = document.getElementById('transferModalPaginationInfo');
+        if (infoEl) {
+            const showStart = totalRecords === 0 ? 0 : startIndex + 1;
+            const showEnd = Math.min(endIndex, totalRecords);
+            infoEl.textContent = `Showing ${showStart} to ${showEnd} of ${totalRecords} entries`;
+        }
+
+        const pagContainer = document.getElementById('transferModalPagination');
+        if (!pagContainer) return;
+
+        if (totalPages <= 1) {
+            pagContainer.innerHTML = '';
             return;
         }
 
-        alert(`Fund Transfer of ₹${parseFloat(amount).toFixed(2)} to [${user}] initiated successfully!`);
+        let pagHtml = '';
+        pagHtml += `<li class="page-item ${transferModalCurrentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="javascript:void(0);" onclick="goToTransferModalPage(${transferModalCurrentPage - 1})">«</a>
+        </li>`;
+
+        let startPage = Math.max(1, transferModalCurrentPage - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+        if (startPage > 1) {
+            pagHtml += `<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="goToTransferModalPage(1)">1</a></li>`;
+            if (startPage > 2) pagHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+
+        for (let p = startPage; p <= endPage; p++) {
+            pagHtml += `<li class="page-item ${p === transferModalCurrentPage ? 'active' : ''}">
+                <a class="page-link" href="javascript:void(0);" onclick="goToTransferModalPage(${p})">${p}</a>
+            </li>`;
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) pagHtml += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            pagHtml += `<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="goToTransferModalPage(${totalPages})">${totalPages}</a></li>`;
+        }
+
+        pagHtml += `<li class="page-item ${transferModalCurrentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="javascript:void(0);" onclick="goToTransferModalPage(${transferModalCurrentPage + 1})">»</a>
+        </li>`;
+
+        pagContainer.innerHTML = pagHtml;
+    }
+
+    function goToTransferModalPage(page) {
+        transferModalCurrentPage = page;
+        renderTransferModalPagination();
+    }
+
+    function filterFundTransferModalTable() {
+        transferModalCurrentPage = 1;
+        renderTransferModalPagination();
+    }
+
+    function resetFundTransferModalFilter() {
+        if (document.getElementById('modal_filter_user')) document.getElementById('modal_filter_user').value = '';
+        if (document.getElementById('modal_filter_tran')) document.getElementById('modal_filter_tran').value = '';
+        transferModalCurrentPage = 1;
+        renderTransferModalPagination();
     }
 
     // Send OTP
     function sendTransferOTP() {
-        const user = document.getElementById('api_user_select').value;
+        const user = document.getElementById('api_user_select')?.value;
         if (!user) {
-            alert('Please select API USER first!');
+            toastr.error('Please select API USER first!', 'Validation Error');
             return;
         }
-        alert(`OTP has been sent to registered mobile for ${user}.`);
+        toastr.success(`OTP has been sent to registered mobile for selected user.`, 'OTP Sent');
     }
 
     // Clear Form
     function clearFundTransferForm() {
         document.getElementById('transfer_id').value = '';
-        document.getElementById('api_user_select').value = '';
         document.getElementById('transfer_amount').value = '';
-        document.getElementById('transfer_type').value = 'FUND TRANSFER';
-        document.getElementById('wallet_type').value = 'PREPAID BALANCE';
+        document.getElementById('transfer_type').value = '1';
+        if (document.getElementById('wallet_type')) document.getElementById('wallet_type').selectedIndex = 0;
         document.getElementById('transaction_desc').value = '';
+
+        if ($.fn.select2) {
+            $('#api_user_select').val('').trigger('change');
+        } else {
+            document.getElementById('api_user_select').value = '';
+        }
     }
 
-    // Modal Selection
-    function selectTransferRecord(rec) {
-        document.getElementById('transfer_id').value = rec.id;
-        document.getElementById('transfer_amount').value = rec.amount;
-        document.getElementById('transfer_type').value = rec.type;
-        document.getElementById('wallet_type').value = rec.wallet;
-
-        // Try select matching user
-        const select = document.getElementById('api_user_select');
-        for (let i = 0; i < select.options.length; i++) {
-            if (select.options[i].text.includes(rec.user) || select.options[i].text.includes(rec.reg_no)) {
-                select.selectedIndex = i;
-                break;
-            }
+    document.addEventListener('DOMContentLoaded', () => {
+        if ($.fn.select2) {
+            $('#api_user_select').select2({
+                placeholder: '-- Select API USER --',
+                allowClear: true,
+                width: '100%'
+            });
         }
 
-        // Close modal
-        const modalEl = document.getElementById('viewFundTransferModal');
-        const modalInstance = bootstrap.Modal.getInstance(modalEl);
-        if (modalInstance) modalInstance.hide();
-    }
-
-    // Modal Filter Logic
-    function filterFundTransferModalTable() {
-        const filterUser = (document.getElementById('modal_filter_user').value || '').trim().toLowerCase();
-        const filterTran = (document.getElementById('modal_filter_tran').value || '').trim().toLowerCase();
-
-        document.querySelectorAll('#fundTransferModalTbody tr.transfer-record-row').forEach(row => {
-            const user = (row.dataset.user || '').toLowerCase();
-            const tran = (row.dataset.tran || '').toLowerCase();
-
-            let match = true;
-            if (filterUser && !user.includes(filterUser)) match = false;
-            if (filterTran && !tran.includes(filterTran)) match = false;
-
-            if (match) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+        renderTransferModalPagination();
+        document.getElementById('viewFundTransferModal')?.addEventListener('shown.bs.modal', () => {
+            renderTransferModalPagination();
         });
-    }
-
-    function resetFundTransferModalFilter() {
-        document.getElementById('modal_filter_user').value = '';
-        document.getElementById('modal_filter_tran').value = '';
-        document.querySelectorAll('#fundTransferModalTbody tr.transfer-record-row').forEach(row => {
-            row.style.display = '';
-        });
-    }
+    });
 </script>
 @endsection

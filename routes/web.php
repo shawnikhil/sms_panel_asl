@@ -69,11 +69,15 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     // Master Menu
     Route::get('/admin/master/company-setup', [MasterController::class, 'companySetup'])->name('admin.master.company_setup');
     Route::get('/admin/master/admin-register', [MasterController::class, 'adminRegister'])->name('admin.master.admin_register');
+    Route::post('/admin/master/admin-register/action', [MasterController::class, 'handleAdminAction'])->name('admin.master.admin_register.action');
     Route::get('/admin/master/user-register', [MasterController::class, 'userRegister'])->name('admin.master.user_register');
+    Route::post('/admin/master/user-register/action', [MasterController::class, 'handleUserAction'])->name('admin.master.user_register.action');
 
     // Account Menu
     Route::get('/admin/account/add-bank', [AccountController::class, 'addBank'])->name('admin.account.add_bank');
+    Route::post('/admin/account/add-bank/action', [AccountController::class, 'handleBankAction'])->name('admin.account.add_bank.action');
     Route::get('/admin/account/fund-transfer', [AccountController::class, 'fundTransfer'])->name('admin.account.fund_transfer');
+    Route::post('/admin/account/fund-transfer/action', [AccountController::class, 'handleFundTransferAction'])->name('admin.account.fund_transfer.action');
 
     // Package Menu
     Route::get('/admin/package/new-package', [PackageController::class, 'newPackage'])->name('admin.package.new_package');

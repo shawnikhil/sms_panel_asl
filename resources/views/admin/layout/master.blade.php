@@ -17,7 +17,11 @@
 
     <!-- Boxicons & Font Awesome -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- Toastr Notifications -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+    <!-- Select2 Searchable Dropdown Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 
     <!-- Sneat Core Styles -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/iconify-icons.css') }}" />
@@ -482,10 +486,154 @@
         border-top: 1px solid var(--border-color) !important;
         padding: 0.875rem 1.5rem !important;
       }
+
+      /* ==============================================================
+         GLOBAL TOASTR NOTIFICATION POLISH (SOLID & HIGH CONTRAST)
+         ============================================================== */
+      #toast-container {
+        z-index: 999999 !important;
+      }
+      #toast-container > div {
+        opacity: 1 !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+        border-radius: 8px !important;
+        padding: 14px 14px 14px 50px !important;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+        font-size: 0.85rem !important;
+      }
+      #toast-container > .toast-success {
+        background-color: #16a34a !important;
+        color: #ffffff !important;
+        border-left: 5px solid #14532d !important;
+      }
+      #toast-container > .toast-error {
+        background-color: #dc2626 !important;
+        color: #ffffff !important;
+        border-left: 5px solid #7f1d1d !important;
+      }
+      #toast-container > .toast-warning {
+        background-color: #d97706 !important;
+        color: #ffffff !important;
+        border-left: 5px solid #78350f !important;
+      }
+      #toast-container > .toast-info {
+        background-color: #2563eb !important;
+        color: #ffffff !important;
+        border-left: 5px solid #1e3a8a !important;
+      }
+      #toast-container .toast-title {
+        font-weight: 700 !important;
+        font-size: 0.875rem !important;
+        margin-bottom: 3px !important;
+        color: #ffffff !important;
+      }
+      #toast-container .toast-message {
+        font-weight: 500 !important;
+        color: #ffffff !important;
+        line-height: 1.4 !important;
+      }
+      #toast-container .toast-close-button {
+        color: #ffffff !important;
+        text-shadow: none !important;
+        opacity: 0.9 !important;
+        font-size: 1.2rem !important;
+      }
+      #toast-container .toast-progress {
+        background-color: rgba(255, 255, 255, 0.5) !important;
+        opacity: 0.9 !important;
+      }
+
+      /* ==============================================================
+         SELECT2 SEARCHABLE DROPDOWNS & MAGNIFYING SEARCH ICON
+         ============================================================== */
+      .select2-container--default .select2-selection--single {
+        height: 36px !important;
+        border: 1px solid #ced4da !important;
+        border-radius: 3px !important;
+        background-color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+      }
+      html.dark .select2-container--default .select2-selection--single {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #1e293b !important;
+        font-size: 0.8125rem !important;
+        font-weight: 500 !important;
+        padding-left: 0.75rem !important;
+        line-height: normal !important;
+      }
+      html.dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #f8fafc !important;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 34px !important;
+        right: 8px !important;
+      }
+      .select2-dropdown {
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 4px !important;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12) !important;
+        background-color: #ffffff !important;
+        z-index: 1060 !important;
+      }
+      html.dark .select2-dropdown {
+        background-color: #1e293b !important;
+        border-color: #334155 !important;
+      }
+      .select2-container--default .select2-search--dropdown {
+        padding: 6px 8px !important;
+      }
+      .select2-container--default .select2-search--dropdown .select2-search__field {
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 3px !important;
+        padding: 0.4rem 0.6rem 0.4rem 2rem !important;
+        font-size: 0.8125rem !important;
+        background-color: #f8fafc !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: 8px center !important;
+        background-size: 14px 14px !important;
+        outline: none !important;
+      }
+      html.dark .select2-container--default .select2-search--dropdown .select2-search__field {
+        background-color: #0f172a !important;
+        border-color: #334155 !important;
+        color: #f8fafc !important;
+      }
+      .select2-container--default .select2-results__option {
+        font-size: 0.8125rem !important;
+        padding: 0.45rem 0.75rem !important;
+        color: #334155 !important;
+      }
+      html.dark .select2-container--default .select2-results__option {
+        color: #cbd5e1 !important;
+      }
+      .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #e0e7ff !important;
+        color: #4338ca !important;
+      }
+      html.dark .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #312e81 !important;
+        color: #e0e7ff !important;
+      }
+      .select2-container--default .select2-results__option[aria-selected=true] {
+        background-color: #f1f5f9 !important;
+        font-weight: 600 !important;
+      }
+      html.dark .select2-container--default .select2-results__option[aria-selected=true] {
+        background-color: #0f172a !important;
+      }
     </style>
 
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
     <script src="{{ asset('assets/js/config.js') }}"></script>
+
+    <!-- Page Specific Styles / CSS -->
+    @yield('style')
+    @yield('css')
   </head>
 
   <body>
@@ -521,6 +669,8 @@
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
@@ -564,5 +714,9 @@
         }
       })();
     </script>
+
+    <!-- Page Specific Scripts / JS -->
+    @yield('scripts')
+    @yield('js')
   </body>
 </html>
