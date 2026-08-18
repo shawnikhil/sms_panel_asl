@@ -77,6 +77,7 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::get('/admin/account/add-bank', [AccountController::class, 'addBank'])->name('admin.account.add_bank');
     Route::post('/admin/account/add-bank/action', [AccountController::class, 'handleBankAction'])->name('admin.account.add_bank.action');
     Route::get('/admin/account/fund-transfer', [AccountController::class, 'fundTransfer'])->name('admin.account.fund_transfer');
+    Route::get('/admin/account/fund-transfer/data', [AccountController::class, 'getFundTransferData'])->name('admin.account.fund_transfer.data');
     Route::post('/admin/account/fund-transfer/action', [AccountController::class, 'handleFundTransferAction'])->name('admin.account.fund_transfer.action');
 
     // Package Menu

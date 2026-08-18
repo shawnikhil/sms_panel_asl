@@ -168,6 +168,60 @@ class AccountController extends Controller
     }
 
     /**
+     * Fetch fresh Fund Transfer records and API Users with current balances (Silent Background Fetch)
+     */
+    public function getFundTransferData()
+    {
+        $apiUsers = DB::table('b1_api_user_reg_tbl as a')
+            ->join('b4_api_user_balance_sheet_tbl as b', 'a.regno', '=', 'b.uregno')
+            ->select('a.regno', 'a.fname', 'a.lname', 'a.phone', 'a.company_name', 'b.balance_amt')
+            ->orderBy('a.fname', 'asc')
+            ->orderBy('a.lname', 'asc')
+            ->get();
+
+        $transfers = collect();
+        if (Schema::hasTable('b2_api_user_fund_transfer_tbl')) {
+            $transfers = DB::table('b2_api_user_fund_transfer_tbl as ft')
+                ->leftJoin('b1_api_user_reg_tbl as u', 'ft.regno', '=', 'u.regno')
+                ->leftJoin('x_api_wallet_type_tbl as wt', 'ft.wallet_type_id', '=', 'wt.id')
+                ->select(
+                    'ft.*',
+                    'u.fname',
+                    'u.lname',
+                    'u.company_name',
+                    'wt.typename as wallet_name'
+                )
+                ->orderBy('ft.id', 'desc')
+                ->limit(200)
+                ->get()
+                ->map(function ($tr) {
+                    $tType = ($tr->transfertype == '1' || $tr->transfertype === 'FUND TRANSFER') ? 'FUND TRANSFER' : 'FUND REVERSE';
+                    return [
+                        'id'             => $tr->id,
+                        'tran_id'        => $tr->id,
+                        'reg_no'         => $tr->regno,
+                        'company'        => $tr->company_name ?? 'ASL WALLETS',
+                        'user'           => trim(($tr->fname ?? '') . ' ' . ($tr->lname ?? '')),
+                        'type'           => $tType,
+                        'amount'         => number_format(abs((float)($tr->transfer_amt ?? 0)), 2, '.', ''),
+                        'wallet'         => $tr->wallet_name ?? 'PREPAID BALANCE',
+                        'open_bal'       => number_format((float)($tr->opening_bal ?? 0), 2, '.', ''),
+                        'close_bal'      => number_format((float)($tr->closing_bal ?? 0), 2, '.', ''),
+                        'transdesc'      => $tr->transdesc ?: '-',
+                        'trans_datetime' => trim(($tr->trans_date ?? '') . ' ' . ($tr->trans_time ?? '')) ?: '-',
+                        'insert_date'    => $tr->insert_date ?? '-',
+                    ];
+                });
+        }
+
+        return response()->json([
+            'status'    => 'success',
+            'apiUsers'  => $apiUsers,
+            'transfers' => $transfers,
+        ]);
+    }
+
+    /**
      * Handle Fund Transfer Action (Legacy logic matching option 119)
      */
     public function handleFundTransferAction(Request $request)

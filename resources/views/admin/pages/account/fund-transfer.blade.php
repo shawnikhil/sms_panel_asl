@@ -21,7 +21,7 @@
             <button type="button" id="topSendFundBtn" class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="submitFundTransfer()">
                 <i class="bx bx-check"></i> SEND
             </button>
-            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#viewFundTransferModal">
+            <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#viewFundTransferModal" onclick="fetchFundTransferData()">
                 <i class="bx bx-show"></i> VIEW
             </button>
             <button type="button" class="btn btn-sm btn-light border d-inline-flex align-items-center gap-1" onclick="clearFundTransferForm()">
@@ -403,7 +403,85 @@
 @section('scripts')
 <script>
     const ACTION_URL = "{{ route('admin.account.fund_transfer.action') }}";
+    const DATA_URL   = "{{ route('admin.account.fund_transfer.data') }}";
     const CSRF_TOKEN = "{{ csrf_token() }}";
+
+    // Silent background fetch to update all balances and modal records dynamically
+    async function fetchFundTransferData() {
+        try {
+            const res = await fetch(DATA_URL, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await res.json();
+
+            if (res.ok && data.status === 'success') {
+                // 1. Update dropdown options with live balances
+                if (data.apiUsers && Array.isArray(data.apiUsers)) {
+                    const selectEl = document.getElementById('api_user_select');
+                    if (selectEl) {
+                        const currentSelectedVal = selectEl.value;
+                        let optionsHtml = '<option value="">-- Select API USER --</option>';
+                        data.apiUsers.forEach(u => {
+                            const bal = Math.round(parseFloat(u.balance_amt || 0));
+                            const fullName = `${(u.fname || '').toUpperCase()} ${(u.lname || '').toUpperCase()}`.trim();
+                            const isSelected = String(u.regno) === String(currentSelectedVal) ? 'selected' : '';
+                            optionsHtml += `<option value="${u.regno}" data-name="${fullName}" data-phone="${u.phone || ''}" data-balance="${bal}" ${isSelected}>
+                                ${fullName} : M- ${u.phone || ''} [BAL: ${bal}]
+                            </option>`;
+                        });
+                        selectEl.innerHTML = optionsHtml;
+                        if ($.fn.select2) {
+                            $('#api_user_select').trigger('change.select2');
+                        }
+                    }
+                }
+
+                // 2. Update VIEW modal table rows
+                if (data.transfers && Array.isArray(data.transfers)) {
+                    const tbody = document.getElementById('fundTransferModalTbody');
+                    if (tbody) {
+                        if (data.transfers.length === 0) {
+                            tbody.innerHTML = `<tr id="noTransferRecordRow"><td colspan="13" class="text-center text-muted py-4">No fund transfer records found in database.</td></tr>`;
+                        } else {
+                            let rowsHtml = '';
+                            data.transfers.forEach((tr, idx) => {
+                                const isCredit = tr.type === 'FUND TRANSFER';
+                                rowsHtml += `
+                                    <tr class="transfer-record-row"
+                                        data-user="${tr.user}"
+                                        data-tran="${tr.tran_id}"
+                                        data-reg="${tr.reg_no}"
+                                        data-amount="${tr.amount}"
+                                        data-wallet="${tr.wallet}"
+                                        data-type="${tr.type}">
+                                        <td class="text-center text-muted fw-bold">${idx + 1}</td>
+                                        <td><span class="badge bg-label-secondary font-monospace">${tr.tran_id}</span></td>
+                                        <td><span class="font-monospace text-primary fw-bold">${tr.reg_no}</span></td>
+                                        <td><span class="fw-semibold text-secondary">${tr.company}</span></td>
+                                        <td><span class="fw-bold text-dark">${tr.user}</span></td>
+                                        <td><span class="badge ${isCredit ? 'bg-label-success' : 'bg-label-danger'}">${tr.type}</span></td>
+                                        <td class="text-end font-monospace fw-bold text-dark">
+                                            ${tr.amount}
+                                        </td>
+                                        <td><span class="badge bg-label-primary">${tr.wallet}</span></td>
+                                        <td class="text-end font-monospace text-muted">${tr.open_bal}</td>
+                                        <td class="text-end font-monospace fw-bold text-dark">${tr.close_bal}</td>
+                                        <td><span class="text-secondary small">${tr.transdesc}</span></td>
+                                        <td><span class="font-monospace small text-muted">${tr.trans_datetime}</span></td>
+                                        <td><span class="font-monospace small text-muted">${tr.insert_date}</span></td>
+                                    </tr>
+                                `;
+                            });
+                            tbody.innerHTML = rowsHtml;
+                        }
+                        renderTransferModalPagination();
+                    }
+                }
+            }
+        } catch (err) {
+            console.error('Silent data sync error:', err);
+        }
+    }
 
     // Generic Button Loader Toggler
     function setButtonsLoading(btnIds, isLoading, text, defaultHtml) {
@@ -491,25 +569,11 @@
             if (res.ok && data.status === 'success') {
                 toastr.success(data.message || 'Fund transfer successful!', 'Success');
 
-                // If transfer payload is returned, update UI live
-                if (data.transfer) {
-                    prependTransferModalRow(data.transfer);
-
-                    // Update selected user's balance label in select dropdown
-                    const selOption = document.querySelector(`#api_user_select option[value="${apiuser}"]`);
-                    if (selOption && data.transfer.close_bal !== undefined) {
-                        const userName = selOption.getAttribute('data-name') || '';
-                        const userPhone = selOption.getAttribute('data-phone') || '';
-                        const newBal = Math.round(parseFloat(data.transfer.closing_bal_raw || data.transfer.close_bal));
-                        selOption.textContent = `${userName} : M- ${userPhone} [BAL: ${newBal}]`;
-                        selOption.setAttribute('data-balance', newBal);
-                        if ($.fn.select2) {
-                            $('#api_user_select').trigger('change.select2');
-                        }
-                    }
-                }
-
+                // Clear form inputs
                 clearFundTransferForm();
+
+                // Silently refresh all balances and table data in background without page reload
+                fetchFundTransferData();
             } else {
                 toastr.error(data.message || 'Error! While fund transfer !', 'Error');
                 if (data.field && document.getElementById(data.field)) {
@@ -525,46 +589,6 @@
 
     let transferModalCurrentPage = 1;
     const transferModalPageSize = 10;
-
-    // Prepend new transfer row into modal table dynamically
-    function prependTransferModalRow(rec) {
-        const tbody = document.getElementById('fundTransferModalTbody');
-        if (!tbody) return;
-
-        document.getElementById('noTransferRecordRow')?.remove();
-
-        const tr = document.createElement('tr');
-        tr.className = 'transfer-record-row';
-        tr.setAttribute('data-user', rec.user || '');
-        tr.setAttribute('data-tran', rec.tran_id || rec.id || '');
-        tr.setAttribute('data-amount', rec.amount || '');
-        tr.setAttribute('data-wallet', rec.wallet || '');
-        tr.setAttribute('data-type', rec.type || '');
-
-        const isCredit = rec.type === 'FUND TRANSFER';
-        tr.innerHTML = `
-            <td class="text-center text-muted fw-bold">1</td>
-            <td><span class="badge bg-label-secondary font-monospace">${rec.tran_id || rec.id || '-'}</span></td>
-            <td><span class="font-monospace text-primary fw-bold">${rec.reg_no || ''}</span></td>
-            <td><span class="fw-semibold text-secondary">${rec.company || 'ASL WALLETS'}</span></td>
-            <td><span class="fw-bold text-dark">${rec.user || ''}</span></td>
-            <td><span class="badge ${isCredit ? 'bg-label-success' : 'bg-label-danger'}">${rec.type}</span></td>
-            <td class="text-end font-monospace fw-bold text-dark">
-                ${rec.amount}
-            </td>
-            <td><span class="badge bg-label-primary">${rec.wallet}</span></td>
-            <td class="text-end font-monospace text-muted">${rec.open_bal}</td>
-            <td class="text-end font-monospace fw-bold text-dark">${rec.close_bal}</td>
-            <td><span class="text-secondary small">${rec.transdesc || '-'}</span></td>
-            <td><span class="font-monospace small text-muted">${rec.trans_datetime || '-'}</span></td>
-            <td><span class="font-monospace small text-muted">${rec.insert_date || '-'}</span></td>
-        `;
-
-        tbody.insertBefore(tr, tbody.firstChild);
-
-        // Re-index and refresh pagination
-        renderTransferModalPagination();
-    }
 
     // Modal Pagination & Live Filter Logic
     function renderTransferModalPagination() {
@@ -697,8 +721,10 @@
         }
 
         renderTransferModalPagination();
+
+        // Silent background fetch when VIEW modal is opened
         document.getElementById('viewFundTransferModal')?.addEventListener('shown.bs.modal', () => {
-            renderTransferModalPagination();
+            fetchFundTransferData();
         });
     });
 </script>
