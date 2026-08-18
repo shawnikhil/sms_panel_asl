@@ -82,9 +82,12 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
 
     // Package Menu
     Route::get('/admin/package/new-package', [PackageController::class, 'newPackage'])->name('admin.package.new_package');
+    Route::post('/admin/package/new-package/action', [PackageController::class, 'handlePackageAction'])->name('admin.package.new_package.action');
 
     // Scheduler Menu
     Route::get('/admin/scheduler/sms-api', [SchedulerController::class, 'smsApi'])->name('admin.scheduler.sms_api');
+    Route::post('/admin/scheduler/sms-api/action', [SchedulerController::class, 'handleSmsApiAction'])->name('admin.scheduler.sms_api.action');
+    Route::post('/admin/scheduler/sms-api/toggle-status', [SchedulerController::class, 'toggleStatus'])->name('admin.scheduler.sms_api.toggle_status');
 
     // Manage Item Menu
     Route::get('/admin/manage/sender-id', [ManageController::class, 'senderId'])->name('admin.manage.sender_id');
