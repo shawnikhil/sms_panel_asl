@@ -1,192 +1,338 @@
-<!-- Menu -->
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-  <div class="app-brand demo">
-    <a href="{{ route('admin.dashboard') }}" class="app-brand-link gap-2">
-      <span class="app-brand-logo demo">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="#696cff" />
-          <circle cx="7" cy="10" r="1.5" fill="#ffffff" />
-          <circle cx="12" cy="10" r="1.5" fill="#ffffff" />
-          <circle cx="17" cy="10" r="1.5" fill="#ffffff" />
-        </svg>
-      </span>
-      <span class="app-brand-text demo menu-text fw-bold ms-1" style="font-size: 1.15rem; letter-spacing: -0.5px;">ASL SMS <span class="text-primary">HUB</span></span>
-    </a>
-
-    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" class="menu-toggle-icon">
-        <path d="M19.0043 8.61071L12.8356 2.44206C12.3744 1.98086 11.6256 1.98086 11.1644 2.44206L4.99574 8.61071C4.53454 9.07191 4.53454 9.82069 4.99574 10.2819L11.1644 16.4505C11.6256 16.9117 12.3744 16.9117 12.8356 16.4505L19.0043 10.2819C19.4655 9.82069 19.4655 9.07191 19.0043 8.61071Z" />
-      </svg>
-    </a>
-  </div>
-
+<!-- Modern Enterprise Sidebar -->
+<aside id="layout-menu" class="layout-menu menu-vertical menu modern-asl-sidebar">
+  
   <div class="menu-inner-shadow"></div>
 
-  <ul class="menu-inner py-1 ps-0">
+  <ul class="menu-inner py-3 ps-0">
+    
+    {{-- Section: Core --}}
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">MAIN</span>
+    </li>
+
+    {{-- 1. DASHBOARD --}}
     <li class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
       <a href="{{ route('admin.dashboard') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bxs-dashboard"></i>
-        <div data-i18n="Analytics">Dashboard</div>
+        <div class="menu-text-label">Dashboard</div>
       </a>
     </li>
 
-    <li class="menu-item {{ request()->routeIs(['admin.master.company_setup','admin.master.admin_register','admin.master.user_register']) ? 'active open' : '' }}">
+    {{-- Section: Management --}}
+    <li class="menu-header small text-uppercase mt-2">
+      <span class="menu-header-text">MANAGEMENT</span>
+    </li>
+
+    {{-- 2. MASTER --}}
+    <li class="menu-item {{ request()->routeIs(['admin.master.admin_register','admin.master.user_register']) ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-cog"></i>
-        <div data-i18n="Master">Master</div>
+        <i class="menu-icon tf-icons bx bx-shield-quarter"></i>
+        <div class="menu-text-label">Master</div>
       </a>
       <ul class="menu-sub">
-        {{-- <li class="menu-item {{ request()->routeIs('admin.master.company_setup') ? 'active' : '' }}">
-          <a href="{{ route('admin.master.company_setup') }}" class="menu-link">
-            <div data-i18n="Company Setup">Company Setup</div>
-          </a>
-        </li> --}}
         <li class="menu-item {{ request()->routeIs('admin.master.admin_register') ? 'active' : '' }}">
           <a href="{{ route('admin.master.admin_register') }}" class="menu-link">
-            <div data-i18n="Admin Register">Admin Register</div>
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">Admin Profile</div>
           </a>
         </li>
         <li class="menu-item {{ request()->routeIs('admin.master.user_register') ? 'active' : '' }}">
           <a href="{{ route('admin.master.user_register') }}" class="menu-link">
-            <div data-i18n="User Register">User Register</div>
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">User Register</div>
           </a>
         </li>
       </ul>
     </li>
 
+    {{-- 3. ACCOUNT --}}
     <li class="menu-item {{ request()->routeIs(['admin.account.add_bank','admin.account.fund_transfer']) ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-wallet-alt"></i>
-        <div data-i18n="Account">Account</div>
+        <i class="menu-icon tf-icons bx bx-wallet"></i>
+        <div class="menu-text-label">Account</div>
       </a>
       <ul class="menu-sub">
         <li class="menu-item {{ request()->routeIs('admin.account.add_bank') ? 'active' : '' }}">
           <a href="{{ route('admin.account.add_bank') }}" class="menu-link">
-            <div data-i18n="Add Bank">Add Bank</div>
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">Add Bank</div>
           </a>
         </li>
         <li class="menu-item {{ request()->routeIs('admin.account.fund_transfer') ? 'active' : '' }}">
           <a href="{{ route('admin.account.fund_transfer') }}" class="menu-link">
-            <div data-i18n="Fund Transfer">Fund Transfer</div>
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">Fund Transfer</div>
           </a>
         </li>
       </ul>
     </li>
 
+    {{-- 4. PACKAGE --}}
     <li class="menu-item {{ request()->routeIs(['admin.package.new_package']) ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-box"></i>
-        <div data-i18n="Package">Package</div>
+        <i class="menu-icon tf-icons bx bx-cube"></i>
+        <div class="menu-text-label">Package</div>
       </a>
       <ul class="menu-sub">
         <li class="menu-item {{ request()->routeIs('admin.package.new_package') ? 'active' : '' }}">
           <a href="{{ route('admin.package.new_package') }}" class="menu-link">
-            <div data-i18n="New Package">New Package</div>
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">New Package</div>
           </a>
         </li>
       </ul>
     </li>
 
+    {{-- Section: Gateway & Configuration --}}
+    <li class="menu-header small text-uppercase mt-2">
+      <span class="menu-header-text">GATEWAYS</span>
+    </li>
+
+    {{-- 5. SCHEDULER --}}
     <li class="menu-item {{ request()->routeIs(['admin.scheduler.sms_api']) ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-time"></i>
-        <div data-i18n="Scheduler">Scheduler</div>
+        <i class="menu-icon tf-icons bx bx-chip"></i>
+        <div class="menu-text-label">Scheduler</div>
       </a>
       <ul class="menu-sub">
         <li class="menu-item {{ request()->routeIs('admin.scheduler.sms_api') ? 'active' : '' }}">
           <a href="{{ route('admin.scheduler.sms_api') }}" class="menu-link">
-            <div data-i18n="SMS API">SMS API</div>
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">SMS API Setup</div>
           </a>
         </li>
       </ul>
     </li>
 
+    {{-- 6. MANAGE ITEM --}}
     <li class="menu-item {{ request()->routeIs(['admin.manage.sender_id','admin.manage.template']) ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-briefcase"></i>
-        <div data-i18n="Manage Item">Manage Item</div>
+        <i class="menu-icon tf-icons bx bx-slider-alt"></i>
+        <div class="menu-text-label">Manage Item</div>
       </a>
       <ul class="menu-sub">
         <li class="menu-item {{ request()->routeIs('admin.manage.sender_id') ? 'active' : '' }}">
           <a href="{{ route('admin.manage.sender_id') }}" class="menu-link">
-            <div data-i18n="Manage Sender ID">Manage Sender ID</div>
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">Sender ID</div>
           </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('admin.manage.template') ? 'active' : '' }}">
+        <!-- <li class="menu-item {{ request()->routeIs('admin.manage.template') ? 'active' : '' }}">
           <a href="{{ route('admin.manage.template') }}" class="menu-link">
-            <div data-i18n="Manage Template">Manage Template</div>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="menu-item {{ request()->routeIs(['admin.reports.sms_details','admin.reports.sms_live_panel','admin.reports.user_details','admin.reports.fund_transfer','admin.reports.all_user_ledger','admin.reports.user_wise_ledger']) ? 'active open' : '' }}">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-chart"></i>
-        <div data-i18n="Reports">Reports</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item {{ request()->routeIs('admin.reports.sms_details') ? 'active' : '' }}">
-          <a href="{{ route('admin.reports.sms_details') }}" class="menu-link">
-            <div data-i18n="SMS Details">SMS Details</div>
-          </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('admin.reports.sms_live_panel') ? 'active' : '' }}">
-          <a href="{{ route('admin.reports.sms_live_panel') }}" class="menu-link">
-            <div data-i18n="SMS Live Panel">SMS Live Panel</div>
-          </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('admin.reports.user_details') ? 'active' : '' }}">
-          <a href="{{ route('admin.reports.user_details') }}" class="menu-link">
-            <div data-i18n="User Details">User Details</div>
-          </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('admin.reports.fund_transfer') ? 'active' : '' }}">
-          <a href="{{ route('admin.reports.fund_transfer') }}" class="menu-link">
-            <div data-i18n="Fund Transfer">Fund Transfer</div>
-          </a>
-        </li>
-        <li class="menu-item {{ request()->routeIs('admin.reports.all_user_ledger') ? 'active' : '' }}">
-          <a href="{{ route('admin.reports.all_user_ledger') }}" class="menu-link">
-            <div data-i18n="All User Ledger">All User Ledger</div>
-          </a>
-        </li>
-        <!-- <li class="menu-item {{ request()->routeIs('admin.reports.user_wise_ledger') ? 'active' : '' }}">
-          <a href="{{ route('admin.reports.user_wise_ledger') }}" class="menu-link">
-            <div data-i18n="User Wise Ledger">User Wise Ledger</div>
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">Templates</div>
           </a>
         </li> -->
       </ul>
     </li>
 
-    <li class="menu-item {{ request()->routeIs(['admin.help.help_setup','admin.help.notification']) ? 'active open' : '' }}">
+    {{-- Section: Reports --}}
+    <li class="menu-header small text-uppercase mt-2">
+      <span class="menu-header-text">REPORTS</span>
+    </li>
+
+    {{-- 7. REPORT --}}
+    <li class="menu-item {{ request()->routeIs(['admin.reports.sms_details','admin.reports.sms_live_panel','admin.reports.user_details','admin.reports.fund_transfer','admin.reports.all_user_ledger','admin.reports.user_wise_ledger']) ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-help-circle"></i>
-        <div data-i18n="Help">Help</div>
+        <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
+        <div class="menu-text-label">Reports</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item {{ request()->routeIs('admin.help.help_setup') ? 'active' : '' }}">
-          <a href="{{ route('admin.help.help_setup') }}" class="menu-link">
-            <div data-i18n="Help Setup">Help Setup</div>
+        <li class="menu-item {{ request()->routeIs('admin.reports.sms_details') ? 'active' : '' }}">
+          <a href="{{ route('admin.reports.sms_details') }}" class="menu-link">
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">SMS Details</div>
           </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('admin.help.notification') ? 'active' : '' }}">
-          <a href="{{ route('admin.help.notification') }}" class="menu-link">
-            <div data-i18n="Notification">Notification</div>
+        <li class="menu-item {{ request()->routeIs('admin.reports.sms_live_panel') ? 'active' : '' }}">
+          <a href="{{ route('admin.reports.sms_live_panel') }}" class="menu-link">
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">SMS Live Panel</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.reports.user_details') ? 'active' : '' }}">
+          <a href="{{ route('admin.reports.user_details') }}" class="menu-link">
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">User Details</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.reports.fund_transfer') ? 'active' : '' }}">
+          <a href="{{ route('admin.reports.fund_transfer') }}" class="menu-link">
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">Fund Transfer</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.reports.all_user_ledger') ? 'active' : '' }}">
+          <a href="{{ route('admin.reports.all_user_ledger') }}" class="menu-link">
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">All User Ledger</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.reports.user_wise_ledger') ? 'active' : '' }}">
+          <a href="{{ route('admin.reports.user_wise_ledger') }}" class="menu-link">
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">User Wise Ledger</div>
           </a>
         </li>
       </ul>
     </li>
 
+    {{-- 8. HELP --}}
+    <!-- <li class="menu-item {{ request()->routeIs(['admin.help.help_setup','admin.help.notification']) ? 'active open' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-help-circle"></i>
+        <div class="menu-text-label">Help Center</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('admin.help.help_setup') ? 'active' : '' }}">
+          <a href="{{ route('admin.help.help_setup') }}" class="menu-link">
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">Help Setup</div>
+          </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.help.notification') ? 'active' : '' }}">
+          <a href="{{ route('admin.help.notification') }}" class="menu-link">
+            <div class="sub-dot"></div>
+            <div class="sub-menu-text">Notifications</div>
+          </a>
+        </li>
+      </ul>
+    </li> -->
+
+    {{-- Section: System --}}
+    <li class="menu-header small text-uppercase mt-2">
+      <span class="menu-header-text">SYSTEM</span>
+    </li>
+
+    {{-- 9. SIGNOUT --}}
     <li class="menu-item">
-      <form id="admin-sidebar-logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
-        @csrf
-      </form>
-      <a href="javascript:void(0);" class="menu-link text-danger" onclick="event.preventDefault(); if(confirm('Are you sure you want to sign out?')) { document.getElementById('admin-sidebar-logout-form').submit(); }">
-        <i class="menu-icon tf-icons bx bx-log-out"></i>
-        <div data-i18n="Signout">SIGNOUT</div>
+      <a href="javascript:void(0);" class="menu-link text-danger" onclick="document.getElementById('sidebarLogoutForm').submit();">
+        <i class="menu-icon tf-icons bx bx-power-off text-danger"></i>
+        <div class="menu-text-label fw-bold">Sign Out</div>
       </a>
     </li>
+
   </ul>
+
+  {{-- Hidden Logout Form --}}
+  <form id="sidebarLogoutForm" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+    @csrf
+  </form>
+
+  {{-- Collapse Button --}}
+  <div class="sidebar-footer-toggle d-none d-xl-flex align-items-center justify-content-between px-3 py-2">
+    <span class="text-muted small" style="font-size: 0.72rem;">v2.6 Enterprise</span>
+    <button type="button" class="btn btn-sm btn-icon text-muted" id="collapseSidebarBtn" title="Toggle Sidebar Collapse">
+      <i class="bx bx-chevron-left fs-5" id="collapseSidebarIcon"></i>
+    </button>
+  </div>
+
 </aside>
-<!-- / Menu -->
+
+<style>
+  /* ── Modern Obsidian Sidebar Styles ── */
+  .modern-asl-sidebar {
+    background-color: #0b1329 !important;
+    color: #e2e8f0 !important;
+    width: 235px !important;
+    min-width: 235px !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.25s ease !important;
+  }
+  
+  .modern-asl-sidebar .menu-header {
+    padding: 0.5rem 1.25rem 0.25rem !important;
+    color: #64748b !important;
+    font-size: 0.65rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .modern-asl-sidebar .menu-item .menu-link {
+    color: #94a3b8 !important;
+    padding: 0.55rem 0.95rem !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
+    border-radius: 8px !important;
+    margin: 0.15rem 0.65rem !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .modern-asl-sidebar .menu-item .menu-link:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: #ffffff !important;
+    transform: translateX(2px);
+  }
+
+  .modern-asl-sidebar .menu-item.active > .menu-link {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35) !important;
+  }
+
+  .modern-asl-sidebar .menu-item.active > .menu-link i,
+  .modern-asl-sidebar .menu-item.active > .menu-link .menu-text-label {
+    color: #ffffff !important;
+  }
+
+  .modern-asl-sidebar .menu-icon {
+    font-size: 1.15rem !important;
+    color: #94a3b8 !important;
+    margin-right: 0.65rem !important;
+    width: 22px !important;
+    text-align: center;
+    transition: color 0.2s ease;
+  }
+
+  .modern-asl-sidebar .menu-item:hover .menu-icon {
+    color: #38bdf8 !important;
+  }
+
+  .modern-asl-sidebar .menu-sub {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 8px;
+    margin: 0.2rem 0.65rem !important;
+    padding: 0.35rem 0 !important;
+  }
+
+  .modern-asl-sidebar .menu-sub .menu-item .menu-link {
+    padding: 0.42rem 0.75rem 0.42rem 1rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    margin: 0.1rem 0.35rem !important;
+    border-radius: 6px !important;
+  }
+
+  .modern-asl-sidebar .sub-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #64748b;
+    margin-right: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .modern-asl-sidebar .menu-sub .menu-item.active .sub-dot,
+  .modern-asl-sidebar .menu-sub .menu-item:hover .sub-dot {
+    background-color: #38bdf8;
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+  }
+
+  .modern-asl-sidebar .menu-sub .menu-item.active > .menu-link {
+    background: rgba(59, 130, 246, 0.18) !important;
+    color: #38bdf8 !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+  }
+
+  .modern-asl-sidebar .menu-toggle::after {
+    border-color: #64748b !important;
+  }
+
+  .sidebar-footer-toggle {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+</style>

@@ -83,7 +83,7 @@
                                             class="btn btn-sm {{ $isActive ? 'btn-status-active' : 'btn-status-inactive' }} px-3 py-1"
                                             id="btn-toggle-{{ $api->id }}"
                                             title="Click to toggle status"
-                                            onclick="toggleGatewayStatus({{ $api->id }})">
+                                            onclick="promptSecretKeyForToggle({{ $api->id }})">
                                         {{ $isActive ? 'ACTIVE' : 'INACTIVE' }}
                                     </button>
                                 </td>
@@ -161,6 +161,44 @@
                     </button>
                     <button type="submit" id="saveApiSubmitBtn" class="btn btn-sm btn-orange-action px-3">
                         <i class="bx bx-check"></i> SAVE
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- ── MODAL: SECRET KEY CONFIRMATION (RESET PASSWORD !) ── --}}
+<div class="modal fade" id="secretKeyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 480px;">
+        <div class="modal-content shadow-lg border-0 rounded-1 overflow-hidden">
+            <div class="modal-header border-bottom py-3 px-4 bg-white d-flex align-items-center justify-content-between">
+                <h5 class="modal-title fs-6 fw-bold text-dark mb-0">
+                    RESET PASSWORD !
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <form id="secretKeyForm" onsubmit="event.preventDefault(); submitSecretKeyToggle();">
+                <div class="modal-body p-4 bg-white">
+                    <input type="hidden" id="pending_toggle_api_id" value="" />
+                    <div class="row align-items-center">
+                        <label class="col-sm-4 col-form-label text-sm-end fw-bold text-secondary text-uppercase" style="font-size: .78rem;">
+                            SECRET KEY <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="password" id="input_secret_key" class="form-control form-control-sm rounded-1" placeholder="" required autofocus />
+                        </div>
+                    </div>
+                    <div id="secretKeyErrorMsg" class="text-danger text-center small mt-3" style="display:none;"></div>
+                </div>
+                
+                <div class="modal-footer py-2 px-4 bg-white border-top d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-sm btn-light border px-3 fw-bold text-dark d-inline-flex align-items-center gap-1" id="btnSubmitSecretKey" style="background-color:#e9ecef;">
+                        <i class="bx bx-check"></i> SUBMIT
+                    </button>
+                    <button type="button" class="btn btn-sm btn-light border px-3" data-bs-dismiss="modal" style="background-color:#e9ecef;">
+                        CLOSE
                     </button>
                 </div>
             </form>
@@ -429,7 +467,7 @@
                 <button type="button"
                         class="btn btn-sm ${isActive ? 'btn-status-active' : 'btn-status-inactive'} px-3 py-1"
                         id="btn-toggle-${api.id}"
-                        onclick="toggleGatewayStatus(${api.id})">
+                        onclick="promptSecretKeyForToggle(${api.id})">
                     ${isActive ? 'ACTIVE' : 'INACTIVE'}
                 </button>
             </td>
@@ -441,17 +479,50 @@
         });
     }
 
-    // Live Toggle Gateway Status
-    async function toggleGatewayStatus(id) {
+    // Open Secret Key Confirmation Modal
+    function promptSecretKeyForToggle(id) {
+        document.getElementById('pending_toggle_api_id').value = id;
+        const keyInput = document.getElementById('input_secret_key');
+        if (keyInput) keyInput.value = '';
+        const errMsg = document.getElementById('secretKeyErrorMsg');
+        if (errMsg) {
+            errMsg.textContent = '';
+            errMsg.style.display = 'none';
+        }
+
+        const modalEl = document.getElementById('secretKeyModal');
+        const modalInstance = new bootstrap.Modal(modalEl);
+        modalInstance.show();
+
+        setTimeout(() => {
+            if (keyInput) keyInput.focus();
+        }, 400);
+    }
+
+    // Submit Secret Key to Toggle Gateway Status
+    async function submitSecretKeyToggle() {
+        const id = document.getElementById('pending_toggle_api_id')?.value;
+        const keyInput = document.getElementById('input_secret_key');
+        const secretKey = (keyInput?.value || '').trim();
+        const errMsg = document.getElementById('secretKeyErrorMsg');
+        const submitBtn = document.getElementById('btnSubmitSecretKey');
+
+        if (!id) return;
+        if (!secretKey) {
+            if (errMsg) {
+                errMsg.textContent = 'Please enter secret key!';
+                errMsg.style.display = 'block';
+            }
+            return;
+        }
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> VERIFYING...';
+        }
+
         const btn = document.getElementById(`btn-toggle-${id}`);
         const dateSpan = document.getElementById(`change-date-text-${id}`);
-        if (!btn) return;
-
-        const previousText = btn.textContent.trim();
-        const previousClass = btn.className;
-
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
 
         try {
             const response = await fetch(API_TOGGLE_URL, {
@@ -461,7 +532,12 @@
                     'Accept': 'application/json',
                     'X-CSRF-TOKEN': CSRF_TOKEN
                 },
-                body: JSON.stringify({ _token: CSRF_TOKEN, id: id, api_id: id })
+                body: JSON.stringify({
+                    _token: CSRF_TOKEN,
+                    id: id,
+                    api_id: id,
+                    secret_key: secretKey
+                })
             });
 
             const data = await response.json();
@@ -470,24 +546,39 @@
                 toastr.success(data.message, 'Status Updated');
                 const isNowActive = (data.new_status === 'active' || data.new_status === '1' || data.is_active === true);
 
-                btn.className = `btn btn-sm ${isNowActive ? 'btn-status-active' : 'btn-status-inactive'} px-3 py-1`;
-                btn.textContent = isNowActive ? 'ACTIVE' : 'INACTIVE';
+                if (btn) {
+                    btn.className = `btn btn-sm ${isNowActive ? 'btn-status-active' : 'btn-status-inactive'} px-3 py-1`;
+                    btn.textContent = isNowActive ? 'ACTIVE' : 'INACTIVE';
+                }
 
                 if (dateSpan && data.change_datetime) {
                     dateSpan.textContent = data.change_datetime;
                 }
+
+                // Close Modal
+                const modalEl = document.getElementById('secretKeyModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) modalInstance.hide();
             } else {
-                btn.className = previousClass;
-                btn.textContent = previousText;
-                toastr.error(data.message || 'Failed to toggle status.', 'Error');
+                const message = data.message || 'Invalid Secret Key!';
+                if (errMsg) {
+                    errMsg.textContent = message;
+                    errMsg.style.display = 'block';
+                }
+                toastr.error(message, 'Authorization Error');
             }
         } catch (error) {
             console.error('Toggle error:', error);
-            btn.className = previousClass;
-            btn.textContent = previousText;
+            if (errMsg) {
+                errMsg.textContent = 'Server error occurred during verification.';
+                errMsg.style.display = 'block';
+            }
             toastr.error('Failed to communicate with server.', 'Error');
         } finally {
-            btn.disabled = false;
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bx bx-check"></i> SUBMIT';
+            }
         }
     }
 </script>

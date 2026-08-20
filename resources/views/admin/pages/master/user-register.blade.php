@@ -1015,6 +1015,19 @@
         document.getElementById('editUserModal')?.addEventListener('shown.bs.modal', () => {
             renderUserModalPagination();
         });
+
+        // Auto-load user if edit_id is in URL query
+        const urlParams = new URLSearchParams(window.location.search);
+        const editId = urlParams.get('edit_id') || urlParams.get('id') || urlParams.get('user_id');
+        if (editId) {
+            const targetRow = document.querySelector(`#userModalTbody tr[data-id="${editId}"]`);
+            if (targetRow) {
+                targetRow.click();
+                if (typeof toastr !== 'undefined') {
+                    toastr.info('User details loaded for editing.', 'Edit Mode');
+                }
+            }
+        }
     });
 </script>
 @endsection

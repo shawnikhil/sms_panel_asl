@@ -1,520 +1,389 @@
 @extends('admin.layout.master')
 
 @section('content')
-  <div class="container-xxl flex-grow-1 container-p-y">
+<div class="container-xxl flex-grow-1 container-p-y pt-3 pb-5">
 
-    {{-- ── Page Header ── --}}
-    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
-      <div>
-        <div class="d-flex align-items-center gap-2 text-muted fs-7 mb-1">
-          <span class="fs-6">🏠</span>
-          <a href="{{ route('admin.dashboard') }}" class="text-muted text-decoration-none">Manage Item</a>
-          <span>|</span>
-          <span class="text-primary fw-bold">Manage Sender ID</span>
-        </div>
-        <h4 class="fw-bold mb-0">Sender ID Management</h4>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <button type="button" class="btn btn-primary shadow-sm d-flex align-items-center gap-1"
-                data-bs-toggle="modal" data-bs-target="#addSenderModal">
-          <i class="bx bx-plus-circle fs-5"></i>
-          <span>Add Sender ID</span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary d-flex align-items-center gap-1"
-                onclick="refreshSenderList()">
-          <i class="bx bx-refresh fs-5" id="sid-refresh-icon"></i>
-          <span class="d-none d-sm-inline">Refresh</span>
-        </button>
-      </div>
+    {{-- Breadcrumb --}}
+    <div class="d-flex align-items-center gap-2 mb-4 pt-2">
+        <i class="bx bx-home text-secondary fs-5"></i>
+        <span class="text-secondary fw-semibold">Manage Item</span>
+        <span class="text-muted">|</span>
+        <span class="text-primary fw-bold">Manage Sender ID</span>
     </div>
 
-    {{-- ── KPI Cards ── --}}
-    <div class="row g-3 mb-4">
-      <div class="col-sm-6 col-lg-3">
-        <div class="card h-100">
-          <div class="card-body p-3 d-flex align-items-center justify-content-between">
-            <div>
-              <span class="text-muted fs-7 d-block mb-1">Total Sender IDs</span>
-              <h4 class="fw-bold mb-0" id="stat-total">—</h4>
-            </div>
-            <div class="avatar avatar-md">
-              <span class="avatar-initial rounded-3 bg-label-primary">
-                <i class="bx bx-id-card fs-4"></i>
-              </span>
-            </div>
-          </div>
+    {{-- 1. Find Sender Id Details (Filter Card) --}}
+    <div class="card border shadow-sm mb-4 overflow-hidden rounded-1">
+        <div class="px-3 py-2 text-white d-flex align-items-center gap-2 fw-semibold" style="background:#6c757d;">
+            <i class="bx bx-grid-alt fs-5"></i>
+            <span>Find Sender Id details -</span>
         </div>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-        <div class="card h-100">
-          <div class="card-body p-3 d-flex align-items-center justify-content-between">
-            <div>
-              <span class="text-muted fs-7 d-block mb-1">Approved</span>
-              <h4 class="fw-bold mb-0 text-success" id="stat-approved">—</h4>
-            </div>
-            <div class="avatar avatar-md">
-              <span class="avatar-initial rounded-3 bg-label-success">
-                <i class="bx bx-check-shield fs-4"></i>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-        <div class="card h-100">
-          <div class="card-body p-3 d-flex align-items-center justify-content-between">
-            <div>
-              <span class="text-muted fs-7 d-block mb-1">Pending</span>
-              <h4 class="fw-bold mb-0 text-warning" id="stat-pending">—</h4>
-            </div>
-            <div class="avatar avatar-md">
-              <span class="avatar-initial rounded-3 bg-label-warning">
-                <i class="bx bx-time fs-4"></i>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-lg-3">
-        <div class="card h-100">
-          <div class="card-body p-3 d-flex align-items-center justify-content-between">
-            <div>
-              <span class="text-muted fs-7 d-block mb-1">Rejected</span>
-              <h4 class="fw-bold mb-0 text-danger" id="stat-rejected">—</h4>
-            </div>
-            <div class="avatar avatar-md">
-              <span class="avatar-initial rounded-3 bg-label-danger">
-                <i class="bx bx-x-circle fs-4"></i>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {{-- ── Search / Filter Bar ── --}}
-    <div class="card mb-4">
-      <div class="card-body p-3">
-        <div class="row g-3 align-items-end">
-          <div class="col-sm-6 col-lg-3">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Reg No</label>
-            <input type="text" id="filter-regno" class="form-control form-control-sm" placeholder="Enter Reg No" />
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">User Name</label>
-            <input type="text" id="filter-username" class="form-control form-control-sm" placeholder="Enter User Name" />
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Sender ID</label>
-            <input type="text" id="filter-senderid" class="form-control form-control-sm" placeholder="e.g. SAETPL" />
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Entity ID</label>
-            <input type="text" id="filter-entityid" class="form-control form-control-sm" placeholder="Enter Entity ID" />
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">From Date</label>
-            <input type="date" id="filter-from" class="form-control form-control-sm" />
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">To Date</label>
-            <input type="date" id="filter-to" class="form-control form-control-sm" />
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Status</label>
-            <select id="filter-status" class="form-select form-select-sm">
-              <option value="">All Status</option>
-              <option value="approved">Approved</option>
-              <option value="pending">Pending</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
-          <div class="col-sm-6 col-lg-3 d-flex gap-2">
-            <button type="button" class="btn btn-primary btn-sm flex-fill" onclick="applyFilters()">
-              <i class="bx bx-search me-1"></i> Search
-            </button>
-            <button type="button" class="btn btn-outline-secondary btn-sm flex-fill" onclick="clearFilters()">
-              <i class="bx bx-x me-1"></i> Clear
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {{-- ── Sender ID Table Card ── --}}
-    <div class="card shadow-sm border overflow-hidden">
-
-      {{-- Action Bar --}}
-      <div class="d-flex align-items-center justify-content-between gap-3 px-4 py-3"
-           style="background:var(--bg-action-bar);border-bottom:1px solid var(--border-color);">
-        <div class="d-flex align-items-center gap-2">
-          <div style="width:32px;height:32px;border-radius:.5rem;background:rgba(255,255,255,.15);
-                      display:flex;align-items:center;justify-content:center;">
-            <i class="bx bx-id-card" style="color:#fff;font-size:1.1rem;"></i>
-          </div>
-          <div>
-            <span style="color:#fff;font-weight:700;font-size:.9rem;">Sender ID List</span>
-            <span id="sid-count-badge" style="margin-left:.5rem;font-size:.72rem;color:rgba(255,255,255,.75);">Loading…</span>
-          </div>
-        </div>
-
-        {{-- Tab Filters --}}
-        <div class="d-flex align-items-center gap-1">
-          <button class="sid-tab-btn active" data-filter="all"     onclick="setTabFilter(this,'all')">All</button>
-          <button class="sid-tab-btn"        data-filter="approved" onclick="setTabFilter(this,'approved')">Approved</button>
-          <button class="sid-tab-btn"        data-filter="pending"  onclick="setTabFilter(this,'pending')">Pending</button>
-          <button class="sid-tab-btn"        data-filter="rejected" onclick="setTabFilter(this,'rejected')">Rejected</button>
-        </div>
-
-        {{-- Search box in action bar --}}
-        <div class="position-relative d-none d-md-block">
-          <i class="bx bx-search" style="position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.6);font-size:1rem;"></i>
-          <input type="text" id="sid-quick-search" placeholder="Quick search…"
-                 oninput="quickSearch(this.value)"
-                 style="height:34px;padding:0 .75rem 0 2.1rem;border-radius:.5rem;border:1px solid rgba(255,255,255,.2);
-                        background:rgba(255,255,255,.12);color:#fff;font-size:.8125rem;width:180px;outline:none;"
-                 onblur="this.style.borderColor='rgba(255,255,255,.2)'"
-                 onfocus="this.style.borderColor='rgba(255,255,255,.5)'" />
-        </div>
-      </div>
-
-      {{-- Table --}}
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0" id="sender-id-table">
-          <thead class="table-light">
-            <tr>
-              <th style="width:50px;">#</th>
-              <th>Sender ID</th>
-              <th>Entity ID</th>
-              <th>User Reg No</th>
-              <th>User Name</th>
-              <th>Status</th>
-              <th>Tran Date / Time</th>
-              <th style="width:120px;">Action</th>
-            </tr>
-          </thead>
-          <tbody id="sid-tbody">
-            {{-- Demo rows — replace with @foreach($senderIds as $row) --}}
-            <tr data-status="approved">
-              <td><span class="text-muted fw-600">1</span></td>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <div style="width:32px;height:32px;border-radius:.5rem;background:linear-gradient(135deg,#4f46e5,#3b82f6);
-                              display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <i class="bx bx-id-card" style="color:#fff;font-size:.9rem;"></i>
-                  </div>
-                  <span class="fw-bold" style="color:var(--text-primary);">SAETPL</span>
+        <div class="card-body p-4 bg-white">
+            <form id="filterForm" onsubmit="event.preventDefault(); loadSenderData(1);">
+                <div class="row g-3 justify-content-center">
+                    <div class="col-lg-5 col-md-6">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">REG NO</label>
+                            <div class="col-sm-8"><input type="text" id="f_regno" class="form-control form-control-sm rounded-1" placeholder="" /></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">USER NAME</label>
+                            <div class="col-sm-8"><input type="text" id="f_user" class="form-control form-control-sm rounded-1" placeholder="" /></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">SENDER ID</label>
+                            <div class="col-sm-8"><input type="text" id="f_sender" class="form-control form-control-sm rounded-1" placeholder="" /></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">ENTITY ID</label>
+                            <div class="col-sm-8"><input type="text" id="f_entity" class="form-control form-control-sm rounded-1" placeholder="" /></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">FROM DATE</label>
+                            <div class="col-sm-8"><input type="date" id="f_from" class="form-control form-control-sm rounded-1" /></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="row align-items-center">
+                            <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">TO DATE</label>
+                            <div class="col-sm-8"><input type="date" id="f_to" class="form-control form-control-sm rounded-1" /></div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mt-3 d-flex justify-content-center gap-2">
+                        <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold text-uppercase rounded-1 shadow-sm">SEARCH</button>
+                        <button type="button" class="btn btn-light btn-sm border px-4 fw-bold text-uppercase rounded-1" onclick="clearFilters()">CLEAR</button>
+                    </div>
                 </div>
-              </td>
-              <td><span class="text-muted" style="font-family:var(--font-mono);font-size:.8rem;">1705177379937624489</span></td>
-              <td><span class="badge" style="background:rgba(79,70,229,.1);color:#4f46e5;font-weight:700;">3901</span></td>
-              <td>sabhita pay</td>
-              <td>
-                <span class="badge d-inline-flex align-items-center gap-1"
-                      style="background:rgba(16,185,129,.12);color:#059669;border:1px solid rgba(16,185,129,.25);border-radius:999px;padding:.3rem .7rem;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#10b981;display:inline-block;"></span>
-                  Approved
-                </span>
-              </td>
-              <td><span class="text-muted" style="font-size:.8rem;">13/06/2026 08:45:01 PM</span></td>
-              <td>
+            </form>
+        </div>
+    </div>
+
+    {{-- 2. Sender Id Details (Table Card) --}}
+    <div class="card border shadow-sm overflow-hidden rounded-1">
+        <div class="px-3 py-2 text-white d-flex align-items-center gap-2 fw-semibold" style="background:#0f6698;">
+            <i class="bx bx-grid-alt fs-5"></i>
+            <span>Sender Id details -</span>
+        </div>
+
+        <div class="card-body p-0 bg-white position-relative">
+            {{-- Top Pagination Toolbar (Zero Reload) --}}
+            <div class="d-flex flex-wrap align-items-center justify-content-between px-3 py-2 border-bottom gap-2">
+                <div class="text-muted small">
+                    Showing <span id="page_info" class="fw-bold text-dark">0</span> entries
+                </div>
                 <div class="d-flex align-items-center gap-1">
-                  <button class="btn btn-sm" title="Edit Status"
-                          onclick="editSenderStatus(1)"
-                          style="padding:.3rem .6rem;background:rgba(59,130,246,.12);color:#3b82f6;border:1px solid rgba(59,130,246,.2);border-radius:.4rem;">
-                    <i class="bx bx-edit-alt"></i>
-                  </button>
-                  <button class="btn btn-sm" title="View Details"
-                          onclick="viewSenderDetails(1)"
-                          style="padding:.3rem .6rem;background:rgba(79,70,229,.1);color:#4f46e5;border:1px solid rgba(79,70,229,.2);border-radius:.4rem;">
-                    <i class="bx bx-show"></i>
-                  </button>
+                    <ul class="pagination pagination-sm mb-0" id="paginationList">
+                        {{-- Rendered dynamically by AJAX --}}
+                    </ul>
                 </div>
-              </td>
-            </tr>
-            <tr data-status="approved">
-              <td><span class="text-muted fw-600">2</span></td>
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <div style="width:32px;height:32px;border-radius:.5rem;background:linear-gradient(135deg,#10b981,#059669);
-                              display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <i class="bx bx-id-card" style="color:#fff;font-size:.9rem;"></i>
-                  </div>
-                  <span class="fw-bold" style="color:var(--text-primary);">SAETPL</span>
-                </div>
-              </td>
-              <td><span class="text-muted" style="font-family:var(--font-mono);font-size:.8rem;">1705177379937624489</span></td>
-              <td><span class="badge" style="background:rgba(79,70,229,.1);color:#4f46e5;font-weight:700;">3905</span></td>
-              <td>sabhita pay</td>
-              <td>
-                <span class="badge d-inline-flex align-items-center gap-1"
-                      style="background:rgba(16,185,129,.12);color:#059669;border:1px solid rgba(16,185,129,.25);border-radius:999px;padding:.3rem .7rem;">
-                  <span style="width:6px;height:6px;border-radius:50%;background:#10b981;display:inline-block;"></span>
-                  Approved
-                </span>
-              </td>
-              <td><span class="text-muted" style="font-size:.8rem;">30/06/2026 08:42:01 PM</span></td>
-              <td>
-                <div class="d-flex align-items-center gap-1">
-                  <button class="btn btn-sm" title="Edit Status"
-                          onclick="editSenderStatus(2)"
-                          style="padding:.3rem .6rem;background:rgba(59,130,246,.12);color:#3b82f6;border:1px solid rgba(59,130,246,.2);border-radius:.4rem;">
-                    <i class="bx bx-edit-alt"></i>
-                  </button>
-                  <button class="btn btn-sm" title="View Details"
-                          onclick="viewSenderDetails(2)"
-                          style="padding:.3rem .6rem;background:rgba(79,70,229,.1);color:#4f46e5;border:1px solid rgba(79,70,229,.2);border-radius:.4rem;">
-                    <i class="bx bx-show"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            </div>
 
-      {{-- Table Footer --}}
-      <div class="d-flex align-items-center justify-content-between px-4 py-3"
-           style="border-top:1px solid var(--border-color);background:var(--bg-table-head);">
-        <div class="text-muted d-flex align-items-center gap-2" style="font-size:.8125rem;">
-          <span class="badge badge-dot bg-success me-1"></span>
-          <span>DLT verified sender identities. TRAI compliant.</span>
+            {{-- Table --}}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 sender-table" id="senderTable">
+                    <thead class="table-light">
+                        <tr class="text-uppercase" style="font-size: .75rem;">
+                            <th class="text-center" style="width:40px;">#</th>
+                            <th class="text-center" style="width:125px;">ACTION</th>
+                            <th>SENDER ID</th>
+                            <th>ENTITY ID</th>
+                            <th class="text-center">STATUS</th>
+                            <th class="text-center">USER REGNO</th>
+                            <th>USER NAME</th>
+                            <th class="text-center">TRAN DATE/TIME</th>
+                        </tr>
+                    </thead>
+                    <tbody id="senderTbody">
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">
+                                <span class="spinner-border spinner-border-sm text-primary me-2"></span> Loading Sender ID data...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="text-muted" style="font-size:.8125rem;">
-          Showing <strong id="sid-showing">2</strong> of <strong id="sid-total-count">2</strong> Sender IDs
-        </div>
-      </div>
     </div>
-
-  </div>
-
-{{-- ═══════════════════════════════════════════════════════
-     MODAL: ADD SENDER ID
-     ═══════════════════════════════════════════════════════ --}}
-<div class="modal fade" id="addSenderModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header" style="background:var(--bg-action-bar);">
-        <div class="d-flex align-items-center gap-2">
-          <div class="avatar avatar-sm">
-            <span class="avatar-initial rounded-circle bg-label-primary">
-              <i class="bx bx-plus"></i>
-            </span>
-          </div>
-          <h5 class="modal-title mb-0" style="color:#fff;">Add New Sender ID</h5>
-        </div>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body p-4">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">User Reg No <span class="text-danger">*</span></label>
-            <input type="text" id="add-regno" class="form-control" placeholder="Enter Reg No" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">User Name <span class="text-danger">*</span></label>
-            <input type="text" id="add-username" class="form-control" placeholder="Enter User Name" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Sender ID <span class="text-danger">*</span></label>
-            <input type="text" id="add-senderid" class="form-control" placeholder="e.g. MYBRND" maxlength="11" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Entity ID <span class="text-danger">*</span></label>
-            <input type="text" id="add-entityid" class="form-control" placeholder="DLT Entity ID" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Status</label>
-            <select id="add-status" class="form-select">
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Remarks</label>
-            <input type="text" id="add-remarks" class="form-control" placeholder="Optional remarks" />
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-          <i class="bx bx-x me-1"></i> Cancel
-        </button>
-        <button type="button" class="btn btn-primary" onclick="saveSenderId()">
-          <i class="bx bx-check me-1"></i> Save Sender ID
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 
-{{-- ═══════════════════════════════════════════════════════
-     MODAL: EDIT STATUS
-     ═══════════════════════════════════════════════════════ --}}
-<div class="modal fade" id="editStatusModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"><i class="bx bx-edit me-2 text-primary"></i>Edit Sender Status</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body p-4">
-        <div class="mb-3">
-          <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Sender ID</label>
-          <input type="text" id="edit-senderid-display" class="form-control" readonly />
+{{-- Edit Status Modal --}}
+<div class="modal fade" id="statusModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; overflow:hidden;">
+            <div class="modal-header border-0 pb-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold text-dark d-flex align-items-center gap-2">
+                    <i class="bx bx-edit text-primary fs-4"></i> Edit Sender Status
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="statusForm" onsubmit="event.preventDefault(); updateSenderStatus();">
+                <input type="hidden" id="m_id" />
+                <div class="modal-body px-4 py-3">
+                    <div class="mb-3">
+                        <label class="form-label text-uppercase fw-bold text-secondary" style="font-size:.75rem;">SENDER ID</label>
+                        <input type="text" id="m_sender" class="form-control rounded-2 bg-light" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-uppercase fw-bold text-secondary" style="font-size:.75rem;">NEW STATUS <span class="text-danger">*</span></label>
+                        <select id="m_status" class="form-select rounded-2" required>
+                            <option value="1">✅ Approved</option>
+                            <option value="0">⏳ Pending</option>
+                            <option value="2">❌ Rejected</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label text-uppercase fw-bold text-secondary" style="font-size:.75rem;">REMARKS</label>
+                        <textarea id="m_remarks" class="form-control rounded-2" rows="3" placeholder="Reason for status change..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0 pb-4 px-4 d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-outline-secondary px-4 py-2 rounded-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" id="m_submitBtn" class="btn btn-primary px-4 py-2 rounded-2 d-flex align-items-center gap-1 shadow-sm" style="background:#5b5df8; border:none;">
+                        <i class="bx bx-save fs-5"></i> Update Status
+                    </button>
+                </div>
+            </form>
         </div>
-        <div class="mb-3">
-          <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">New Status <span class="text-danger">*</span></label>
-          <select id="edit-new-status" class="form-select">
-            <option value="approved">✅ Approved</option>
-            <option value="pending">⏳ Pending</option>
-            <option value="rejected">❌ Rejected</option>
-          </select>
-        </div>
-        <div>
-          <label class="form-label" style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-secondary);">Remarks</label>
-          <textarea id="edit-remarks" class="form-control" rows="2" placeholder="Reason for status change…"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" onclick="updateStatus()">
-          <i class="bx bx-save me-1"></i> Update Status
-        </button>
-      </div>
     </div>
-  </div>
 </div>
 
-{{-- ═══ STYLES ═══ --}}
 <style>
-  .sid-tab-btn {
-    padding: .3rem .85rem;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,.25);
-    background: rgba(255,255,255,.1);
-    color: rgba(255,255,255,.75);
-    font-size: .75rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all .2s ease;
-  }
-  .sid-tab-btn:hover { background: rgba(255,255,255,.2); color: #fff; }
-  .sid-tab-btn.active { background: #fff; color: #4f46e5; border-color: #fff; }
-
-  #sender-id-table tbody tr { transition: background-color .15s ease; }
-  #sender-id-table tbody tr.sid-hidden { display: none; }
+    .sender-table th { font-weight:700; color:#333; padding:.65rem .75rem; border-bottom:2px solid #dee2e6; }
+    .sender-table td { padding:.55rem .75rem; border-bottom:1px solid #e9ecef; }
+    .page-link { cursor: pointer; user-select: none; }
+    html.dark .sender-table th { background:#1e293b; color:#cbd5e1; border-color:#334155; }
+    html.dark .sender-table td { border-color:#334155; }
 </style>
 
-{{-- ═══ SCRIPTS ═══ --}}
 <script>
-  /* ── Stats counter ── */
-  document.addEventListener('DOMContentLoaded', function () {
-    const rows     = document.querySelectorAll('#sid-tbody tr');
-    const approved = [...rows].filter(r => r.dataset.status === 'approved').length;
-    const pending  = [...rows].filter(r => r.dataset.status === 'pending').length;
-    const rejected = [...rows].filter(r => r.dataset.status === 'rejected').length;
-    document.getElementById('stat-total').textContent    = rows.length;
-    document.getElementById('stat-approved').textContent = approved;
-    document.getElementById('stat-pending').textContent  = pending;
-    document.getElementById('stat-rejected').textContent = rejected;
-    document.getElementById('sid-count-badge').textContent = rows.length + ' Records';
-    updateShowingCount();
-  });
+    let currentPage = 1;
+    let cachedRows = [];
 
-  function updateShowingCount() {
-    const visible = document.querySelectorAll('#sid-tbody tr:not(.sid-hidden)').length;
-    const total   = document.querySelectorAll('#sid-tbody tr').length;
-    document.getElementById('sid-showing').textContent     = visible;
-    document.getElementById('sid-total-count').textContent = total;
-  }
+    // AJAX Data Loading (Zero Page Reload)
+    async function loadSenderData(page = 1) {
+        currentPage = page;
+        const tbody = document.getElementById('senderTbody');
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted"><span class="spinner-border spinner-border-sm text-primary me-2"></span> Loading page ${page}...</td></tr>`;
 
-  /* ── Tab filter ── */
-  let activeTab = 'all';
-  function setTabFilter(btn, filter) {
-    document.querySelectorAll('.sid-tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeTab = filter;
-    applyAllFilters();
-  }
+        const regno = (document.getElementById('f_regno')?.value || '').trim();
+        const user = (document.getElementById('f_user')?.value || '').trim();
+        const sender = (document.getElementById('f_sender')?.value || '').trim();
+        const entity = (document.getElementById('f_entity')?.value || '').trim();
+        const fromDate = document.getElementById('f_from')?.value || '';
+        const toDate = document.getElementById('f_to')?.value || '';
 
-  /* ── Quick search ── */
-  function quickSearch(val) {
-    applyAllFilters();
-  }
+        const params = new URLSearchParams({
+            page: page,
+            reg_no: regno,
+            user_name: user,
+            sender_id: sender,
+            entity_id: entity,
+            from_date: fromDate,
+            to_date: toDate
+        });
 
-  /* ── Form filter ── */
-  function applyFilters() { applyAllFilters(); }
+        try {
+            const res = await fetch(`{{ route('admin.manage.sender_id') }}?${params.toString()}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            });
+            const data = await res.json();
 
-  function applyAllFilters() {
-    const q       = (document.getElementById('sid-quick-search')?.value || '').toLowerCase();
-    const regno   = document.getElementById('filter-regno').value.toLowerCase();
-    const uname   = document.getElementById('filter-username').value.toLowerCase();
-    const sid     = document.getElementById('filter-senderid').value.toLowerCase();
-    const eid     = document.getElementById('filter-entityid').value.toLowerCase();
-    const status  = document.getElementById('filter-status').value.toLowerCase();
+            if (res.ok && data.status === 'success') {
+                cachedRows = data.data || [];
+                renderTableRows(data.data, (data.current_page - 1) * 10);
+                document.getElementById('page_info').textContent = data.total > 0 ? `${data.from}-${data.to} of ${data.total}` : '0 of 0';
+                renderPagination(data.current_page, data.last_page);
+            } else {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-danger"><i class="bx bx-error fs-4 d-block mb-1"></i> Failed to load Sender ID records.</td></tr>`;
+            }
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-danger"><i class="bx bx-error fs-4 d-block mb-1"></i> Network error: ${err.message}</td></tr>`;
+        }
+    }
 
-    document.querySelectorAll('#sid-tbody tr').forEach(row => {
-      const text   = row.textContent.toLowerCase();
-      const rStatus = row.dataset.status;
-      const tabOk  = activeTab === 'all' || rStatus === activeTab;
-      const statusOk = !status || rStatus === status;
-      const qOk    = !q || text.includes(q);
-      const regOk  = !regno   || text.includes(regno);
-      const unOk   = !uname   || text.includes(uname);
-      const sidOk  = !sid     || text.includes(sid);
-      const eidOk  = !eid     || text.includes(eid);
+    function renderTableRows(rows, offsetIndex) {
+        const tbody = document.getElementById('senderTbody');
+        tbody.innerHTML = '';
 
-      if (tabOk && statusOk && qOk && regOk && unOk && sidOk && eidOk) {
-        row.classList.remove('sid-hidden');
-      } else {
-        row.classList.add('sid-hidden');
-      }
+        if (!rows || rows.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted"><i class="bx bx-info-circle fs-4 d-block mb-1"></i> No Sender ID records found.</td></tr>`;
+            return;
+        }
+
+        rows.forEach((row, i) => {
+            const u = row.user || null;
+            const regNo = u?.regno || (row.user_id ? 'UID:' + row.user_id : '');
+            const userName = u ? ((u.fname || '') + ' ' + (u.lname || '')).trim() : (row.user_id ? 'User #' + row.user_id : '');
+            const st = String(row.status !== null && row.status !== undefined ? row.status : '1').toLowerCase();
+            const isApp = (st === '1' || st === 'approved');
+            const isRej = (st === '2' || st === 'rejected');
+            const statusLabel = isApp ? 'APPROVED' : (isRej ? 'REJECTED' : 'PENDING');
+            const badgeColor = isApp ? 'bg-success' : (isRej ? 'bg-danger' : 'bg-warning text-dark');
+
+            // Format date & time
+            let dateFormatted = row.entry_date || '-';
+            if (row.entry_date && row.entry_date.includes('-')) {
+                const parts = row.entry_date.split('-');
+                if (parts.length === 3) dateFormatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+
+            const tr = document.createElement('tr');
+            tr.className = 'sender-row';
+            tr.dataset.id = row.id;
+            tr.innerHTML = `
+                <td class="text-center text-muted fw-bold">${offsetIndex + i + 1}</td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-success btn-sm fw-bold px-2 py-1 text-uppercase"
+                            style="font-size:.72rem; letter-spacing:.02em;"
+                            onclick="openEditModal(${i})">
+                        EDIT STATUS
+                    </button>
+                </td>
+                <td class="fw-bold text-dark">${escapeHtml(row.sender_id || '-')}</td>
+                <td><span class="text-secondary font-monospace" style="font-size:.8rem;">${escapeHtml(row.entity_id || '-')}</span></td>
+                <td class="text-center">
+                    <span class="badge ${badgeColor} rounded-1 px-2 py-1 fw-bold" style="font-size:.7rem;">${statusLabel}</span>
+                </td>
+                <td class="text-center fw-semibold text-secondary">${escapeHtml(regNo)}</td>
+                <td class="text-dark">${escapeHtml(userName)}</td>
+                <td class="text-center" style="font-size:.8rem; line-height:1.2;">
+                    <div>${dateFormatted}</div>
+                    ${row.entry_time ? `<div class="text-muted" style="font-size:.72rem;">(${escapeHtml(row.entry_time)})</div>` : ''}
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Dynamic Zero-Reload Pagination Bar
+    function renderPagination(cur, last) {
+        const ul = document.getElementById('paginationList');
+        ul.innerHTML = '';
+
+        if (last <= 1) return;
+
+        // Prev Button
+        const prevLi = document.createElement('li');
+        prevLi.className = `page-item ${cur === 1 ? 'disabled' : ''}`;
+        prevLi.innerHTML = `<a class="page-link" onclick="loadSenderData(${cur - 1})">«</a>`;
+        ul.appendChild(prevLi);
+
+        // Calculate sliding window
+        let start = Math.max(1, cur - 2);
+        let end = Math.min(last, cur + 2);
+
+        if (start > 1) {
+            ul.innerHTML += `<li class="page-item"><a class="page-link" onclick="loadSenderData(1)">1</a></li>`;
+            if (start > 2) ul.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+
+        for (let i = start; i <= end; i++) {
+            const li = document.createElement('li');
+            li.className = `page-item ${i === cur ? 'active' : ''}`;
+            li.innerHTML = `<a class="page-link" onclick="loadSenderData(${i})">${i}</a>`;
+            ul.appendChild(li);
+        }
+
+        if (end < last) {
+            if (end < last - 1) ul.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            ul.innerHTML += `<li class="page-item"><a class="page-link" onclick="loadSenderData(${last})">${last}</a></li>`;
+        }
+
+        // Next Button
+        const nextLi = document.createElement('li');
+        nextLi.className = `page-item ${cur === last ? 'disabled' : ''}`;
+        nextLi.innerHTML = `<a class="page-link" onclick="loadSenderData(${cur + 1})">»</a>`;
+        ul.appendChild(nextLi);
+    }
+
+    function clearFilters() {
+        ['f_regno', 'f_user', 'f_sender', 'f_entity', 'f_from', 'f_to'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        loadSenderData(1);
+    }
+
+    // Modal Handling (Indexed)
+    function openEditModal(index) {
+        const row = cachedRows[index];
+        if (!row) return;
+        document.getElementById('m_id').value = row.id;
+        document.getElementById('m_sender').value = row.sender_id || '';
+        const s = String(row.status !== null && row.status !== undefined ? row.status : '1').toLowerCase();
+        document.getElementById('m_status').value = (s === '1' || s.includes('app')) ? '1' : ((s === '2' || s.includes('rej')) ? '2' : '0');
+        document.getElementById('m_remarks').value = row.modified_mesg || '';
+        new bootstrap.Modal(document.getElementById('statusModal')).show();
+    }
+
+    // Async AJAX Status Update (Zero Reload)
+    async function updateSenderStatus() {
+        const id = document.getElementById('m_id').value;
+        const status = document.getElementById('m_status').value;
+        const remarks = document.getElementById('m_remarks').value;
+        const btn = document.getElementById('m_submitBtn');
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Updating...';
+
+        try {
+            const res = await fetch("{{ route('admin.manage.sender_id.update_status') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({ id, status, remarks })
+            });
+            const data = await res.json();
+
+            if (res.ok && data.status === 'success') {
+                bootstrap.Modal.getInstance(document.getElementById('statusModal')).hide();
+                // Reload current page smoothly without refresh
+                loadSenderData(currentPage);
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({ icon: 'success', title: 'Updated!', text: data.message, timer: 1200, showConfirmButton: false });
+                } else {
+                    alert(data.message || 'Status updated successfully!');
+                }
+            } else {
+                alert(data.message || 'Failed to update status.');
+            }
+        } catch (err) {
+            alert('Error updating status: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bx bx-save fs-5"></i> Update Status';
+        }
+    }
+
+    function escapeHtml(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Debounced search on typing
+    let searchDebounceTimer = null;
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('#filterForm input[type="text"]').forEach(input => {
+            input.addEventListener('input', () => {
+                clearTimeout(searchDebounceTimer);
+                searchDebounceTimer = setTimeout(() => {
+                    loadSenderData(1);
+                }, 350);
+            });
+        });
+        loadSenderData(1);
     });
-    updateShowingCount();
-  }
-
-  function clearFilters() {
-    ['filter-regno','filter-username','filter-senderid','filter-entityid','filter-from','filter-to'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    document.getElementById('filter-status').value = '';
-    if (document.getElementById('sid-quick-search')) document.getElementById('sid-quick-search').value = '';
-    applyAllFilters();
-  }
-
-  /* ── Refresh ── */
-  function refreshSenderList() {
-    const icon = document.getElementById('sid-refresh-icon');
-    icon.style.animation = 'spin 1s linear infinite';
-    setTimeout(() => { icon.style.animation = ''; }, 1500);
-  }
-
-  /* ── Edit status modal ── */
-  function editSenderStatus(id) {
-    document.getElementById('edit-senderid-display').value = 'SAETPL';
-    const modal = new bootstrap.Modal(document.getElementById('editStatusModal'));
-    modal.show();
-  }
-
-  function updateStatus() {
-    bootstrap.Modal.getInstance(document.getElementById('editStatusModal')).hide();
-  }
-
-  /* ── View details ── */
-  function viewSenderDetails(id) {
-    console.log('View Sender ID:', id);
-  }
-
-  /* ── Save new sender ID ── */
-  function saveSenderId() {
-    bootstrap.Modal.getInstance(document.getElementById('addSenderModal')).hide();
-  }
 </script>
-
-<style>
-  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-</style>
-
 @endsection

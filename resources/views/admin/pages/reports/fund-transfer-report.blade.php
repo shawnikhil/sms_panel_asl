@@ -3,22 +3,20 @@
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y pt-3 pb-5">
 
-    {{-- ── Breadcrumb Bar with Generous Spacing ── --}}
-    <div class="sms-breadcrumb-wrapper d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pt-2 pb-1">
-        <div class="d-flex align-items-center gap-2">
-            <i class="bx bx-home text-secondary" style="font-size: 1.15rem;"></i>
-            <span class="crumb-section">Report</span>
-            <span class="crumb-sep">|</span>
-            <span class="crumb-active">Fund transfer details</span>
-        </div>
+    {{-- Breadcrumb --}}
+    <div class="d-flex align-items-center gap-2 mb-4 pt-2">
+        <i class="bx bx-home text-secondary fs-5"></i>
+        <span class="text-secondary fw-semibold">Report</span>
+        <span class="text-muted">|</span>
+        <span class="text-primary fw-bold">Fund transfer details</span>
     </div>
 
-    {{-- ── Find Fund Transfer Details Filter Card ── --}}
-    <div class="sms-card-shell mb-4">
-        <div class="sms-card-header d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-2">
+    {{-- 1. Find Fund Transfer Details (Filter Card) --}}
+    <div class="card border shadow-sm mb-4 overflow-hidden rounded-1">
+        <div class="px-3 py-2 text-white d-flex align-items-center justify-content-between" style="background:#6c757d;">
+            <div class="d-flex align-items-center gap-2 fw-semibold">
                 <i class="bx bx-grid-alt fs-5"></i>
-                <span class="sms-card-title">Find Fund Transfer Details -</span>
+                <span>Find Fund Transfer Details -</span>
             </div>
             <button type="button" class="btn btn-sm text-white p-0" data-bs-toggle="collapse" data-bs-target="#fundFilterBody" aria-expanded="true">
                 <i class="bx bx-chevron-down fs-4"></i>
@@ -26,83 +24,63 @@
         </div>
         
         <div class="collapse show" id="fundFilterBody">
-            <div class="sms-card-body p-4">
-                <form id="fundSearchForm" onsubmit="event.preventDefault(); applyFundFilters();">
+            <div class="card-body p-4 bg-white">
+                <form id="fundSearchForm" onsubmit="event.preventDefault(); loadFundData(1);">
                     <div class="row g-3 justify-content-center">
-                        {{-- Row 1 --}}
                         <div class="col-lg-5 col-md-6">
                             <div class="row align-items-center">
-                                <label class="col-sm-4 col-form-label text-sm-end sms-field-label">COMPANY NAME</label>
+                                <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">COMPANY NAME</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="filter_company_name" class="form-control sms-input" placeholder="" />
+                                    <input type="text" id="filter_company_name" class="form-control form-control-sm rounded-1" placeholder="" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-5 col-md-6">
                             <div class="row align-items-center">
-                                <label class="col-sm-4 col-form-label text-sm-end sms-field-label">USER NAME</label>
+                                <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">USER NAME</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="filter_user_name" class="form-control sms-input" placeholder="" />
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Row 2 --}}
-                        <div class="col-lg-5 col-md-6">
-                            <div class="row align-items-center">
-                                <label class="col-sm-4 col-form-label text-sm-end sms-field-label">REG NO</label>
-                                <div class="col-sm-8">
-                                    <input type="text" id="filter_reg_no" class="form-control sms-input" placeholder="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-6">
-                            <div class="row align-items-center">
-                                <label class="col-sm-4 col-form-label text-sm-end sms-field-label">TRANSACTION DESC</label>
-                                <div class="col-sm-8">
-                                    <input type="text" id="filter_trans_desc" class="form-control sms-input" placeholder="" />
+                                    <input type="text" id="filter_user_name" class="form-control form-control-sm rounded-1" placeholder="" />
                                 </div>
                             </div>
                         </div>
 
-                        {{-- Row 3 --}}
                         <div class="col-lg-5 col-md-6">
                             <div class="row align-items-center">
-                                <label class="col-sm-4 col-form-label text-sm-end sms-field-label">FROM DATE</label>
+                                <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">REG NO</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <input type="date" id="filter_from_date" class="form-control sms-input" />
-                                        <button class="btn btn-light border sms-calendar-btn" type="button" onclick="document.getElementById('filter_from_date').showPicker ? document.getElementById('filter_from_date').showPicker() : document.getElementById('filter_from_date').focus()">
-                                            <i class="bx bx-calendar"></i>
-                                        </button>
-                                    </div>
+                                    <input type="text" id="filter_reg_no" class="form-control form-control-sm rounded-1" placeholder="" />
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-5 col-md-6">
                             <div class="row align-items-center">
-                                <label class="col-sm-4 col-form-label text-sm-end sms-field-label">TO DATE</label>
+                                <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">TRANSACTION DESC</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group">
-                                        <input type="date" id="filter_to_date" class="form-control sms-input" />
-                                        <button class="btn btn-light border sms-calendar-btn" type="button" onclick="document.getElementById('filter_to_date').showPicker ? document.getElementById('filter_to_date').showPicker() : document.getElementById('filter_to_date').focus()">
-                                            <i class="bx bx-calendar"></i>
-                                        </button>
-                                    </div>
+                                    <input type="text" id="filter_trans_desc" class="form-control form-control-sm rounded-1" placeholder="" />
                                 </div>
                             </div>
                         </div>
 
-                        {{-- Buttons Row --}}
-                        <div class="col-12 mt-4 text-center">
-                            <div class="d-flex justify-content-center gap-2">
-                                <button type="submit" class="btn sms-btn-search px-4">
-                                    SEARCH
-                                </button>
-                                <button type="button" class="btn sms-btn-clear px-4" onclick="clearFundFilters()">
-                                    CLEAR
-                                </button>
+                        <div class="col-lg-5 col-md-6">
+                            <div class="row align-items-center">
+                                <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">FROM DATE</label>
+                                <div class="col-sm-8">
+                                    <input type="date" id="filter_from_date" class="form-control form-control-sm rounded-1" />
+                                </div>
                             </div>
+                        </div>
+                        <div class="col-lg-5 col-md-6">
+                            <div class="row align-items-center">
+                                <label class="col-sm-4 col-form-label text-sm-end text-uppercase fw-bold text-secondary" style="font-size:.75rem;">TO DATE</label>
+                                <div class="col-sm-8">
+                                    <input type="date" id="filter_to_date" class="form-control form-control-sm rounded-1" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-center mt-3 d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary btn-sm px-4 fw-bold text-uppercase rounded-1 shadow-sm">SEARCH</button>
+                            <button type="button" class="btn btn-light btn-sm border px-4 fw-bold text-uppercase rounded-1" onclick="clearFundFilters()">CLEAR</button>
                         </div>
                     </div>
                 </form>
@@ -110,572 +88,321 @@
         </div>
     </div>
 
-    {{-- ── Fund Transfer Details Table Card ── --}}
-    <div class="sms-card-shell">
-        <div class="sms-card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
-            <div class="d-flex align-items-center gap-2">
+    {{-- 2. Fund Transfer Details Table Card --}}
+    <div class="card border shadow-sm overflow-hidden rounded-1">
+        <div class="px-3 py-2 text-white d-flex flex-wrap align-items-center justify-content-between gap-2" style="background:#0f6698;">
+            <div class="d-flex align-items-center gap-2 fw-semibold">
                 <i class="bx bx-grid-alt fs-5"></i>
-                <span class="sms-card-title">Fund Transfer Details -</span>
+                <span>Fund Transfer Details -</span>
             </div>
 
-            {{-- Action Tools (Orange Print & Export Buttons) --}}
             <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="window.print()">
-                    <i class="bx bx-check"></i> PRINT
+                <button class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1" onclick="exportFundReportCSV()">
+                    <i class="bx bx-download"></i> EXPORT CSV
                 </button>
-                <button class="btn btn-sm btn-orange-action d-inline-flex align-items-center gap-1" onclick="exportFundTableToCSV('fund-transfer-report.csv')">
-                    <i class="bx bx-check"></i> EXPORT
+                <button class="btn btn-sm btn-outline-light d-inline-flex align-items-center gap-1" onclick="printFundReport()">
+                    <i class="bx bx-printer"></i> PRINT
                 </button>
             </div>
         </div>
 
-        <div class="sms-card-body p-0">
-            
-            {{-- Top Pagination Controls --}}
-            <div class="d-flex flex-wrap align-items-center justify-content-center px-3 py-3 border-bottom">
-                <div class="sms-pagination-container">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-sm mb-0 justify-content-center">
-                            <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">«</a></li>
-                            <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">»</a></li>
-                        </ul>
-                    </nav>
+        <div class="card-body p-0 bg-white position-relative">
+            {{-- Top Pagination Toolbar (Zero Reload) --}}
+            <div class="d-flex flex-wrap align-items-center justify-content-between px-3 py-2 border-bottom gap-2">
+                <div class="text-muted small">
+                    Showing <span id="fund_page_info" class="fw-bold text-dark">0</span> records
+                </div>
+                <div class="d-flex align-items-center gap-1">
+                    <ul class="pagination pagination-sm mb-0" id="fundPaginationList">
+                        {{-- Rendered dynamically by AJAX --}}
+                    </ul>
                 </div>
             </div>
 
             {{-- Table Component --}}
             <div class="table-responsive text-nowrap" style="max-height: 600px; overflow-x: auto;">
-                <table class="table table-hover fund-transfer-table mb-0" id="fundTransferTable">
-                    <thead>
-                        <tr>
-                            <th style="width: 40px;">#</th>
-                            <th>REG NO</th>
+                <table class="table table-hover align-middle mb-0 fund-table" id="fundTransferTable">
+                    <thead class="table-light">
+                        <tr class="text-uppercase" style="font-size:.74rem;">
+                            <th class="text-center" style="width: 35px;">#</th>
+                            <th class="text-center">REG NO</th>
                             <th>COMPANY NAME</th>
-                            <th>REQUEST TYPE</th>
-                            <th>TRANSFER TYPE</th>
+                            <th class="text-center">REQUEST TYPE</th>
+                            <th class="text-center">TRANSFER TYPE</th>
                             <th class="text-end">TRANSFER AMOUNT</th>
                             <th class="text-end">OPENING BALANCE</th>
                             <th class="text-end">CLOSING BALANCE</th>
-                            <th>WALLET TYPE</th>
+                            <th class="text-center">WALLET TYPE</th>
                             <th>TRANSACTION DESC</th>
-                            <th>TRANSACTION ID</th>
-                            <th>TRANSACTION DATE/TIME</th>
-                            <th>REQUEST ID</th>
-                            <th>INSERT DATE</th>
+                            <th class="text-center">TRANSACTION ID</th>
+                            <th class="text-center">TRANSACTION DATE/TIME</th>
+                            <th class="text-center">REQUEST ID</th>
+                            <th class="text-center">INSERT DATE</th>
                         </tr>
                     </thead>
                     <tbody id="fundTableBody">
-                        @php
-                            $fundTransfers = [
-                                [
-                                    'id' => 1,
-                                    'reg_no' => '3905',
-                                    'company_name' => 'sahistapay',
-                                    'user_name' => 'SAHISTA PAY',
-                                    'request_type' => 'BY ADMIN',
-                                    'transfer_type' => 'FUND TRANSFER',
-                                    'amount' => 500,
-                                    'opening_bal' => '0.00',
-                                    'closing_bal' => '500.00',
-                                    'wallet_type' => 'PREPAID BALANCE',
-                                    'trans_desc' => '-',
-                                    'trans_id' => '-',
-                                    'trans_date' => '06/06/2026 01:09:41 PM',
-                                    'request_id' => '-',
-                                    'insert_date' => '06-06-2026',
-                                ],
-                                [
-                                    'id' => 2,
-                                    'reg_no' => '3902',
-                                    'company_name' => 'ASL WALLETS',
-                                    'user_name' => 'NIKHIL KUMAR',
-                                    'request_type' => 'BY ADMIN',
-                                    'transfer_type' => 'FUND TRANSFER',
-                                    'amount' => 500,
-                                    'opening_bal' => '0.00',
-                                    'closing_bal' => '500.00',
-                                    'wallet_type' => 'PREPAID BALANCE',
-                                    'trans_desc' => 'ui',
-                                    'trans_id' => '-',
-                                    'trans_date' => '13/05/2026 03:51:41 PM',
-                                    'request_id' => '-',
-                                    'insert_date' => '13-05-2026',
-                                ],
-                            ];
-                        @endphp
-
-                        @foreach($fundTransfers as $row)
-                        <tr class="fund-row"
-                            data-company="{{ $row['company_name'] }}"
-                            data-user="{{ $row['user_name'] }}"
-                            data-reg-no="{{ $row['reg_no'] }}"
-                            data-desc="{{ $row['trans_desc'] }}"
-                            data-amount="{{ $row['amount'] }}"
-                            data-wallet="{{ $row['wallet_type'] }}"
-                            data-date="{{ $row['insert_date'] }}">
-                            
-                            <td class="text-muted fw-bold">{{ $row['id'] }}</td>
-                            
-                            <td>
-                                <span class="fund-regno">{{ $row['reg_no'] }}</span>
-                            </td>
-
-                            <td>
-                                <span class="fw-semibold text-secondary">{{ $row['company_name'] }}</span>
-                            </td>
-
-                            <td>
-                                <span class="badge bg-label-secondary font-monospace" style="font-size: 0.72rem;">{{ $row['request_type'] }}</span>
-                            </td>
-
-                            <td>
-                                <span class="fund-trans-type">{{ $row['transfer_type'] }}</span>
-                            </td>
-
-                            <td class="text-end fw-bold fund-amount-cell">
-                                {{ $row['amount'] }}
-                            </td>
-
-                            <td class="text-end text-muted font-monospace">
-                                {{ $row['opening_bal'] }}
-                            </td>
-
-                            <td class="text-end fw-bold text-success font-monospace">
-                                {{ $row['closing_bal'] }}
-                            </td>
-
-                            <td>
-                                <span class="badge fund-wallet-badge">{{ $row['wallet_type'] }}</span>
-                            </td>
-
-                            <td>
-                                <span class="text-secondary">{{ $row['trans_desc'] }}</span>
-                            </td>
-
-                            <td>
-                                <span class="font-monospace text-muted">{{ $row['trans_id'] }}</span>
-                            </td>
-
-                            <td>
-                                <span class="text-nowrap" style="font-size: 0.78rem;">{{ $row['trans_date'] }}</span>
-                            </td>
-
-                            <td>
-                                <span class="font-monospace text-muted">{{ $row['request_id'] }}</span>
-                            </td>
-
-                            <td>
-                                <span class="text-nowrap" style="font-size: 0.78rem;">{{ $row['insert_date'] }}</span>
-                            </td>
-                        </tr>
-                        @endforeach
-
-                        {{-- Total Summary Row Matching Screenshot --}}
-                        <tr class="fund-summary-row bg-light">
-                            <td colspan="5" class="text-end fw-bold text-dark pe-3">
-                                <strong>TOTAL</strong>
-                            </td>
-                            <td colspan="9" class="p-2">
-                                <div class="fund-total-box font-monospace">
-                                    <div class="d-flex justify-content-between gap-4 py-1">
-                                        <span class="text-secondary fw-semibold">PREPAID</span>
-                                        <span>:</span>
-                                        <span class="fw-bold text-dark text-end" id="summaryPrepaidTotal">1000</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between gap-4 py-1">
-                                        <span class="text-secondary fw-semibold">UTILITY</span>
-                                        <span>:</span>
-                                        <span class="fw-bold text-dark text-end" id="summaryUtilityTotal">0</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between gap-4 py-1">
-                                        <span class="text-secondary fw-semibold">BANK</span>
-                                        <span>:</span>
-                                        <span class="fw-bold text-dark text-end" id="summaryBankTotal">0</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between gap-4 py-1 border-top border-dark-subtle mt-1">
-                                        <span class="fw-bold text-dark">TOTAL</span>
-                                        <span>:</span>
-                                        <span class="fw-bold text-primary text-end" id="summaryGrandTotal">1000</span>
-                                    </div>
-                                </div>
+                        <tr>
+                            <td colspan="14" class="text-center py-5 text-muted">
+                                <span class="spinner-border spinner-border-sm text-primary me-2"></span> Loading fund transfer transactions...
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            {{-- Bottom Pagination --}}
-            <div class="d-flex flex-wrap align-items-center justify-content-center p-3 border-top bg-light-subtle">
-                <div class="sms-pagination-container">
-                    <nav aria-label="Bottom page navigation">
-                        <ul class="pagination pagination-sm mb-0 justify-content-center">
-                            <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">«</a></li>
-                            <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="javascript:void(0);">»</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-
         </div>
     </div>
 
 </div>
 
-{{-- ── Page Styles ── --}}
 <style>
-    /* Breadcrumb Header Spacing & Appearance */
-    .sms-breadcrumb-wrapper {
-        font-size: 0.9rem;
-        font-weight: 500;
-        margin-top: 0.75rem;
-        margin-bottom: 1.5rem !important;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-    }
-    .sms-breadcrumb-wrapper .crumb-section {
-        color: #64748b;
-        font-weight: 600;
-    }
-    .sms-breadcrumb-wrapper .crumb-sep {
-        color: #94a3b8;
-        font-weight: 400;
-    }
-    .sms-breadcrumb-wrapper .crumb-active {
-        color: #0f172a;
+    .fund-table th {
         font-weight: 700;
+        color: #333;
+        padding: .65rem .75rem;
+        border-bottom: 2px solid #dee2e6;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #f8fafc !important;
+        box-shadow: inset 0 -2px 0 #dee2e6;
     }
-    html.dark .sms-breadcrumb-wrapper .crumb-active {
-        color: #f8fafc;
-    }
-
-    /* Shell & Headers */
-    .sms-card-shell {
-        background: var(--bg-surface);
-        border: 1px solid var(--border-color);
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-    }
-
-    .sms-card-header {
-        background: #6c757d;
-        color: #ffffff;
-        padding: 0.75rem 1.25rem;
-        font-weight: 600;
-    }
-
-    html.dark .sms-card-header {
-        background: #334155;
-    }
-
-    .sms-card-title {
-        font-size: 0.95rem;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-    }
-
-    /* Form Fields */
-    .sms-field-label {
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: #475569;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-    html.dark .sms-field-label {
-        color: #cbd5e1;
-    }
-
-    .sms-input {
-        border-radius: 3px;
-        border: 1px solid #ced4da;
-        padding: 0.4rem 0.65rem;
-        font-size: 0.8125rem;
-        background-color: #ffffff;
-    }
-    html.dark .sms-input {
-        background-color: #0f172a !important;
-        border-color: #334155 !important;
-        color: #f8fafc !important;
-    }
-
-    .sms-calendar-btn {
-        border-radius: 0 3px 3px 0;
-        padding: 0.35rem 0.65rem;
-        background: #f8f9fa;
-        color: #64748b;
-    }
-    html.dark .sms-calendar-btn {
-        background: #1e293b;
-        border-color: #334155 !important;
-        color: #94a3b8;
-    }
-
-    /* Action Buttons */
-    .sms-btn-search {
-        background: #007bff;
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 0.78rem;
-        letter-spacing: 0.04em;
-        border: none;
-        border-radius: 3px;
-        padding: 0.45rem 1.25rem;
-        box-shadow: 0 2px 4px rgba(0, 123, 255, 0.25);
-        transition: all 0.2s ease;
-    }
-    .sms-btn-search:hover {
-        background: #0056b3;
-        color: #ffffff;
-        transform: translateY(-1px);
-    }
-
-    .sms-btn-clear {
-        background: #e9ecef;
-        color: #495057;
-        font-weight: 700;
-        font-size: 0.78rem;
-        letter-spacing: 0.04em;
-        border: 1px solid #ced4da;
-        border-radius: 3px;
-        padding: 0.45rem 1.25rem;
-        transition: all 0.2s ease;
-    }
-    .sms-btn-clear:hover {
-        background: #dde2e5;
-        color: #212529;
-    }
-    html.dark .sms-btn-clear {
-        background: #1e293b;
-        color: #cbd5e1;
-        border-color: #334155;
-    }
-
-    /* Orange Print & Export Buttons Matching Screenshot */
-    .btn-orange-action {
-        background-color: #f97316;
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 0.75rem;
-        letter-spacing: 0.04em;
-        border-radius: 3px;
-        padding: 0.35rem 0.85rem;
-        border: none;
-        box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
-        transition: all 0.2s ease;
-    }
-    .btn-orange-action:hover {
-        background-color: #ea580c;
-        color: #ffffff;
-        transform: translateY(-1px);
-    }
-
-    /* Pagination */
-    .sms-pagination-container .pagination .page-item .page-link {
-        color: #007bff;
-        border: 1px solid #dee2e6;
-        padding: 0.25rem 0.55rem;
-        font-size: 0.78rem;
-        margin: 0 1px;
-        border-radius: 2px;
-    }
-    .sms-pagination-container .pagination .page-item.active .page-link {
-        background-color: #007bff;
-        border-color: #007bff;
-        color: #ffffff;
-    }
-    html.dark .sms-pagination-container .pagination .page-item .page-link {
-        background-color: #1e293b;
-        border-color: #334155;
-        color: #38bdf8;
-    }
-    html.dark .sms-pagination-container .pagination .page-item.active .page-link {
-        background-color: #0284c7;
-        border-color: #0284c7;
-        color: #ffffff;
-    }
-
-    /* Table Styling */
-    .fund-transfer-table thead th {
-        background-color: #f1f3f5 !important;
-        color: #333333 !important;
-        font-size: 0.75rem !important;
-        font-weight: 700 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.03em !important;
-        padding: 0.65rem 0.75rem !important;
-        border-bottom: 2px solid #dee2e6 !important;
-        white-space: nowrap !important;
-    }
-    html.dark .fund-transfer-table thead th {
+    .fund-table td { padding: .55rem .75rem; border-bottom: 1px solid #e9ecef; }
+    .page-link { cursor: pointer; user-select: none; }
+    html.dark .fund-table th {
         background-color: #1e293b !important;
-        color: #cbd5e1 !important;
-        border-bottom-color: #334155 !important;
-    }
-
-    .fund-transfer-table tbody td {
-        font-size: 0.8125rem !important;
-        padding: 0.55rem 0.75rem !important;
-        vertical-align: middle !important;
-        border-bottom: 1px solid #e9ecef !important;
-    }
-    html.dark .fund-transfer-table tbody td {
-        border-bottom-color: #1e293b !important;
-    }
-
-    .fund-regno {
-        font-family: var(--font-mono), monospace;
-        font-weight: 600;
-        color: #4338ca;
-        font-size: 0.8rem;
-    }
-    html.dark .fund-regno {
-        color: #a5b4fc;
-    }
-
-    .fund-trans-type {
-        font-weight: 600;
-        font-size: 0.78rem;
-        color: #334155;
-    }
-    html.dark .fund-trans-type {
         color: #cbd5e1;
-    }
-
-    .fund-amount-cell {
-        color: #0f172a;
-        font-family: var(--font-mono), monospace;
-        font-size: 0.85rem;
-    }
-    html.dark .fund-amount-cell {
-        color: #f8fafc;
-    }
-
-    .fund-wallet-badge {
-        background: #f1f5f9;
-        color: #475569;
-        font-size: 0.72rem;
-        font-weight: 700;
-        border: 1px solid #e2e8f0;
-    }
-    html.dark .fund-wallet-badge {
-        background: #1e293b;
-        color: #94a3b8;
         border-color: #334155;
+        box-shadow: inset 0 -2px 0 #334155;
     }
-
-    /* Summary Breakdown Box */
-    .fund-total-box {
-        max-width: 180px;
-        font-size: 0.78rem;
-        background: #ffffff;
-        padding: 0.5rem 0.75rem;
-        border: 1px dashed #cbd5e1;
-        border-radius: 4px;
-    }
-    html.dark .fund-total-box {
-        background: #0f172a;
-        border-color: #334155;
-    }
+    html.dark .fund-table td { border-color: #334155; }
 </style>
 
-{{-- ── Page Scripts ── --}}
 <script>
-    // Filter Logic
-    function applyFundFilters() {
-        const company = document.getElementById('filter_company_name').value.trim().toLowerCase();
-        const user = document.getElementById('filter_user_name').value.trim().toLowerCase();
-        const regNo = document.getElementById('filter_reg_no').value.trim().toLowerCase();
-        const desc = document.getElementById('filter_trans_desc').value.trim().toLowerCase();
-        const fromDate = document.getElementById('filter_from_date').value;
-        const toDate = document.getElementById('filter_to_date').value;
+    let fundCurrentPage = 1;
+    const BASE_FUND_URL = "{{ route('admin.reports.fund_transfer') }}";
 
-        const rows = document.querySelectorAll('#fundTableBody tr.fund-row');
-        let prepaidTotal = 0;
-        let utilityTotal = 0;
-        let bankTotal = 0;
+    function getFundFilterParams(page = 1) {
+        const company  = (document.getElementById('filter_company_name')?.value || '').trim();
+        const user     = (document.getElementById('filter_user_name')?.value || '').trim();
+        const regno    = (document.getElementById('filter_reg_no')?.value || '').trim();
+        const desc     = (document.getElementById('filter_trans_desc')?.value || '').trim();
+        const fromDate = (document.getElementById('filter_from_date')?.value || '').trim();
+        const toDate   = (document.getElementById('filter_to_date')?.value || '').trim();
 
-        rows.forEach(row => {
-            const rCompany = (row.dataset.company || '').toLowerCase();
-            const rUser = (row.dataset.user || '').toLowerCase();
-            const rRegNo = (row.dataset.regNo || '').toLowerCase();
-            const rDesc = (row.dataset.desc || '').toLowerCase();
-            const rAmount = parseFloat(row.dataset.amount || 0);
-            const rWallet = (row.dataset.wallet || '').toUpperCase();
+        return new URLSearchParams({
+            page: page,
+            company_name: company,
+            user_name: user,
+            reg_no: regno,
+            trans_desc: desc,
+            from_date: fromDate,
+            to_date: toDate
+        });
+    }
 
-            let match = true;
-            if (company && !rCompany.includes(company)) match = false;
-            if (user && !rUser.includes(user)) match = false;
-            if (regNo && !rRegNo.includes(regNo)) match = false;
-            if (desc && !rDesc.includes(desc)) match = false;
+    // AJAX Data Fetching (Zero Page Reload)
+    async function loadFundData(page = 1) {
+        fundCurrentPage = page;
+        const tbody = document.getElementById('fundTableBody');
+        tbody.innerHTML = `<tr><td colspan="14" class="text-center py-4 text-muted"><span class="spinner-border spinner-border-sm text-primary me-2"></span> Loading page ${page}...</td></tr>`;
 
-            if (match) {
-                row.style.display = '';
-                if (rWallet.includes('PREPAID')) prepaidTotal += rAmount;
-                else if (rWallet.includes('UTILITY')) utilityTotal += rAmount;
-                else if (rWallet.includes('BANK')) bankTotal += rAmount;
+        const params = getFundFilterParams(page);
+
+        try {
+            const res = await fetch(`${BASE_FUND_URL}?${params.toString()}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            });
+            const data = await res.json();
+
+            if (res.ok && data.status === 'success') {
+                renderFundTableRows(data.data, (data.current_page - 1) * 20);
+                document.getElementById('fund_page_info').textContent = data.total > 0 ? `${data.from}-${data.to} of ${data.total}` : '0 of 0';
+                renderFundPagination(data.current_page, data.last_page);
             } else {
-                row.style.display = 'none';
+                tbody.innerHTML = `<tr><td colspan="14" class="text-center py-4 text-danger"><i class="bx bx-error fs-4 d-block mb-1"></i> Failed to load fund transfer records.</td></tr>`;
             }
-        });
-
-        // Update totals
-        document.getElementById('summaryPrepaidTotal').innerText = prepaidTotal;
-        document.getElementById('summaryUtilityTotal').innerText = utilityTotal;
-        document.getElementById('summaryBankTotal').innerText = bankTotal;
-        document.getElementById('summaryGrandTotal').innerText = (prepaidTotal + utilityTotal + bankTotal);
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="14" class="text-center py-4 text-danger"><i class="bx bx-error fs-4 d-block mb-1"></i> Network error: ${err.message}</td></tr>`;
+        }
     }
 
-    // Clear Filters
-    function clearFundFilters() {
-        document.getElementById('filter_company_name').value = '';
-        document.getElementById('filter_user_name').value = '';
-        document.getElementById('filter_reg_no').value = '';
-        document.getElementById('filter_trans_desc').value = '';
-        document.getElementById('filter_from_date').value = '';
-        document.getElementById('filter_to_date').value = '';
+    function renderFundTableRows(rows, offsetIndex) {
+        const tbody = document.getElementById('fundTableBody');
+        tbody.innerHTML = '';
 
-        const rows = document.querySelectorAll('#fundTableBody tr.fund-row');
-        let total = 0;
-        rows.forEach(row => {
-            row.style.display = '';
-            total += parseFloat(row.dataset.amount || 0);
-        });
-
-        document.getElementById('summaryPrepaidTotal').innerText = total;
-        document.getElementById('summaryUtilityTotal').innerText = 0;
-        document.getElementById('summaryBankTotal').innerText = 0;
-        document.getElementById('summaryGrandTotal').innerText = total;
-    }
-
-    // Export CSV Helper
-    function exportFundTableToCSV(filename) {
-        let csv = [];
-        const rows = document.querySelectorAll("#fundTransferTable tr");
-        
-        for (let i = 0; i < rows.length; i++) {
-            if (rows[i].style.display === 'none') continue;
-            let row = [], cols = rows[i].querySelectorAll("td, th");
-            
-            for (let j = 0; j < cols.length; j++) {
-                let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, " ").replace(/(\s\s+)/gm, " ");
-                data = data.replace(/"/g, '""');
-                row.push('"' + data + '"');
-            }
-            csv.push(row.join(","));
+        if (!rows || rows.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="14" class="text-center py-4 text-muted"><i class="bx bx-info-circle fs-4 d-block mb-1"></i> No fund transfer records found.</td></tr>`;
+            return;
         }
 
-        const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
-        const downloadLink = document.createElement("a");
-        downloadLink.download = filename;
-        downloadLink.href = window.URL.createObjectURL(csvFile);
-        downloadLink.style.display = "none";
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
+        let pagePrepaid = 0, pageUtility = 0, pageBank = 0, pageGrand = 0;
+
+        rows.forEach((row, i) => {
+            const amt = parseFloat(row.transfer_amt || 0);
+            const wt = parseInt(row.wallet_type_id || 0);
+            if (wt === 1) pagePrepaid += amt;
+            else if (wt === 2) pageUtility += amt;
+            else if (wt === 3) pageBank += amt;
+            pageGrand += amt;
+
+            const company = row.user?.company_name || '-';
+            const reqType = String(row.reqtype) === '0' ? 'BY ADMIN' : 'BY USER';
+            const transType = String(row.transfertype) === '1' ? 'FUND TRANSFER' : 'FUND REVERSE';
+            const walletType = row.wallet_type?.typename || (row.wallet_type_id == 1 ? 'PREPAID BALANCE' : '-');
+
+            let transDateFormatted = row.trans_date || '-';
+            if (row.trans_date && row.trans_date.includes('-')) {
+                const parts = row.trans_date.split('-');
+                if (parts.length === 3) transDateFormatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            if (row.trans_time) {
+                transDateFormatted += ` <span class="text-muted" style="font-size:.7rem;">(${escapeHtml(row.trans_time)})</span>`;
+            }
+
+            const tr = document.createElement('tr');
+            tr.className = 'fund-row';
+            tr.innerHTML = `
+                <td class="text-center text-muted fw-bold">${offsetIndex + i + 1}</td>
+                <td class="text-center font-monospace fw-bold"><span class="badge bg-label-secondary font-monospace">${escapeHtml(row.regno || '-')}</span></td>
+                <td><span class="fw-semibold text-secondary">${escapeHtml(company)}</span></td>
+                <td class="text-center"><span class="badge bg-label-secondary font-monospace" style="font-size:.72rem;">${reqType}</span></td>
+                <td class="text-center"><span class="fw-bold ${String(row.transfertype) === '1' ? 'text-primary' : 'text-danger'}" style="font-size:.78rem;">${transType}</span></td>
+                <td class="text-end fw-bold text-dark font-monospace">${amt.toFixed(2)}</td>
+                <td class="text-end text-muted font-monospace">${parseFloat(row.opening_bal || 0).toFixed(2)}</td>
+                <td class="text-end fw-bold text-success font-monospace">${parseFloat(row.closing_bal || 0).toFixed(2)}</td>
+                <td class="text-center"><span class="badge bg-label-info font-monospace">${escapeHtml(walletType)}</span></td>
+                <td><span class="text-secondary">${escapeHtml(row.transdesc || '-')}</span></td>
+                <td class="text-center font-monospace text-muted">${escapeHtml(row.online_tranid || '-')}</td>
+                <td class="text-center text-nowrap" style="font-size:.78rem;">${transDateFormatted}</td>
+                <td class="text-center">
+                    ${row.request_id ? `<span class="badge bg-label-warning font-monospace">${escapeHtml(row.request_id)}</span>` : '<span class="text-muted small">-</span>'}
+                </td>
+                <td class="text-center text-nowrap font-monospace" style="font-size:.78rem;">${escapeHtml(row.insert_date || '-')}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Dynamic TOTAL row rendered directly on every pagination page
+        const totalTr = document.createElement('tr');
+        totalTr.className = 'bg-light border-top';
+        totalTr.innerHTML = `
+            <td colspan="5" class="text-end fw-bold text-dark pe-3 align-top pt-2">
+                <strong>TOTAL</strong>
+            </td>
+            <td class="p-1 align-top">
+                <table style="width:100%; min-width:125px; font-size:11px; font-family:monospace; background:#ffffff; border:1px solid #dee2e6;">
+                    <tr>
+                        <td style="padding:2px 4px; text-align:left;">PREPAID</td>
+                        <td>:</td>
+                        <td style="text-align:right; font-weight:bold; padding:2px 4px;">${pagePrepaid.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:2px 4px; text-align:left;">UTILITY</td>
+                        <td>:</td>
+                        <td style="text-align:right; font-weight:bold; padding:2px 4px;">${pageUtility.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:2px 4px; text-align:left;">BANK</td>
+                        <td>:</td>
+                        <td style="text-align:right; font-weight:bold; padding:2px 4px;">${pageBank.toFixed(2)}</td>
+                    </tr>
+                    <tr style="border-top:1px solid #dee2e6;">
+                        <td style="padding:2px 4px; font-weight:bold; text-align:left;">TOTAL</td>
+                        <td>:</td>
+                        <td style="text-align:right; font-weight:bold; color:#0f6698; padding:2px 4px;">${pageGrand.toFixed(2)}</td>
+                    </tr>
+                </table>
+            </td>
+            <td colspan="8"></td>
+        `;
+        tbody.appendChild(totalTr);
     }
+
+    // Dynamic Zero-Reload Pagination Bar
+    function renderFundPagination(cur, last) {
+        const ul = document.getElementById('fundPaginationList');
+        ul.innerHTML = '';
+
+        if (last <= 1) return;
+
+        // Prev Button
+        const prevLi = document.createElement('li');
+        prevLi.className = `page-item ${cur === 1 ? 'disabled' : ''}`;
+        prevLi.innerHTML = `<a class="page-link" onclick="loadFundData(${cur - 1})">«</a>`;
+        ul.appendChild(prevLi);
+
+        // Sliding window
+        let start = Math.max(1, cur - 2);
+        let end = Math.min(last, cur + 2);
+
+        if (start > 1) {
+            ul.innerHTML += `<li class="page-item"><a class="page-link" onclick="loadFundData(1)">1</a></li>`;
+            if (start > 2) ul.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+
+        for (let i = start; i <= end; i++) {
+            const li = document.createElement('li');
+            li.className = `page-item ${i === cur ? 'active' : ''}`;
+            li.innerHTML = `<a class="page-link" onclick="loadFundData(${i})">${i}</a>`;
+            ul.appendChild(li);
+        }
+
+        if (end < last) {
+            if (end < last - 1) ul.innerHTML += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+            ul.innerHTML += `<li class="page-item"><a class="page-link" onclick="loadFundData(${last})">${last}</a></li>`;
+        }
+
+        // Next Button
+        const nextLi = document.createElement('li');
+        nextLi.className = `page-item ${cur === last ? 'disabled' : ''}`;
+        nextLi.innerHTML = `<a class="page-link" onclick="loadFundData(${cur + 1})">»</a>`;
+        ul.appendChild(nextLi);
+    }
+
+    function clearFundFilters() {
+        ['filter_company_name', 'filter_user_name', 'filter_reg_no', 'filter_trans_desc', 'filter_from_date', 'filter_to_date'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        loadFundData(1);
+    }
+
+    // Dynamic Backend CSV Export (Filtered by Date Range & Search)
+    function exportFundReportCSV() {
+        const params = getFundFilterParams(1);
+        params.append('export', 'csv');
+        window.location.href = `${BASE_FUND_URL}?${params.toString()}`;
+    }
+
+    // Dynamic Printable Window (Filtered by Date Range & Search)
+    function printFundReport() {
+        const params = getFundFilterParams(1);
+        params.append('print', '1');
+        window.open(`${BASE_FUND_URL}?${params.toString()}`, '_blank', 'width=1200,height=800,scrollbars=yes');
+    }
+
+    function escapeHtml(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Debounced search on typing
+    let fundDebounceTimer = null;
+    document.addEventListener('DOMContentLoaded', () => {
+        ['filter_company_name', 'filter_user_name', 'filter_reg_no', 'filter_trans_desc'].forEach(id => {
+            const input = document.getElementById(id);
+            if (input) {
+                input.addEventListener('input', () => {
+                    clearTimeout(fundDebounceTimer);
+                    fundDebounceTimer = setTimeout(() => {
+                        loadFundData(1);
+                    }, 350);
+                });
+            }
+        });
+        loadFundData(1);
+    });
 </script>
 @endsection

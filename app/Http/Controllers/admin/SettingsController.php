@@ -16,7 +16,7 @@ class SettingsController extends Controller
 
     public function profile()
     {
-        return $this->render('admin.pages.settings.profile');
+        return redirect()->route('admin.master.admin_register');
     }
 
     public function apiKeys()

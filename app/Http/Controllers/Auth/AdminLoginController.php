@@ -87,6 +87,7 @@ class AdminLoginController extends Controller
 
         Auth::guard('admin')->login($admin, $remember);
         $request->session()->regenerate();
+        $request->session()->put('admin_login_time', \Carbon\Carbon::now('Asia/Kolkata')->format('d/m/Y h:i A'));
 
         return $this->jsonResponse($request, [
             'success' => true,
@@ -131,6 +132,7 @@ class AdminLoginController extends Controller
 
         Auth::guard('admin')->login($admin, $remember);
         $request->session()->regenerate();
+        $request->session()->put('admin_login_time', \Carbon\Carbon::now('Asia/Kolkata')->format('d/m/Y h:i A'));
 
         return $this->jsonResponse($request, [
             'success' => true,

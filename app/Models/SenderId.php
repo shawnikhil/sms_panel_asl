@@ -29,4 +29,9 @@ class SenderId extends Model
         'update_date',
         'update_user',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

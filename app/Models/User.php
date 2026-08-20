@@ -95,6 +95,21 @@ class User extends Authenticatable
     ];
 
 
+    public function package()
+    {
+        return $this->belongsTo(Package::class, 'package_id', 'id');
+    }
+
+    public function userType()
+    {
+        return $this->belongsTo(UserType::class, 'catid', 'id');
+    }
+
+    public function balanceSheet()
+    {
+        return $this->hasOne(BalanceSheet::class, 'uregno', 'regno');
+    }
+
     /**
      * Get the attributes that should be cast.
      *

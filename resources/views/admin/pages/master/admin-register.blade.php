@@ -50,7 +50,7 @@
 
             <form id="adminRegisterForm" onsubmit="event.preventDefault(); saveAdminRecord();">
                 @csrf
-                <input type="hidden" id="admin_id" name="admin_id" value="" />
+                <input type="hidden" id="admin_id" name="admin_id" value="{{ $admin->admin_id ?? '' }}" />
 
                 {{-- Row 1: Admin Name & Mobile --}}
                 <div class="row align-items-center mb-3">
@@ -58,14 +58,14 @@
                         ADMIN NAME <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-4">
-                        <input type="text" id="admin_name" name="admin_name" class="form-control sms-input" value="" placeholder="Full name..." required />
+                        <input type="text" id="admin_name" name="admin_name" class="form-control sms-input" value="{{ $adminFullName }}" placeholder="Full name..." required />
                     </div>
 
                     <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
                         MOBILE NO <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-4">
-                        <input type="text" id="admin_mobile" name="admin_mobile" class="form-control sms-input font-monospace" value="" placeholder="10-digit mobile number..." maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" required />
+                        <input type="text" id="admin_mobile" name="admin_mobile" class="form-control sms-input font-monospace" value="{{ $admin->mob_one ?? '' }}" placeholder="10-digit mobile number..." maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" required />
                     </div>
                 </div>
 
@@ -75,15 +75,14 @@
                         LOGIN ID <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-4">
-                        <input type="text" id="admin_login_id" name="admin_login_id" class="form-control sms-input font-monospace bg-light" value="" placeholder="Username / Login ID..." readonly style="cursor: not-allowed;" />
-                        <!-- <small class="text-muted" style="font-size: 0.70rem;">Login ID is system fixed and unchangeable.</small> -->
+                        <input type="text" id="admin_login_id" name="admin_login_id" class="form-control sms-input font-monospace bg-light" value="{{ $admin->admin_username ?? '' }}" placeholder="Username / Login ID..." readonly style="cursor: not-allowed;" />
                     </div>
 
                     <label class="col-sm-3 col-md-2 col-form-label text-sm-end help-field-label">
                         EMAIL ID
                     </label>
                     <div class="col-sm-9 col-md-4">
-                        <input type="email" id="admin_email" name="admin_email" class="form-control sms-input" value="" placeholder="admin@domain.com" />
+                        <input type="email" id="admin_email" name="admin_email" class="form-control sms-input" value="{{ $admin->email_id ?? '' }}" placeholder="admin@domain.com" />
                     </div>
                 </div>
 
@@ -94,8 +93,8 @@
                     </label>
                     <div class="col-sm-9 col-md-4">
                         <select id="admin_status" name="admin_status" class="form-select sms-input" required>
-                            <option value="1" selected>ACTIVE</option>
-                            <option value="0">INACTIVE</option>
+                            <option value="1" {{ $adminStatus === 'ACTIVE' ? 'selected' : '' }}>ACTIVE</option>
+                            <option value="0" {{ $adminStatus === 'INACTIVE' ? 'selected' : '' }}>INACTIVE</option>
                         </select>
                     </div>
 
@@ -103,8 +102,8 @@
                         PASSWORD <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-4">
-                        <input type="password" id="admin_password" name="admin_password" class="form-control sms-input" placeholder="Enter admin password..."/>
-                        <small class="text-muted" id="pwdHelp" style="font-size: 0.70rem;">Enter password to save admin details.</small>
+                        <input type="password" id="admin_password" name="admin_password" class="form-control sms-input" placeholder="Leave blank to keep existing password..."/>
+                        <small class="text-muted" id="pwdHelp" style="font-size: 0.70rem;">Leave blank to keep existing password, or enter new password to update.</small>
                     </div>
                 </div>
 
@@ -381,14 +380,14 @@
     const ACTION_URL = "{{ route('admin.master.admin_register.action') }}";
     const CSRF_TOKEN = "{{ csrf_token() }}";
 
-    // Initial default admin data (empty until selected via EDIT)
+    // Initial default admin data
     const initialAdminData = {
-        id: "",
-        name: "",
-        mobile: "",
-        login_id: "",
-        email: "",
-        status: "1",
+        id: "{{ $admin->admin_id ?? '' }}",
+        name: "{{ addslashes($adminFullName) }}",
+        mobile: "{{ $admin->mob_one ?? '' }}",
+        login_id: "{{ $admin->admin_username ?? '' }}",
+        email: "{{ $admin->email_id ?? '' }}",
+        status: "{{ $adminStatus === 'ACTIVE' ? '1' : '0' }}",
     };
 
     // Configure Toastr Notification Defaults
@@ -466,7 +465,7 @@
             return;
         }
 
-        if (!pass || !pass.trim()) {
+        if (!adminId && (!pass || !pass.trim())) {
             showAlertNotice('danger', 'Please enter PASSWORD!', 'Validation Error', 'admin_password');
             return;
         }

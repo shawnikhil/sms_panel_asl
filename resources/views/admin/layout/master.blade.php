@@ -116,82 +116,139 @@
       }
 
       /* ==============================================================
-         SIDEBAR NAVIGATION POLISH
+         COMMON RESPONSIVE FLUID SPACING FOR ALL PAGES & REPORTS
          ============================================================== */
-      #layout-menu.bg-menu-theme {
-        background-color: var(--bg-sidebar) !important;
-        border-right: 1px solid var(--border-color) !important;
-        box-shadow: none !important;
-        transition: all 0.3s ease;
+      .layout-page {
+        padding-right: 0 !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        transition: padding-left 0.25s ease;
       }
 
-      .app-brand {
-        border-bottom: 1px solid var(--border-color);
-        padding: 1.25rem 1.5rem !important;
-        margin-bottom: 0.5rem;
+      @media (min-width: 1200px) {
+        .layout-page {
+          padding-left: 235px !important;
+        }
+        .layout-menu-collapsed .layout-page {
+          padding-left: 70px !important;
+        }
       }
 
-      .menu-inner .menu-item .menu-link {
-        color: var(--text-sidebar) !important;
-        border-radius: 0.75rem !important;
-        margin: 0.2rem 0.75rem !important;
-        padding: 0.65rem 1rem !important;
-        font-weight: 600 !important;
-        font-size: 0.875rem !important;
-        transition: all 0.2s ease !important;
+      @media (max-width: 1199.98px) {
+        .layout-page {
+          padding-left: 0 !important;
+        }
       }
 
-      .menu-inner .menu-item .menu-link:hover {
-        background-color: var(--border-subtle) !important;
-        color: var(--text-sidebar-hover) !important;
+      #layout-menu.modern-asl-sidebar {
+        top: 56px !important;
+        height: calc(100vh - 56px) !important;
+        z-index: 1025 !important;
       }
 
-      html.dark .menu-inner .menu-item .menu-link:hover {
-        background-color: rgba(255, 255, 255, 0.06) !important;
+      .content-wrapper {
+        padding: 0 !important;
+        width: 100% !important;
+        min-width: 0 !important;
       }
 
-      .menu-inner .menu-item.active > .menu-link {
-        background: linear-gradient(135deg, var(--brand-primary) 0%, #3b82f6 100%) !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35) !important;
+      .container-xxl,
+      .container-xl,
+      .container-lg,
+      .container-md,
+      .container-sm,
+      .content-wrapper > .container-xxl,
+      .content-wrapper > [class*="container"] {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
       }
 
-      .menu-inner .menu-item.active > .menu-link i,
-      .menu-inner .menu-item.active > .menu-link div {
-        color: #ffffff !important;
-      }
-
-      .menu-sub .menu-item .menu-link {
-        padding-left: 2.75rem !important;
-        font-size: 0.8125rem !important;
+      @media (max-width: 768px) {
+        .container-xxl,
+        .content-wrapper > .container-xxl,
+        .content-wrapper > [class*="container"] {
+          padding-left: 0.85rem !important;
+          padding-right: 0.85rem !important;
+        }
       }
 
       /* ==============================================================
-         NAVBAR POLISH
+         MODERN ENTERPRISE CARD & FORM STYLING
          ============================================================== */
-      .layout-navbar {
-        background-color: var(--bg-navbar) !important;
-        backdrop-filter: blur(16px) !important;
-        -webkit-backdrop-filter: blur(16px) !important;
+      .sms-card-shell,
+      .card {
+        background-color: var(--bg-surface) !important;
         border: 1px solid var(--border-color) !important;
-        box-shadow: var(--shadow-card) !important;
-        border-radius: 1rem !important;
-        margin: 0.75rem 1.5rem 0.5rem !important;
+        box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
+        border-radius: 12px !important;
+        overflow: hidden;
         transition: all 0.3s ease;
       }
 
-      .dropdown-menu {
-        background-color: var(--bg-surface) !important;
-        border: 1px solid var(--border-color) !important;
-        box-shadow: var(--shadow-dropdown) !important;
-        border-radius: 1rem !important;
-        padding: 0.5rem !important;
+      .sms-breadcrumb-wrapper {
+        font-size: 0.88rem;
+        font-weight: 600;
+      }
+      .crumb-section { color: #64748b; }
+      .crumb-sep { color: #94a3b8; font-weight: 400; }
+      .crumb-active { color: #0f172a; font-weight: 700; }
+      html.dark .crumb-active { color: #f8fafc; }
+
+      .help-top-action-bar {
+        background: #1e293b !important;
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 0.65rem 1rem !important;
       }
 
-      .dropdown-item {
-        color: var(--text-secondary) !important;
-        border-radius: 0.5rem !important;
-        padding: 0.6rem 1rem !important;
+      .btn-orange-action {
+        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 700 !important;
+        border-radius: 6px !important;
+        box-shadow: 0 2px 6px rgba(234, 88, 12, 0.3) !important;
+        transition: all 0.2s ease !important;
+      }
+      .btn-orange-action:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(234, 88, 12, 0.4) !important;
+        color: #ffffff !important;
+      }
+
+      .help-field-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #475569;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      html.dark .help-field-label {
+        color: #94a3b8;
+      }
+
+      .sms-input,
+      .form-control,
+      .form-select {
+        border-radius: 8px !important;
+        border: 1px solid var(--border-input) !important;
+        background-color: var(--bg-input) !important;
+        color: var(--text-primary) !important;
+        font-size: 0.85rem !important;
+        padding: 0.45rem 0.75rem !important;
+        transition: all 0.2s ease !important;
+      }
+
+      .sms-input:focus,
+      .form-control:focus,
+      .form-select:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+      }
         font-weight: 500 !important;
         font-size: 0.85rem !important;
       }
@@ -637,33 +694,29 @@
   </head>
 
   <body>
+    <!-- Top Header Navbar (Full Width) -->
+    @include('admin.layout.navbar')
+
     <div class="layout-wrapper layout-content-navbar">
-      <div class="layout-container">
+      <div class="layout-container" style="min-height: calc(100vh - 48px);">
         @include('admin.layout.sidebar')
 
         <div class="layout-page">
-          @include('admin.layout.navbar')
           <div class="content-wrapper">
             @yield('content')
           </div>
 
           <!-- Global Site Footer -->
-          <footer class="content-footer footer">
-            <div class="container-xxl d-flex align-items-center justify-content-between py-2 flex-md-row flex-column gap-2">
-              <div class="text-muted" style="font-size:0.8125rem;font-weight:600;">
-                &copy; {{ date('Y') }} <strong class="text-primary">ASL SMS HUB</strong>. All Rights Reserved.
-              </div>
-              <div class="d-flex align-items-center gap-2" style="font-size:0.8125rem;">
-                <span class="badge badge-dot bg-success me-1"></span>
-                <span class="text-muted" style="font-weight:500;">Production Gateway Environment</span>
-              </div>
+          <footer class="content-footer footer py-3 text-center text-muted" style="font-size: 0.8rem; background: var(--bg-surface); border-top: 1px solid var(--border-color);">
+            <div class="text-secondary fw-semibold">
+              {{ date('Y') }} &copy; Payzone. Powered By Payzone
             </div>
           </footer>
           <!-- / Global Site Footer -->
         </div>
       </div>
 
-      <div class="layout-overlay layout-menu-toggle"></div>
+      <div class="layout-overlay layout-menu-toggle" onclick="toggleAdminSidebar()"></div>
     </div>
 
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
@@ -675,6 +728,33 @@
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    <script>
+      function toggleAdminSidebar() {
+        const layout = document.querySelector('.layout-wrapper');
+        if (layout) {
+          layout.classList.toggle('layout-menu-expanded');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const collapseBtn = document.getElementById('collapseSidebarBtn');
+        const layout = document.querySelector('.layout-wrapper');
+        if (collapseBtn && layout) {
+          collapseBtn.addEventListener('click', () => {
+            layout.classList.toggle('layout-menu-collapsed');
+            const icon = document.getElementById('collapseSidebarIcon');
+            if (icon) {
+              if (layout.classList.contains('layout-menu-collapsed')) {
+                icon.className = 'bx bx-chevron-right fs-4';
+              } else {
+                icon.className = 'bx bx-chevron-left fs-4';
+              }
+            }
+          });
+        }
+      });
+    </script>
 
     <!-- Theme Switcher Script -->
     <script>

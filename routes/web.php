@@ -91,6 +91,7 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
 
     // Manage Item Menu
     Route::get('/admin/manage/sender-id', [ManageController::class, 'senderId'])->name('admin.manage.sender_id');
+    Route::post('/admin/manage/sender-id/update-status', [ManageController::class, 'updateSenderStatus'])->name('admin.manage.sender_id.update_status');
     Route::get('/admin/manage/template', [ManageController::class, 'template'])->name('admin.manage.template');
 
     // Report Menu
@@ -99,6 +100,7 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::get('/admin/reports/user-details', [ReportController::class, 'userDetails'])->name('admin.reports.user_details');
     Route::get('/admin/reports/fund-transfer', [ReportController::class, 'fundTransferReport'])->name('admin.reports.fund_transfer');
     Route::get('/admin/reports/all-user-ledger', [ReportController::class, 'allUserLedger'])->name('admin.reports.all_user_ledger');
+    Route::get('/admin/reports/all-user-ledger/details', [ReportController::class, 'userLedgerDetails'])->name('admin.reports.all_user_ledger.details');
     Route::get('/admin/reports/user-wise-ledger', [ReportController::class, 'userWiseLedger'])->name('admin.reports.user_wise_ledger');
 
     // Help Menu

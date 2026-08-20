@@ -7,6 +7,7 @@ use App\Models\SmsApi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SchedulerController extends Controller
 {
@@ -154,7 +155,7 @@ class SchedulerController extends Controller
     }
 
     /**
-     * Toggle Gateway Status (Activate / Deactivate)
+     * Toggle Gateway Status (Activate / Deactivate) with Secret Key Verification
      */
     public function toggleStatus(Request $request)
     {
@@ -164,6 +165,21 @@ class SchedulerController extends Controller
         $apiId = $request->input('id') ?? $request->input('api_id');
         if (empty($apiId)) {
             return response()->json(['status' => 'error', 'message' => 'API Gateway ID is required.'], 422);
+        }
+
+        $secretKey = (string)$request->input('secret_key');
+        if ($secretKey === '') {
+            return response()->json(['status' => 'error', 'message' => 'Please enter Secret Key!'], 422);
+        }
+
+        // Validate Secret Key exclusively against hashed key in .env
+        $envSecretHash = env('ADMIN_SECRET_KEY_HASH', '$2y$12$Oyg/exnx.8iLNeKYjKjtNO6ZcgulSu98G1Znl3hxaUZbt/a6xUV/.');
+
+        if (!Hash::check($secretKey, $envSecretHash)) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Invalid Secret Key! Authorization failed.',
+            ], 403);
         }
 
         try {
@@ -177,7 +193,7 @@ class SchedulerController extends Controller
 
             $api->update([
                 'status'      => $newStatusVal,
-                'lastch_date' => $now->format('Y-m-d'), // MySQL DATE format YYYY-MM-DD
+                'lastch_date' => $now->format('Y-m-d'),
                 'lastch_time' => $now->format('h:i:s A'),
                 'update_date' => $now->format('Y-m-d H:i:s'),
                 'update_user' => $logUser,

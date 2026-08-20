@@ -5,28 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FundTransfer extends Model
+class UserTranLazer extends Model
 {
     use HasFactory;
 
-    protected $table = 'b2_api_user_fund_transfer_tbl';
+    protected $table = 'b4_api_user_tran_lazer_tbl';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
     protected $fillable = [
-        'tnuserid',
         'regno',
-        'reqtype',
-        'transfertype',
-        'transfer_amt',
-        'wallet_type_id',
         'transdesc',
-        'online_tranid',
         'trans_date',
         'trans_time',
+        'credit_amt',
+        'debit_amt',
         'opening_bal',
         'closing_bal',
-        'request_id',
         'status',
         'insert_date',
         'insert_user',
@@ -37,10 +32,5 @@ class FundTransfer extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'regno', 'regno');
-    }
-
-    public function walletType()
-    {
-        return $this->belongsTo(WalletType::class, 'wallet_type_id', 'id');
     }
 }
